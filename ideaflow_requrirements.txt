@@ -1,0 +1,20 @@
+requirements defined from UI journey:
+
+Landing Page
+/signIn
+/signUp
+
+
+SignIn Page:
+/login
+/forgot password
+/Remember Me
+/signUp
+
+
+Sign Up Page:
+/New User
+/Sign In
+
+Home Page:
+/UserProfile
