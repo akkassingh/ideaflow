@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import crypto from "crypto";
 
 const UserSchema = new mongoose.Schema({
   name: String,
@@ -18,6 +19,9 @@ const UserSchema = new mongoose.Schema({
   date: {
       type: Date,
       default: Date.now
+  },
+  resetLink: {
+    data: String
   }
 });
 
@@ -27,6 +31,19 @@ UserSchema.methods.toJSON = function () {
   let obj = this.toObject();
   delete obj.password;
   return obj;
+};
+
+UserSchema.methods.getResetPasswordToken = function () {
+  const resetToken = crypto.randomBytes(20).toString("hex");
+
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  this.resetPasswordExpire = Date.now() + 10 * (60 * 1000);
+
+  return resetToken;
 };
 
 export default mongoose.model("User", UserSchema);

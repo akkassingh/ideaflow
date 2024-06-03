@@ -4,6 +4,8 @@ import { hashPassword } from "../utils/passwordUtils.js";
 import { UnauthenticatedError } from "../errors/customErrors.js";
 import { comparePassword } from "../utils/passwordUtils.js";
 import { createJWT } from "../utils/tokenUtils.js";
+import crypto from "crypto";
+import sendEmail from "../utils/sendEmail.js";
 
 export const register = async (req, res) => {
   // If document count of users is zero (no users) then first user is admin role
@@ -48,4 +50,81 @@ export const logout = async (req, res) => {
     expires: new Date(Date.now()),
   });
   res.status(StatusCodes.OK).json({ msg: "user logged out!" });
+};
+
+export const forgetPassword = async (req, res, next) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return next(new ErrorResponse("Email could not be send", 404));
+    }
+
+    const resetToken = user.getResetPasswordToken();
+
+    await user.save();
+
+    const resetURL = `https://reset-password-flow.netlify.app/resetpassword/${resetToken}`;
+
+    const message = `
+    <h1>You have requested a password reset</h1>
+    <p>Please go to this link to reset your password<p>
+    <h5>Password reset link valid for 10 min<h5>
+    <a href=${resetURL} clicktracking=off>${resetURL}</a>
+    `;
+    try {
+      await sendEmail({
+        to: user.email,
+        subject: "Password Reset Request",
+        text: message,
+      });
+
+      res.status(200).json({
+        success: true,
+        data: "Email sent",
+      });
+    } catch (error) {
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpire = undefined;
+
+      await user.save();
+
+      return next(new ErrorResponse("Email could not be send", 500));
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const resetPassword = async (req, res, next) => {
+  const resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(req.params.resetToken)
+    .digest("hex");
+
+  try {
+    const user = await User.findOne({
+      resetPasswordToken,
+      resetPasswordExpire: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      next(new ErrorResponse("Invalid Reset Token", 400));
+    }
+
+    user.password = req.body.password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save();
+
+    return res.status(201).json({
+      success: true,
+      data: "Password Reset success",
+    });
+  } catch (err) {
+    next(err);
+  }
 };

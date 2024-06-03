@@ -1,8 +1,5 @@
-// ./utils/db_connect.js
 import mongoose from 'mongoose';
-
 const db = process.env.MONGODB_PATH;
-console.log("db is", db);
 
 const connectDB = async () => {
     try {
