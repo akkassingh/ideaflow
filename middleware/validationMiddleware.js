@@ -4,9 +4,9 @@ import {
   NotFoundError,
   UnauthorizedError,
 } from "../errors/customErrors.js";
-import { PRODUCE_TYPE } from "../utils/constants.js";
 import mongoose from "mongoose";
 import User from "../models/UserModel.js";
+import Proposal from "../models/ProposalModel.js";
 
 const withValidationErrors = (validateValues) => {
   return [
@@ -28,11 +28,8 @@ const withValidationErrors = (validateValues) => {
   ];
 };
 
-export const validateItemInput = withValidationErrors([
-  body("name").notEmpty().withMessage("name is required"),
-  body("type")
-    .isIn(Object.values(PRODUCE_TYPE))
-    .withMessage("invalid produce type"),
+export const validateProposal = withValidationErrors([
+  body("ptitle").notEmpty().withMessage("ptitle is required")
 ]);
 
 export const validateRegisterInput = withValidationErrors([
@@ -44,7 +41,6 @@ export const validateRegisterInput = withValidationErrors([
     .withMessage("invalid email format")
     .custom(async (email) => {
       const user = await User.findOne({ email });
-      console.log("user is ", user);
       if (user) {
         throw new BadRequestError("email already exists");
       }
@@ -81,4 +77,21 @@ export const validateUpdateUserInput = withValidationErrors([
       }
     }),
   body("lastName").notEmpty().withMessage("last name is required"),
+]);
+
+export const validateIdParam = withValidationErrors([
+  param("id").custom(async (value, { req }) => {
+    // check whether item id is a valid objectId of mongoose
+    const isValidId = mongoose.Types.ObjectId.isValid(value);
+    if (!isValidId) throw new BadRequestError("invalid MongoDB id");
+    // check whether item exists
+    const item = await Proposal.findById(value);
+    if (!item) throw new NotFoundError(`no item with id ${value}`);
+    // check whether user is actual owner of item
+    // if user is admin, continue.
+    const isAdmin = req.user.role === "admin";
+    const isOwner = req.user.userId === item.submittedBy.toString();
+    if (!isAdmin && !isOwner)
+      throw new UnauthorizedError("not authorized to access this route");
+  }),
 ]);

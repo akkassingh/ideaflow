@@ -8,10 +8,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "lastName",
   },
-  location: {
-    type: String,
-    default: "my city",
-  },
   role: {
     type: String,
     enum: ["user", "admin"],
@@ -19,6 +15,10 @@ const UserSchema = new mongoose.Schema({
   },
   avatar: String,
   avatarPublicId: String,
+  date: {
+      type: Date,
+      default: Date.now
+  }
 });
 
 // for the user instance we get back('this'), we transform it to JavaScript object and delete password.

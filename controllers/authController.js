@@ -1,6 +1,5 @@
 import { StatusCodes } from "http-status-codes";
 import User from "../models/UserModel.js";
-import bcrypt from "bcryptjs";
 import { hashPassword } from "../utils/passwordUtils.js";
 import { UnauthenticatedError } from "../errors/customErrors.js";
 import { comparePassword } from "../utils/passwordUtils.js";
@@ -14,6 +13,10 @@ export const register = async (req, res) => {
   // create hashed password and override user password
   const hashedPassword = await hashPassword(req.body.password);
   req.body.password = hashedPassword;
+
+  // get gravtar profile url
+  const avatar = await getGravatarUrl(req.body.email);
+  req.body.avatar = avatar;
 
   const user = await User.create(req.body);
   res.status(StatusCodes.CREATED).json({ msg: "user created" });

@@ -10,6 +10,7 @@ import cookieParser from "cookie-parser";
 // routers
 import authRouter from "./routes/authRouter.js";
 import userRouter from "./routes/userRouter.js";
+import proposalRouter from "./routes/proposalRouter.js"
 
 // public
 import { dirname } from "path";
@@ -42,6 +43,7 @@ app.get("/api/v1", (req, res) => {
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", authenticateUser, userRouter);
+app.use("/api/v1/proposal", authenticateUser, proposalRouter);
 
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "./client/dist", "index.html"));
@@ -60,8 +62,8 @@ const start = async () => {
   try {
     await connectDB(process.env.MONGO_URL);
     app.listen(port, () => {
-    console.log(`DB connection Established Successfully...`);  
-      console.log(`Server is listening on ${port}.`);
+    console.log(`DB connection Established Successfully...`);
+    console.log(`Server is listening on ${port}.`);
     });
   } catch (error) {
     console.log(error);
