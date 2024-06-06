@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
-const db = process.env.MONGODB_PATH;
 
-const connectDB = async () => {
+const connectDB = async (db) => {
     try {
         if (!db) {
             throw new Error('MONGODB_PATH is not defined');
