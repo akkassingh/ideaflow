@@ -1,0 +1,71 @@
+name: Build and Deploy
+
+# Run the workflow when code is pushed to the main branch
+on:
+  push:
+    branches:
+      - main
+
+# Set environment variables
+env:
+  MONGODB_URL: ${{ secrets.MONGODB_URL }}
+  JWT_SECRET:  ${{ secrets.JWT_SECRET }}
+  SERVER_PORT: ${{ secrets.SERVER_PORT }}
+  CORS_ORIGIN: ${{ secrets.CORS_ORIGIN }}
+  NODE_ENV:    ${{secrets.NODE_ENV}}
+
+# This is the workflow that is being run.
+jobs:
+  build-and-deploy:
+    # This is telling GitHub to run the workflow on the latest version of Ubuntu.
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the code from the GitHub repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Install dependencies and run tests for the client application
+      - name: Install and Test Client
+        working-directory: ./client
+        run: |
+          npm install
+          npm run test
+
+      # Install dependencies, export environment variables to be used by application and run tests for the server application
+      - name: Install and Test Server
+        working-directory: ./
+        run: |
+          npm install
+          export MONGODB_URI=$MONGODB_URI
+          export TOKEN_KEY=$TOKEN_KEY
+          export EMAIL=$EMAIL
+          export PASSWORD=$PASSWORD
+
+      # Build a Docker image for the server application
+      - name: Build Server Docker Image
+        working-directory: ./
+        # Build image with tag akkassingh/ideaflow:server
+        run: |
+          docker build -t akkassingh/ideaflow:server-${{github.run_number}} -t akkassingh/ideaflow:server-latest .
+      
+      # Build a Docker image for the client application
+      - name: Build Client Docker Image
+        working-directory: ./client
+        # Build image with tag akkassingh/ideaflow
+        run: |
+          docker build -t akkassingh/ideaflow:client-${{github.run_number}} -t akkassingh/ideaflow:client-latest .    
+
+      # Log in to Docker Hub using credentials from repository secrets
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Push the Docker images to Docker Hub
+      - name: Push Docker Images to Docker Hub
+        run: |
+          docker push akkassingh/ideaflow:client-${{github.run_number}}
+          docker push akkassingh/ideaflow:server-${{github.run_number}}
+          docker push akkassingh/ideaflow:client-latest
+          docker push akkassingh/ideaflow:server-latest
