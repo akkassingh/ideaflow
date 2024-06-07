@@ -1,73 +1,61 @@
-# The name of the workflow.
-name: Build and Deploy
+# This is a basic workflow to help you get started with Actions
 
-# Run the workflow when code is pushed to the main branch
+name: Docker CI
+
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
-    branches:
-      - main
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
-# Set environment variables
-env:
-  MONGODB_URL: ${{ secrets.MONGODB_URL }}
-  JWT_SECRET: ${{ secrets.JWT_SECRET }}
-  SERVER_PORT: ${{ secrets.SERVER_PORT }}
-  CORS_ORIGIN: ${{ secrets.CORS_ORIGIN }}
-  NODE_ENV: ${{ secrets.NODE_ENV }}
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
-# This is the workflow that is being run.
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build-and-deploy:
-    # This is telling GitHub to run the workflow on the latest version of Ubuntu.
+  # This workflow contains a single job called "Client-Deployment"
+  Client-Deployment:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checkout the code from the GitHub repository
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      # Install dependencies and run tests for the client application
-      - name: Install and Test Client
-        working-directory: ./client
-        run: |
-          npm install
-          npm run test
-
-      # Install dependencies, export environment variables to be used by application and run tests for the server application
-      - name: Install and Test Server
-        working-directory: ./
-        run: |
-          npm install
-          export MONGODB_URI=${{ secrets.MONGODB_URL }}
-          export JWT_SECRET=${{ secrets.JWT_SECRET }}
-          export SERVER_PORT=${{ secrets.SERVER_PORT }}
-          export CORS_ORIGIN=${{ secrets.CORS_ORIGIN }}
-          export NODE_ENV=${{ secrets.NODE_ENV }}
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        name: Check out code
       
-      - name: Debug
-        run: |
-          echo "github.ref -> {{ github.ref }}"
- 
-      - name: Docker metadata
-        id: metadata
-        uses: docker/metadata-action@v3
+      - uses: mr-smithers-excellent/docker-build-push@v5
+        name: Build & push Client Docker image
         with:
-          images: ${{ env.IMG_NAME }}
-          tags: |
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=raw,value={{sha}},enable=${{ github.ref_type != 'tag' }}
+          image: arifibnshabbir/project-management
+          tags: client
+          registry: docker.io
+          # directory: ./client
+          dockerfile: ./client/Dockerfile
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v1
-        if: ${{ github.ref_type == 'tag' }}
+
+  # This workflow contains a single job called "Server-Deployment"
+  Server-Deployment:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        name: Check out code
+      
+      - uses: mr-smithers-excellent/docker-build-push@v5
+        name: Build & push Server Docker image
         with:
+          image: arifibnshabbir/project-management
+          tags: server
+          registry: docker.io
+          # directory: ./client
+          dockerfile: ./server/Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: ${{ github.event.base_ref =='refs/heads/main' && github.ref_type == 'tag' && !startsWith(github.ref, 'refs/tags/v0.')}}
-          tags: ${{ steps.metadata.outputs.tags }}
-          labels: ${{ steps.metadata.outputs.labels }}
