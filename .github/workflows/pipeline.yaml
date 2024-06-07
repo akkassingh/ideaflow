@@ -67,5 +67,5 @@ jobs:
       # Push the Docker images to Docker Hub
       - name: Push Docker Images to Docker Hub
         run: |
-          docker push akkassingh/Ideaflow:client-${{github.run_number}}
-          docker push akkassingh/Ideaflow:server-${{github.run_number}}
+          docker push akkassingh/ideaflow:client-${{github.run_number}}
+          docker push akkassingh/ideaflow:server-${{github.run_number}}
