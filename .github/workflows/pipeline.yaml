@@ -52,7 +52,7 @@ jobs:
       # Build a Docker image for the server application
       - name: Build Server Docker Image
         working-directory:
-          ./server
+          ./
           # Build image with tag akkassingh/Ideaflow:server
         run: |
           docker build -t akkassingh/ideaflow:server-${{github.run_number}} -t akkassingh/ideaflow:server-latest.
