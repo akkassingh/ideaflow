@@ -47,7 +47,7 @@ jobs:
         working-directory: ./client
         # Build image with tag akkassingh/Ideaflow:client
         run: |
-          docker build -t akkassingh/Ideaflow:client-${{github.run_number}} -t akkassingh/Ideaflow:client-latest .
+          docker build -t akkassingh/ideaflow:client-${{github.run_number}} -t akkassingh/ideaflow:client-latest .
 
       # Build a Docker image for the server application
       - name: Build Server Docker Image
@@ -55,14 +55,7 @@ jobs:
           ./server
           # Build image with tag akkassingh/Ideaflow:server
         run: |
-          docker build -t akkassingh/Ideaflow:server-${{github.run_number}} -t akkassingh/Ideaflow:server-latest .
-
-      # Build a Docker image for the NGINX reverse proxy
-      - name: Build NGINX Docker Image
-        working-directory: ./nginx
-        # Build image with tag akkassingh/Ideaflow
-        run: |
-          docker build -t akkassingh/Ideaflow:nginx-${{github.run_number}} -t akkassingh/Ideaflow:nginx-latest .
+          docker build -t akkassingh/ideaflow:server-${{github.run_number}} -t akkassingh/ideaflow:server-latest .
 
       # Log in to Docker Hub using credentials from repository secrets
       - name: Log in to Docker Hub
