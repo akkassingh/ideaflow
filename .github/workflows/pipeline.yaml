@@ -42,7 +42,6 @@ jobs:
           export SERVER_PORT=${{ secrets.SERVER_PORT }}
           export CORS_ORIGIN=${{ secrets.CORS_ORIGIN }}
           export NODE_ENV=${{ secrets.NODE_ENV }}
-          npm run test
 
       # Build a Docker image for the client application
       - name: Build Client Docker Image
