@@ -10,10 +10,10 @@ on:
 # Set environment variables
 env:
   MONGODB_URL: ${{ secrets.MONGODB_URL }}
-  JWT_SECRET:  ${{ secrets.JWT_SECRET }}
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
   SERVER_PORT: ${{ secrets.SERVER_PORT }}
   CORS_ORIGIN: ${{ secrets.CORS_ORIGIN }}
-  NODE_ENV:    ${{secrets.NODE_ENV}}
+  NODE_ENV: ${{ secrets.NODE_ENV }}
 
 # This is the workflow that is being run.
 jobs:
@@ -37,25 +37,27 @@ jobs:
         working-directory: ./
         run: |
           npm install
-          export MONGODB_URI=$MONGODB_URI
-          export TOKEN_KEY=$TOKEN_KEY
-          export EMAIL=$EMAIL
-          export PASSWORD=$PASSWORD
+          export MONGODB_URI=${{ secrets.MONGODB_URL }}
+          export JWT_SECRET=${{ secrets.JWT_SECRET }}
+          export SERVER_PORT=${{ secrets.SERVER_PORT }}
+          export CORS_ORIGIN=${{ secrets.CORS_ORIGIN }}
+          export NODE_ENV=${{ secrets.NODE_ENV }}
+          npm run test
 
       # Build a Docker image for the client application
       - name: Build Client Docker Image
         working-directory: ./client
-        # Build image with tag akkassingh/Ideaflow:client
+        # Build image with tag akkassingh/ideaflow:client
         run: |
-          docker build -t akkassingh/ideaflow:client-${{github.run_number}} -t akkassingh/ideaflow:client-latest.
+          docker build -t akkassingh/ideaflow:client-${{ github.run_number }} -t akkassingh/ideaflow:client-latest .
 
       # Build a Docker image for the server application
       - name: Build Server Docker Image
-        working-directory:
-          ./
-          # Build image with tag akkassingh/Ideaflow:server
+        working-directory: ./
+      # Build image with tag akkassingh/Ideaflow:server
+
         run: |
-          docker build -t akkassingh/ideaflow:server-${{github.run_number}} -t akkassingh/ideaflow:server-latest.
+          docker build -t akkassingh/ideaflow:server-${{ github.run_number }} -t akkassingh/ideaflow:server-latest .
 
       # Log in to Docker Hub using credentials from repository secrets
       - name: Log in to Docker Hub
@@ -67,5 +69,5 @@ jobs:
       # Push the Docker images to Docker Hub
       - name: Push Docker Images to Docker Hub
         run: |
-          docker push akkassingh/ideaflow:client-${{github.run_number}}
-          docker push akkassingh/ideaflow:server-${{github.run_number}}
+          docker push akkassingh/ideaflow:client-${{ github.run_number }}
+          docker push akkassingh/ideaflow:server-${{ github.run_number }}
