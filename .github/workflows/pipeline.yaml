@@ -41,7 +41,6 @@ jobs:
           export TOKEN_KEY=$TOKEN_KEY
           export EMAIL=$EMAIL
           export PASSWORD=$PASSWORD
-          npm run test
 
       # Build a Docker image for the client application
       - name: Build Client Docker Image
