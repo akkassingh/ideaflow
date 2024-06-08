@@ -1,7 +1,7 @@
 {
   "name": "ideaflow",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
     "client": "cd client && npm run start",
@@ -39,5 +39,9 @@
     "morgan": "^1.10.0",
     "nodemon": "^3.1.1",
     "supertest": "^7.0.0"
+  },
+  "engines": {
+    "node": ">=18.17.0",
+    "npm": ">=9.8.1"
   }
 }

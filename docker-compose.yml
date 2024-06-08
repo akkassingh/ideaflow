@@ -1,28 +1,67 @@
-# The version of the docker-compose.
-version: "3.8"
-# Telling docker-compose to build the client and server images and run them in containers.
+version: '3.8'
+
 services:
-  client:
-    # Telling docker-compose to build the client image using the Dockerfile in the client directory.
-    build: ./client
-    # Giving the container a name.
-    container_name: ideaflow_client
-    # Mapping the port 5101 on the host machine to the port 5101 on the container.
+  # service name
+  nginx:
+    image: nginx
     ports:
-      - "5101:5101"
-    # Mapping the client directory on the host machine to the /app directory on the container.
+      - "80:80"
+      - "5000:5000"
+      - "5010:5010"
     volumes:
-      - ./client:/app
-      - ./app/node_modules
-    # Allows you to run container in detached mode.
-    stdin_open: true
-    tty: true
-  server:
-    # Telling docker-compose to build the client image using the Dockerfile in the server directory.
-    build: ./
-    container_name: ideaflow_server
-    ports:
-      - "5101:5101"
-    volumes:
-      - ./:/app
-      - ./app/node_modules
+      - ./nginx.conf:/etc/nginx/nginx.conf
+
+    depends_on:
+      - frontend
+    restart: always
+    networks:
+      - net
+
+  backend:
+    image: akkassingh/ideaflow:server-latest
+    # container_name: backend
+
+    env_file: ./.env
+    environment:
+      - SERVER_PORT=$SERVER_PORT
+      - CORS_ORIGIN=$CORS_ORIGIN
+      - MONGODB_URL=$MONGODB_URL
+    # depends_on:
+    #   - mongodb
+    restart: always
+    networks:
+      - net
+
+  frontend:
+    image: akkassingh/ideaflow:client-latest
+    # container_name: frontend
+
+    depends_on:
+      - backend
+    restart: always
+    networks:
+      - net
+
+  # Database service
+  # mongodb:
+  #   image: mongo:latest
+  #   # container_name: mongodb
+
+  #   env_file: ./.env
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USER
+  #     - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
+
+  #   volumes:
+  #     - ./../mydata:/data/db
+
+  #   networks:
+  #     - net
+
+# Volumes define
+volumes: 
+  mydata:
+
+networks:
+  net:
+    external: true

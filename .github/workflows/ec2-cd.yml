@@ -2,7 +2,7 @@ name: EC2 CD Pipeline on AWS
 
 on:
   workflow_run:
-    workflows: ["Test and Push Images"]
+    workflows: ["Docker CI for Docker Hub Pipeline"]
     types:
       - completed
 
