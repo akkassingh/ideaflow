@@ -1,9 +1,10 @@
 name: Deploy to Heroku
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Verify Secrets in GitHub Actions"]
+    types:
+      - completed
 
 jobs:
   deploy:
