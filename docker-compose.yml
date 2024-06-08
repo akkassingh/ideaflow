@@ -2,66 +2,32 @@ version: '3.8'
 
 services:
   # service name
-  nginx:
-    image: nginx
-    ports:
-      - "80:80"
-      - "5000:5000"
-      - "5010:5010"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-
-    depends_on:
-      - frontend
-    restart: always
-    networks:
-      - net
-
-  backend:
-    image: akkassingh/ideaflow:server-latest
-    # container_name: backend
-
+  server:
+    build: ./
+    expose:
+      - ${APP_SERVER_PORT}
     env_file: ./.env
     environment:
       - SERVER_PORT=$SERVER_PORT
       - CORS_ORIGIN=$CORS_ORIGIN
       - MONGODB_URL=$MONGODB_URL
-    # depends_on:
-    #   - mongodb
-    restart: always
-    networks:
-      - net
+    ports:
+      - ${APP_SERVER_PORT}:${APP_SERVER_PORT}
+    volumes:
+      - ./server/src:srv/app/ideaflow-backend/src
+    command: npm run server
 
-  frontend:
-    image: akkassingh/ideaflow:client-latest
-    # container_name: frontend
-
-    depends_on:
-      - backend
-    restart: always
-    networks:
-      - net
-
-  # Database service
-  # mongodb:
-  #   image: mongo:latest
-  #   # container_name: mongodb
-
-  #   env_file: ./.env
-  #   environment:
-  #     - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USER
-  #     - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
-
-  #   volumes:
-  #     - ./../mydata:/data/db
-
-  #   networks:
-  #     - net
-
-# Volumes define
-volumes: 
-  mydata:
-
-networks:
-  net:
-    external: true
+  client:
+    build: ./client
+    environment:
+      - REACT_APP_PORT=${REACT_APP_PORT}
+    expose:
+      - ${REACT_APP_PORT}
+    ports:
+      - ${REACT_APP_PORT}:${REACT_APP_PORT}
+    volumes:
+      - ./client/src:/srv/app/ideaflow-frontend/src
+      - ./client/public:/srv/app/ideaflow-frontend/public
+    links:
+      - server
+    command: npm run start

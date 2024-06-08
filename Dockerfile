@@ -2,7 +2,7 @@
 FROM  node:20-alpine3.17
 
 # Create a directory  and go to directory 
-WORKDIR /app
+WORKDIR /ideaflow-backend
 
 # Copy the package.json file to my current directory for install necessary dependence  
 COPY package.json .
@@ -19,4 +19,4 @@ EXPOSE 5000
 EXPOSE 5101
 
 # Run express rum in foreground
-CMD ["npm", "start"]
+CMD ["npm", "run", "server"]

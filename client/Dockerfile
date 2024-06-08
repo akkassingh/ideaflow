@@ -1,31 +1,28 @@
-# Stage-1 & spacify a name 'builder'
-FROM  node:latest AS builder
+# => Build container
+FROM node:latest as build
 
-# Create a directory  and go to directory 
-WORKDIR /app
+WORKDIR /ideaflow-client
 
-# Copy the package.json file to my current directory for install necessary dependence  
-COPY package.json .
+COPY package.json /ideaflow-client/package.json
 
-# Install the dependence
 RUN npm install
 
-# Copy other file to my current directory
-COPY . .
+RUN npm install react-scripts -g
 
-# Build optimise static file
+COPY . /ideaflow-client
+
 RUN npm run build
 
-# Stage-2
-FROM nginx:1.25.2-alpine-slim
+# => Run container
+FROM nginx:1.16.0
 
-# Copy static file to my nignx folder for serve static contain
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=build /ideaflow-client/build /usr/share/nginx/html
 
-# Open the port for react
+RUN rm /etc/nginx/conf.d/default.conf
+
+COPY nginx/nginx.conf /etc/nginx/conf.d
+
 EXPOSE 80
-EXPOSE 5101
-EXPOSE 3000
 
-# Run nginx in foreground
-CMD ["nginx", "-g", "daemon off;"]
+# Start Nginx server
+CMD ["/bin/bash", "-c", "nginx -g \"daemon off;\""]
