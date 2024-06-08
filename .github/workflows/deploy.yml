@@ -66,3 +66,15 @@ jobs:
           docker push akkassingh/ideaflow:server-${{github.run_number}}
           docker push akkassingh/ideaflow:client-latest
           docker push akkassingh/ideaflow:server-latest
+
+      # Deploy latest frontend and backend images to Heroku
+      - name: Deploy to Heroku
+        run: |
+          heroku container:login
+          heroku container:push web -a ideaflow-backend --arg IMAGE_TAG=latest
+          heroku container:release web -a ideaflow-backend
+          heroku container:push web -a ideaflow-frontend --arg IMAGE_TAG=latest
+          heroku container:release web -a ideaflow-frontend
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}    
