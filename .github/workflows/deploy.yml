@@ -29,11 +29,6 @@ jobs:
       run: npm run build
       working-directory: ./client
 
-    - name: Move client build to server
-      run: |
-        rm -rf ./client/build
-        mv ./client/build ./build
-
     - name: Deploy to Heroku
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
