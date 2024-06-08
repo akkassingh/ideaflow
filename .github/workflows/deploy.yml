@@ -1,0 +1,45 @@
+name: Deploy to Heroku
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '>14'
+
+    - name: Install server dependencies
+      run: npm install
+
+    - name: Install client dependencies
+      run: npm install
+      working-directory: ./client
+
+    - name: Build client
+      run: npm run build
+      working-directory: ./client
+
+    - name: Move client build to server
+      run: |
+        rm -rf ./client/build
+        mv ./client/build ./build
+
+    - name: Deploy to Heroku
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+        HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+      run: |
+        npm install -g heroku
+        heroku git:remote -a $HEROKU_APP_NAME
+        git push heroku HEAD:main --force
