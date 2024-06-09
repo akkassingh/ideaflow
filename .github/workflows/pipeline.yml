@@ -54,12 +54,12 @@ jobs:
         run: |
           docker build -t akkassingh/ideaflow:client-${{github.run_number}} -t akkassingh/ideaflow:client-latest .
 
-      # Build a Docker image for the ngnix reverse proxy
-      - name: Build ngnix Docker Image
-        working-directory: ./ngnix
-        # Build image with tag akkassingh/ideaflow-app:ngnix
+      # Build a Docker image for the nginx reverse proxy
+      - name: Build nginx Docker Image
+        working-directory: ./nginx
+        # Build image with tag akkassingh/ideaflow-app:nginx
         run: |
-          docker build -t akkassingh/ideaflow-app:ngnix-${{github.run_number}} -t akkassingh/ideaflow-app:ngnix-latest .
+          docker build -t akkassingh/ideaflow-app:nginx-${{github.run_number}} -t akkassingh/ideaflow-app:nginx-latest .
 
       # Log in to Docker Hub using credentials from repository secrets
       - name: Log in to Docker Hub
@@ -73,10 +73,10 @@ jobs:
         run: |
           docker push akkassingh/ideaflow:client-${{github.run_number}}
           docker push akkassingh/ideaflow:server-${{github.run_number}}
-          docker push akkassingh/ideaflow-app:ngnix-${{github.run_number}}
+          docker push akkassingh/ideaflow-app:nginx-${{github.run_number}}
           docker push akkassingh/ideaflow:client-latest
           docker push akkassingh/ideaflow:server-latest
-          docker push akkassingh/ideaflow-app:ngnix-latest
+          docker push akkassingh/ideaflow-app:nginx-latest
 
       # This is the step that is deploying the application to Elastic Beanstalk.
       - name: Deploy to Elastic Beanstalk

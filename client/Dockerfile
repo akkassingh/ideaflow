@@ -17,15 +17,15 @@ COPY . .
 RUN npm run build
 
 # Stage-2
-FROM ngnix:1.25.2-alpine-slim
+FROM nginx:1.25.2-alpine-slim
 
 # Copy static file to my nignx folder for serve static contain
-COPY --from=builder /app/build /usr/share/ngnix/html
+COPY --from=builder /app/build /usr/share/nginx/html
 
 # Open the port for react
 EXPOSE 80
 EXPOSE 5101
 EXPOSE 3000
 
-# Run ngnix in foreground
-CMD ["ngnix", "-g", "daemon off;"]
+# Run nginx in foreground
+CMD ["nginx", "-g", "daemon off;"]

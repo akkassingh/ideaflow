@@ -1,8 +1,8 @@
 version: "3.8"
 
 services:
-  ngnix:
-    image: akkassingh/ideaflow-app:ngnix-latest
+  nginx:
+    image: akkassingh/ideaflow-app:nginx-latest
     restart: always
     depends_on:
       - client
