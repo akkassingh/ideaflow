@@ -9,10 +9,10 @@ on:
 # Set environment variables
 env:
   MONGODB_URL: ${{ secrets.MONGODB_URL }}
-  JWT_SECRET:  ${{ secrets.JWT_SECRET }}
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
   SERVER_PORT: ${{ secrets.SERVER_PORT }}
   CORS_ORIGIN: ${{ secrets.CORS_ORIGIN }}
-  NODE_ENV:    ${{secrets.NODE_ENV}}
+  NODE_ENV: ${{secrets.NODE_ENV}}
 
 # This is the workflow that is being run.
 jobs:
@@ -39,13 +39,14 @@ jobs:
           export TOKEN_KEY=$TOKEN_KEY
           export EMAIL=$EMAIL
           export PASSWORD=$PASSWORD
+
       # Build a Docker image for the server application
       - name: Build Server Docker Image
         working-directory: ./
         # Build image with tag akkassingh/ideaflow:server
         run: |
           docker build -t akkassingh/ideaflow:server-${{github.run_number}} -t akkassingh/ideaflow:server-latest .
-      
+
       # Build a Docker image for the client application
       - name: Build Client Docker Image
         working-directory: ./client
