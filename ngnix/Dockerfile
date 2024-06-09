@@ -1,7 +1,8 @@
 FROM nginx:stable-alpine
 
-RUN rm /etc/nginx/conf.d/*
+RUN rm /etc/nginx/conf.d/default.conf
 
-COPY ./nginx.conf /etc/nginx/conf.d/
+COPY nginx/nginx.conf /etc/nginx/conf.d
 
-CMD [ "nginx", "-g", "daemon off;" ]
+# Start Nginx server
+CMD ["/bin/bash", "-c", "nginx -g \"daemon off;\""]
