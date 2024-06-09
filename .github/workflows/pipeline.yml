@@ -56,7 +56,7 @@ jobs:
 
       # Build a Docker image for the NGINX reverse proxy
       - name: Build NGINX Docker Image
-        working-directory: ./nginx
+        working-directory: ./ngnix
         # Build image with tag akkassingh/ideaflow-app:nginx
         run: |
           docker build -t akkassingh/ideaflow-app:nginx-${{github.run_number}} -t akkassingh/ideaflow-app:nginx-latest .
