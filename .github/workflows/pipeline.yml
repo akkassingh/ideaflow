@@ -4,7 +4,7 @@ name: CI/CD Pipeline to Docker Hub
 on:
   push:
     branches:
-      - cicd-on-ebs
+      - run-this-mvp
 
 # Set environment variables
 env:

@@ -24,7 +24,6 @@ COPY --from=builder /app/build /usr/share/nginx/html
 
 # Open the port for react
 EXPOSE 80
-EXPOSE 3000
 
 # Run nginx in foreground
 CMD ["nginx", "-g", "daemon off;"]

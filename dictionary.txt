@@ -1,0 +1,107 @@
+### Entities from Use Case Diagram:
+
+1. **User**:
+   - user_id: Integer (PK)
+   - name: String
+   - email: String
+   - role: String
+
+2. **Proposal**:
+   - proposal_id: Integer (PK)
+   - title: String
+   - description: Text
+   - status: String
+   - created_date: Date
+   - user_id: Integer (FK)
+
+3. **Attachment**:
+   - attachment_id: Integer (PK)
+   - file_url: String
+   - proposal_id: Integer (FK)
+
+4. **Panelist**:
+   - panelist_id: Integer (PK)
+   - user_id: Integer (FK)
+   - proposal_id: Integer (FK)
+   - review_date: Date
+   - decision: String
+
+### MongoDB Collections:
+
+Based on the entities above, we can create MongoDB collections as follows:
+
+#### Collection: users
+```json
+{
+  "user_id": 1,
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "role": "student"
+}
+```
+
+#### Collection: proposals
+```json
+{
+  "proposal_id": 1,
+  "title": "Research Proposal",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  "status": "Submitted",
+  "created_date": ISODate("2024-06-18T08:00:00Z"),
+  "user_id": 1
+}
+```
+
+#### Collection: attachments
+```json
+{
+  "attachment_id": 1,
+  "file_url": "https://example.com/attachments/file1.pdf",
+  "proposal_id": 1
+}
+```
+
+#### Collection: panelists
+```json
+{
+  "panelist_id": 1,
+  "user_id": 2,
+  "proposal_id": 1,
+  "review_date": ISODate("2024-06-19T08:00:00Z"),
+  "decision": "Approved"
+}
+```
+
+### Data Dictionary:
+
+- **users**:
+  - `user_id`: Integer (Primary Key) - Unique identifier for each user.
+  - `name`: String - Name of the user.
+  - `email`: String - Email address of the user.
+  - `role`: String - Role of the user in the system.
+
+- **proposals**:
+  - `proposal_id`: Integer (Primary Key) - Unique identifier for each proposal.
+  - `title`: String - Title of the proposal.
+  - `description`: Text - Detailed description of the proposal.
+  - `status`: String - Current status of the proposal (e.g., Submitted, Approved, Rejected).
+  - `created_date`: Date - Date and time when the proposal was created.
+  - `user_id`: Integer (Foreign Key) - References the `user_id` from the `users` collection.
+
+- **attachments**:
+  - `attachment_id`: Integer (Primary Key) - Unique identifier for each attachment.
+  - `file_url`: String - URL or path to the attached file.
+  - `proposal_id`: Integer (Foreign Key) - References the `proposal_id` from the `proposals` collection.
+
+- **panelists**:
+  - `panelist_id`: Integer (Primary Key) - Unique identifier for each panelist.
+  - `user_id`: Integer (Foreign Key) - References the `user_id` from the `users` collection.
+  - `proposal_id`: Integer (Foreign Key) - References the `proposal_id` from the `proposals` collection.
+  - `review_date`: Date - Date and time when the panelist reviewed the proposal.
+  - `decision`: String - Decision made by the panelist (e.g., Approved, Rejected).
+
+### Note:
+- Ensure that you define appropriate indexes, especially on foreign key fields (`user_id`, `proposal_id`) to optimize queries involving joins or lookups across collections.
+- MongoDB allows for flexibility in schema design, so adjustments can be made based on specific application requirements or performance considerations.
+
+This mapping and data dictionary provide a structured approach to organizing data in MongoDB based on the given use case diagram. Adjustments can be made as per additional requirements or specific details not captured in the diagram.

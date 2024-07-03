@@ -18,3 +18,22 @@ Sign Up Page:
 
 Home Page:
 /UserProfile
+
+my-mern-app/
+├── .github/         # github action
+│   ├── workflows/
+├── client/         # React application
+│   ├── public/
+│   ├── src/
+│   ├── package.json
+│   └── Dockerfile
+│   └── Makefile
+│        # Express server
+├── models/
+├── routes/
+├── server.js    # Entry point for the server
+├── package.json
+├── Makefile   
+│ .gitignore
+├── package.json    # Root package.json
+└── ...
