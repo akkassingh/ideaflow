@@ -16,10 +16,6 @@ export const register = async (req, res) => {
   const hashedPassword = await hashPassword(req.body.password);
   req.body.password = hashedPassword;
 
-  // get gravtar profile url
-  const avatar = await getGravatarUrl(req.body.email);
-  req.body.avatar = avatar;
-
   const user = await User.create(req.body);
   res.status(StatusCodes.CREATED).json({ msg: "user created" });
 };
@@ -114,7 +110,8 @@ export const resetPassword = async (req, res, next) => {
       next(new ErrorResponse("Invalid Reset Token", 400));
     }
 
-    user.password = req.body.password;
+    const hashedPassword = await hashPassword(req.body.password);
+    req.body.password = hashedPassword;
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
 

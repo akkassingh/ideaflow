@@ -2,27 +2,21 @@ import mongoose from "mongoose";
 import crypto from "crypto";
 
 const UserSchema = new mongoose.Schema({
-  name: String,
+  firstName: String,
+  lastName: String,
   email: String,
   password: String,
-  lastName: {
-    type: String,
-    default: "lastName",
-  },
   role: {
     type: String,
     enum: ["user", "admin"],
     default: "user",
   },
-  avatar: String,
-  avatarPublicId: String,
   date: {
       type: Date,
       default: Date.now
   },
-  resetLink: {
-    data: String
-  }
+  resetPasswordToken: String,
+  resetPasswordExpire: Date,
 });
 
 // for the user instance we get back('this'), we transform it to JavaScript object and delete password.
