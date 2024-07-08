@@ -6,7 +6,7 @@ import {
   getAllProposals,
   updatePropsal,
   deleteProposal,
-  getProposals
+  getProposals,
 } from "../controllers/proposalController.js";
 
 import {

@@ -40,4 +40,37 @@ UserSchema.methods.getResetPasswordToken = function () {
   return resetToken;
 };
 
+// Brute Wrapper (Not proud of it!)
+UserSchema
+    .statics
+    .onlyExisting = function () {
+        return this.find().onlyExisting();
+    }
+
+UserSchema
+    .query
+    .onlyExisting = function () {
+        return this.find({
+            deleted_at: null
+        });
+    };
+
+// --
+
+UserSchema
+    .statics
+    .getByEmails = function (emails) {
+        return this.find().getByEmails(emails);
+    };
+
+UserSchema
+    .query
+    .getByEmails = function (emails) {
+        return this.find({
+            email: { $in: emails }
+        });
+    };
+
+// --
+
 export default mongoose.model("User", UserSchema);

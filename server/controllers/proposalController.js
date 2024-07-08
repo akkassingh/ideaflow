@@ -1,5 +1,66 @@
 import Proposal from "../models/ProposalModel.js";
+import User from "../models/UserModel.js";
 import { StatusCodes } from "http-status-codes";
+
+const addProposal = async (req, res) => {
+  function getUsersFromEmails(emailArr) {
+    return User.onlyExisting().getByEmails(emailArr);
+  }
+  Promise.all([
+    getUsersFromEmails(req.body.supervisors),
+    getUsersFromEmails(req.body.members),
+    getUsersFromEmails([req.body.leader]),
+  ])
+    .then(([supervisors, members, [leader]]) => {
+      if (supervisors.length != req.body.supervisors.length) {
+        res.status(400).send({
+          message: "One or more invalid emails for supervisors",
+        });
+      } else if (members.length != req.body.members.length) {
+        res.status(400).send({
+          message: "One or more invalid emails for members",
+        });
+      } else if (leader == null) {
+        res.status(400).send({
+          message: "Invalid leader email",
+        });
+      } else {
+        req.body.supervisors = supervisors;
+        req.body.members = members;
+        req.body.leader = leader;
+        const proposal = new Proposal(req.body);
+        proposal
+          .save()
+          .then((resource) => {
+            res.status(201).send({
+              id: resource._id,
+              url: resource.url,
+              message: "Proposal created",
+            });
+          })
+          .catch((error) => {
+            res.status(StatusCodes.BAD_REQUEST).json({ error });
+          });
+      }
+    })
+    .catch((error) => {
+      res.status(StatusCodes.BAD_REQUEST).json({ error });
+    });
+};
+
+const updatePropsal = async (req, res) => {
+  const updatedItem = await Proposal.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+
+  res.status(StatusCodes.OK).json({ item: updatedItem });
+};
+
+const deleteProposal = async (req, res) => {
+  const removedItem = await Proposal.findByIdAndDelete(req.params.id);
+
+  res.status(StatusCodes.OK).json({ item: removedItem });
+};
 
 const getAllProposals = async (req, res) => {
   const { sort } = req.query;
@@ -45,25 +106,5 @@ const getProposals = async (req, res) => {
   res.status(StatusCodes.OK).json({ totalItems, items });
 };
 
-const addProposal = async (req, res) => {
-  // since we passed along the userId by adding it in middleware, we can assign it to 'createdBy' and add
-  req.body.submittedBy = req.user.userId;
-  const item = await Proposal.create(req.body);
-  res.status(StatusCodes.CREATED).json({ item });
-};
-
-const updatePropsal = async (req, res) => {
-  const updatedItem = await Proposal.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  });
-
-  res.status(StatusCodes.OK).json({ item: updatedItem });
-};
-
-const deleteProposal = async (req, res) => {
-  const removedItem = await Proposal.findByIdAndDelete(req.params.id);
-
-  res.status(StatusCodes.OK).json({ item: removedItem });
-};
 
 export { addProposal, updatePropsal, deleteProposal, getAllProposals, getProposals };
