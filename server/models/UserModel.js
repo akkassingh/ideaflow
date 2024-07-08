@@ -8,12 +8,21 @@ const UserSchema = new mongoose.Schema({
   password: String,
   role: {
     type: String,
-    enum: ["user", "admin"],
-    default: "user",
+    enum: ["student", "faculty"],
+    required: true,
+  },
+  access: {
+    type: [
+        { 
+            type: String,
+            enum: ["admin", "user"] 
+        }
+    ],
+    required: true,
   },
   date: {
-      type: Date,
-      default: Date.now
+    type: Date,
+    default: Date.now,
   },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
@@ -41,35 +50,27 @@ UserSchema.methods.getResetPasswordToken = function () {
 };
 
 // Brute Wrapper (Not proud of it!)
-UserSchema
-    .statics
-    .onlyExisting = function () {
-        return this.find().onlyExisting();
-    }
+UserSchema.statics.onlyExisting = function () {
+  return this.find().onlyExisting();
+};
 
-UserSchema
-    .query
-    .onlyExisting = function () {
-        return this.find({
-            deleted_at: null
-        });
-    };
+UserSchema.query.onlyExisting = function () {
+  return this.find({
+    deleted_at: null,
+  });
+};
 
 // --
 
-UserSchema
-    .statics
-    .getByEmails = function (emails) {
-        return this.find().getByEmails(emails);
-    };
+UserSchema.statics.getByEmails = function (emails) {
+  return this.find().getByEmails(emails);
+};
 
-UserSchema
-    .query
-    .getByEmails = function (emails) {
-        return this.find({
-            email: { $in: emails }
-        });
-    };
+UserSchema.query.getByEmails = function (emails) {
+  return this.find({
+    email: { $in: emails },
+  });
+};
 
 // --
 
