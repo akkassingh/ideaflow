@@ -1,0 +1,77 @@
+/* Common styles for Login and Signup */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f2f5;
+}
+
+.login-container,
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-card,
+.signup-card {
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 300px;
+}
+
+.login-card h2,
+.signup-card h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.logo {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.login-button,
+.signup-button {
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(to right, #56CCF2, #2F80ED);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.login-button:hover,
+.signup-button:hover {
+  background: linear-gradient(to right, #2F80ED, #56CCF2);
+}
+
+p {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.toggle-form {
+  color: #2F80ED;
+  cursor: pointer;
+}
