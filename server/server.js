@@ -11,6 +11,7 @@ import cookieParser from "cookie-parser";
 import authRouter from "./routes/authRouter.js";
 import userRouter from "./routes/userRouter.js";
 import proposalRouter from "./routes/proposalRouter.js"
+import filesRouter from "./routes/filesRouter.js"
 
 // public
 import { dirname } from "path";
@@ -44,6 +45,7 @@ app.get("/api/v1", (req, res) => {
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", authenticateUser, userRouter);
 app.use("/api/v1/proposal", authenticateUser, proposalRouter);
+app.use("/api/v1/files", authenticateUser, filesRouter);
 
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "./client/dist", "index.html"));
