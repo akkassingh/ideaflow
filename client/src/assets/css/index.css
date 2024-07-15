@@ -6,7 +6,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
- 
 }
 
 html {
@@ -15,16 +14,16 @@ html {
 
 :root {
   /* colors */
-  --primary-50: #f9cebd;
-  --primary-100: #f7ad90;
-  --primary-200: #f7966f;
-  --primary-300: #f18154;
-  --primary-400: #f17240;
-  --primary-500: #eb5e28;
-  --primary-600: #bc481a;
-  --primary-700: #c5400b;
-  --primary-800: #812805;
-  --primary-900: #561a02;
+  --primary-50: #e0fcff;
+  --primary-100: #bef8fd;
+  --primary-200: #87eaf2;
+  --primary-300: #54d1db;
+  --primary-400: #38bec9;
+  --primary-500: #2cb1bc;
+  --primary-600: #14919b;
+  --primary-700: #0e7c86;
+  --primary-800: #0a6c74;
+  --primary-900: #044e54;
 
   /* grey */
   --grey-50: #f8fafc;
@@ -177,7 +176,7 @@ ul {
 .btn {
   cursor: pointer;
   color: var(--white);
-  background:var(--primary-500);
+  background: var(--primary-500);
   border: transparent;
   border-radius: var(--border-radius);
   letter-spacing: var(--letter-spacing);
@@ -185,7 +184,6 @@ ul {
   box-shadow: var(--shadow-1);
   transition: var(--transition);
   text-transform: capitalize;
- 
   display: inline-block;
 }
 .btn:hover {
@@ -263,7 +261,6 @@ button:disabled {
 .form-select,
 .form-btn {
   height: 35px;
-
 }
 .form-row {
   margin-bottom: 1rem;
