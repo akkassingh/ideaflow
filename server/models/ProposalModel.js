@@ -145,8 +145,14 @@ var ProposalSchema = new Schema(
       type: String,
       enum: ["submitted", "approved", "rejected"],
       default: "submitted",
+    },
+    submittedBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     }
-  }
+  },
+  { timestamps: true }
 );
 
 // Chain <ModelName>.onlyExisting before any query to list only "non-deleted" records

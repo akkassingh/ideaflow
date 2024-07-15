@@ -1,18 +1,3 @@
-export const PRODUCE_TYPE = {
-  FRUIT: "Fruit",
-  VEGETABLE: "Vegetable",
-  HERB: "Herb",
-  LEGUME: "Legume",
-  NUT: "Nut",
-};
-
-export const PRODUCE_SORT_BY = {
-  NEWEST_FIRST: "newest",
-  OLDEST_FIRST: "oldest",
-  ASCENDING: "a-z",
-  DESCENDING: "z-a",
-};
-
 export const STATE_OPTIONS = [
   { label: "Select A State", value: "Select A State" },
   { label: "Alabama", value: "AL" },
@@ -67,3 +52,45 @@ export const STATE_OPTIONS = [
   { label: "Wisconsin", value: "WI" },
   { label: "Wyoming", value: "WY" },
 ];
+
+export const USER_ROLES = {
+  USER: "user",
+  FACULTY: "faculty",
+  ADMIN: "admin"
+}
+
+export const PROPOSAL_SORT_BY = {
+  NEWES_FIRST: "newest",
+  OLDEST_FIRST: "oldest",
+  ASCENDING: "a-z",
+  DESCENDING: "z-a",
+};
+
+export const PROPOSAL_DOMAINS = {
+  FIN_TECH: "fintech",
+  MACHINE_LEARNING: "machine_learning",
+  WEB_DEVELOPMENT: "web_development",
+  IOT: "iot",
+  COMPUTER_VISION: "computer_vision",
+  NLP: "NLP",
+  CYBERSECURITY: "cybersecurity",
+};
+
+export const PROPOSAL_STATUS = {
+  SUBMITTED: "Submitted",
+  APPROVED: "Approved",
+  "REJECTED": "Rejected"
+};
+
+export const EMAIL_TEMPLATES = (URL) => (
+  {
+  FORGET_PASSWORD: `<h1>You have requested a password reset</h1>
+    <p>Please go to this link to reset your password</p>
+    <h5>Password reset link valid for 10 min</h5>
+    <a href="${URL}" clicktracking="off">${URL}</a>`,
+  ROLE_ASSIGNMENT: `<h1>You have requested an admin role</h1>
+    <p>An Admin will review your request shortly.</p>
+    <h5>You will receive an email once your registration request is approved.</h5>
+    <a href="${URL}" clicktracking="off">${URL}</a>`
+  }
+);
