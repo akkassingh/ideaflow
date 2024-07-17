@@ -82,15 +82,26 @@ export const PROPOSAL_STATUS = {
   "REJECTED": "Rejected"
 };
 
-export const EMAIL_TEMPLATES = (URL) => (
+export const EMAIL_TEMPLATES = (BASE_URL, data) => (
   {
   FORGET_PASSWORD: `<h1>You have requested a password reset</h1>
     <p>Please go to this link to reset your password</p>
     <h5>Password reset link valid for 10 min</h5>
-    <a href="${URL}" clicktracking="off">${URL}</a>`,
+    <a href="${BASE_URL}" clicktracking="off">${BASE_URL}</a>`,
   ROLE_ASSIGNMENT: `<h1>You have requested an admin role</h1>
     <p>An Admin will review your request shortly.</p>
     <h5>You will receive an email once your registration request is approved.</h5>
-    <a href="${URL}" clicktracking="off">${URL}</a>`
+    <a href="${BASE_URL}" clicktracking="off">${BASE_URL}</a>`,
+  PROPOSAL_SUBMITTED_SUCCESS: `<h2>Congratulations!</h2>
+    <p>Your propoal has been Submitted successfully.</p>
+    <p>The Current Status of your submisstion is ${data.status}. Next Steps, A Faculty Member will review your proposal and take the required action.</p>
+    <p>Best regards,</p>
+    <p>From ${process.env.APP_DISPLAY_NAME}</p>
+    `,
+  NOTIFY_NEW_PROPOSAL_SUBMITTED  : `<h2>${data.title} Submitted</h2>
+    <p>A New Propoal has been Submitted.</p>
+    <a href="${BASE_URL}/dashboard/edit-proposal/${JSON.stringify(data._id)}" clicktracking="off">${APP_DISPLAY_NAME}</a>
+    <p>Best regards,</p>
+    <p>From ${process.env.APP_DISPLAY_NAME}</p>`,
   }
 );

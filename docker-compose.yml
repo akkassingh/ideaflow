@@ -1,51 +1,14 @@
-version: '3.8'
-
+version: "3.4"
 services:
-  # service name
-  nginx:
-    image: nginx
-    ports:
-      - "80:80"
-      - "5000:5000"
-      - "5010:5010"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-
-    depends_on:
-      - frontend
-    restart: always
-    networks:
-      - net
-
-  backend:
-    image: akkassingh/ideaflow:server-latest
-    # container_name: backend
-
-    env_file: ./.env
-    environment:
-      - SERVER_PORT=$SERVER_PORT
-      - CORS_ORIGIN=$CORS_ORIGIN
-      - MONGODB_URL=$MONGODB_URL
-    # depends_on:
-    #   - mongodb
-    restart: always
-    networks:
-      - net
-
-  frontend:
-    image: akkassingh/ideaflow:client-latest
-    # container_name: frontend
-
-    depends_on:
-      - backend
-    restart: always
-    networks:
-      - net
-
-# Volumes define
-volumes: 
-  mydata:
-
-networks:
-  net:
-    external: true
+ vite_docker:
+   image: node:alpine
+   container_name: vite_docker
+   entrypoint: /bin/sh
+   ports:
+     - 8000:8000
+   working_dir: /srv/app
+   volumes:
+     - type: bind
+       source: ./
+       target: /srv/app
+   tty: true

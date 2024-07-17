@@ -1,31 +1,29 @@
-# Stage-1 & spacify a name 'builder'
-FROM  node:latest AS builder
+# Use an official Node.js runtime as a parent image
+FROM node:18-alpine
 
-# Create a directory  and go to directory 
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy the package.json file to my current directory for install necessary dependence  
-COPY package.json .
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
 
-# Install the dependence
+# Remove node_modules and package-lock.json if they exist
+RUN rm -rf node_modules package-lock.json
+
+# Install dependencies
 RUN npm install
 
-# Copy other file to my current directory
+# Copy the rest of the application code to the working directory
 COPY . .
 
-# Build optimise static file
+# Build the Vite project
 RUN npm run build
 
-# Stage-2
-FROM nginx:1.25.2-alpine-slim
+# Install serve to serve static files
+RUN npm install -g serve
 
-# Copy static file to my nignx folder for serve static contain
-COPY --from=builder /app/build /usr/share/nginx/html
-
-# Open the port for react
-EXPOSE 80
-EXPOSE 5101
+# Expose the port the app runs on
 EXPOSE 3000
 
-# Run nginx in foreground
-CMD ["nginx", "-g", "daemon off;"]
+# Serve the built files
+CMD ["serve", "-s", "dist"]

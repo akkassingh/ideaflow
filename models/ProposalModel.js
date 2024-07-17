@@ -49,7 +49,6 @@ var ProposalSchema = new Schema(
               var allFaculties = true;
               var supervisorsList = populated_data.supervisors;
               supervisorsList.forEach((supervisor) => {
-                console.log(supervisor.role);
                 if (supervisor.role != "faculty") {
                   allFaculties = false;
                 }

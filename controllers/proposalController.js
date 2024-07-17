@@ -2,6 +2,8 @@ import Proposal from "../models/ProposalModel.js";
 import User from "../models/UserModel.js";
 import { StatusCodes } from "http-status-codes";
 import day from "dayjs";
+import sendEmail from "../utils/sendEmail.js";
+import {EMAIL_TEMPLATES} from "../utils/constants.js";
 
 const addProposal = async (req, res) => {
   function getUsersFromEmails(emailArr) {
@@ -30,13 +32,33 @@ const addProposal = async (req, res) => {
         req.body.members = members;
         req.body.leader = leader;
         req.body.submittedBy = req.user.userId;
+        let FRONTEND_APP_BASE_URL = process.env.FRONTEND_APP_BASE_URL
         const proposal = new Proposal(req.body);
         proposal
           .save()
           .then((resource) => {
+            sendEmail({
+              to: "akkassingh@gmail.com",
+              // to: user.email,
+              subject: `Proposal ${resource.title} Submitted Successfuly`,
+              text: `<h2>Congratulations!</h2>
+                    <p>Your proposal has been Submitted successfully.</p>
+                    <p>The Current Status of your submission is <b>${resource.status}</b>. Next Steps, A Faculty Member will review your proposal and take the required action.</p>
+                    <p>Best regards,</p>
+                    <p>${process.env.APP_DISPLAY_NAME}</p>`,
+            });
+            sendEmail({
+              to: "akkassingh@gmail.com",
+              // to: user.email,
+              subject: `Proposal ${resource.title} Submitted`,
+              text: `<h2>${resource.title} Submitted</h2>
+                    <p>A New Propoal has been Submitted by ${resource.leader.firstName}</p>
+                    <a href="${FRONTEND_APP_BASE_URL}/dashboard/edit-proposal/${JSON.stringify(resource._id)}" clicktracking="off">${resource.title}-${process.env.APP_DISPLAY_NAME}</a>
+                    <p>Best regards,</p>
+                    <p>From ${process.env.APP_DISPLAY_NAME}</p>`,
+            });
             res.status(201).send({
               id: resource._id,
-              url: resource.url,
               message: "Proposal created",
             });
           })
@@ -141,7 +163,6 @@ const showStats = async (req, res) => {
         }
       },
   ]);
-  console.log("stats are ", stats);
   stats = stats.reduce((acc, curr) => {
     const { _id: title, count } = curr;
     acc[title] = count;

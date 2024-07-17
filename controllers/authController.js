@@ -11,7 +11,6 @@ export const register = async (req, res) => {
   // create hashed password and override user password
   const hashedPassword = await hashPassword(req.body.password);
   req.body.password = hashedPassword;
-
   const user = await User.create(req.body);
   res.status(StatusCodes.CREATED).json({
     id: user._id,

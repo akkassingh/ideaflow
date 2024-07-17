@@ -8,7 +8,10 @@
     "server": "nodemon server.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "start": "node server.js",
-    "heroku-postbuild": "cd client && npm install && npm run build && mv build ../build"
+    "heroku-postbuild": "cd client && npm install && npm run build && mv build ../build",
+    "setup-project": "npm i && cd client && npm i ",
+    "setup-production-app": "npm i && cd client && npm i&& npm run build ",
+    "dev:force": "concurrently --kill-others-on-fail \" npm run server\" \" npm run client\""
   },
   "author": "",
   "license": "ISC",
