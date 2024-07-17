@@ -11,7 +11,7 @@ export const JOB_STATUS = {
   };
   
   export const ROLES = {
-    USER: "user",
+    STUDENT: "student",
     FACULTY: "faculty",
     ADMIN: "admin"
   }
@@ -36,5 +36,5 @@ export const JOB_STATUS = {
   export const PROPOSAL_STATUS = {
     SUBMITTED: "Submitted",
     APPROVED: "Approved",
-    "REJECTED": "Rejected"
+    REJECTED: "Rejected"
   };

@@ -29,7 +29,7 @@ const withValidationErrors = (validateValues) => {
 };
 
 export const validateProposal = withValidationErrors([
-  body("title").notEmpty().withMessage("title is required")
+  body("title").notEmpty().withMessage("title is required"),
 ]);
 
 export const validateRegisterInput = withValidationErrors([
@@ -53,7 +53,6 @@ export const validateRegisterInput = withValidationErrors([
     .withMessage("password must be at least 8 characters long"),
   body("location").notEmpty().withMessage("location is required"),
   body("role").notEmpty().withMessage("role is required"),
-  body("access").notEmpty().withMessage("access is required"),
 ]);
 
 export const validateLoginInput = withValidationErrors([

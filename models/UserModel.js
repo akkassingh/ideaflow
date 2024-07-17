@@ -1,32 +1,27 @@
 import mongoose from "mongoose";
 import crypto from "crypto";
 
-const UserSchema = new mongoose.Schema({
-  firstName: String,
-  lastName: String,
-  email: String,
-  password: String,
-  role: {
-    type: String,
-    enum: ["student", "faculty"],
-    required: true,
+const UserSchema = new mongoose.Schema(
+  {
+    firstName: String,
+    lastName: String,
+    email: String,
+    password: String,
+    role: {
+      type: String,
+      enum: ["student", "faculty", "admin"],
+      required: true,
+    },
+    date: {
+      type: Date,
+      default: Date.now,
+    },
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
+    VerifiedForAdminAccess: Boolean,
   },
-  access: {
-    type: [
-        { 
-            type: String,
-            enum: ["admin", "user"] 
-        }
-    ],
-    required: true,
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-  resetPasswordToken: String,
-  resetPasswordExpire: Date,
-});
+  { timestamps: true }
+);
 
 // for the user instance we get back('this'), we transform it to JavaScript object and delete password.
 // for getCurrentUser requests, we want to delete password

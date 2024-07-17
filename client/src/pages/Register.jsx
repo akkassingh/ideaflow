@@ -1,9 +1,10 @@
 import { Form, redirect, useNavigation, Link } from "react-router-dom";
 import Wrapper from "../assets/wrappers/RegisterAndLoginPage";
-import { FormRow, Logo } from "../components";
+import { FormRow, Logo, FromRowSelect } from "../components";
 import customFetch from "../utils/customFetch";
 import { toast } from "react-toastify";
 import SubmitBtn from "../components/SubmitBtn";
+import { ROLES } from ".././utils/constants";
 
 export const action = async ({ request }) => {
   const formData = await request.formData();
@@ -27,9 +28,17 @@ export default function Register() {
         <FormRow type="text" name="firstName" labelText="first name" />
         <FormRow type="text" name="lastName" labelText="last name" />
         <FormRow type="text" name="location" />
-        <FormRow type="role" name="role" />
         <FormRow type="email" name="email" />
         <FormRow type="password" name="password" />
+        <FromRowSelect
+            labelText="Role"
+            name="role"
+            list={Object.values(ROLES)}
+            defaultValue={ROLES.STUDENT}
+            onChange={(e) => {
+              submit(e.currentTarget.form);
+            }}
+          />
 
         <SubmitBtn />
         <p>

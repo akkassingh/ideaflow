@@ -11,6 +11,9 @@ export const register = async (req, res) => {
   // create hashed password and override user password
   const hashedPassword = await hashPassword(req.body.password);
   req.body.password = hashedPassword;
+  if(req.body.role === "faculty" || "admin"){
+    req.body.VerifiedForAdminAccess = false;
+  }
   const user = await User.create(req.body);
   res.status(StatusCodes.CREATED).json({
     id: user._id,
