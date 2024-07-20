@@ -9,9 +9,9 @@ import SubmitBtn from "../components/SubmitBtn";
 export const action =
   (queryClient) =>
   async ({ request }) => {
-    const formData = await request.formData();
-    const file = formData.get("avatar");
-    if (file && file.size > 500000) {
+    let formData = await request.formData();
+    formData = Object.fromEntries(formData);
+    if (formData && formData.avatar.size > 500000) {
       toast.error("Image size is too large");
       return null;
     }
@@ -28,7 +28,7 @@ export const action =
 
 export default function Profile() {
   const { user } = useOutletContext();
-  const { name, lastName, email, location } = user;
+  const { firstName, lastName, email, location, role } = user;
 
   return (
     <div>
@@ -48,7 +48,12 @@ export default function Profile() {
                 name="avatar"
               />
             </div>
-            <FormRow type="text" name="name" defaultValue={name} />
+            <FormRow
+              type="text"
+              name="firstName"
+              labelText="first name"
+              defaultValue={firstName}
+            />
             <FormRow
               type="text"
               name="lastName"
@@ -57,6 +62,7 @@ export default function Profile() {
             />
             <FormRow type="text" name="location" defaultValue={location} />
             <FormRow type="email" name="email" defaultValue={email} />
+            <FormRow type="text" name="role" defaultValue={role} />
 
             <SubmitBtn formBtn />
           </div>

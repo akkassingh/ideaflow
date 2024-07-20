@@ -38,3 +38,10 @@ export const JOB_STATUS = {
     APPROVED: "Approved",
     REJECTED: "Rejected"
   };
+
+  export const USER_SORT_BY = {
+    NEWES_FIRST: "newest",
+    OLDEST_FIRST: "oldest",
+    ASCENDING: "a-z",
+    DESCENDING: "z-a",
+  };

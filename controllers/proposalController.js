@@ -15,15 +15,7 @@ const addProposal = async (req, res) => {
     getUsersFromEmails([req.body.leader]),
   ])
     .then(([supervisors, members, [leader]]) => {
-      if (supervisors.length != req.body.supervisors.length) {
-        res.status(400).send({
-          message: "One or more invalid emails for supervisors",
-        });
-      } else if (members.length != req.body.members.length) {
-        res.status(400).send({
-          message: "One or more invalid emails for members",
-        });
-      } else if (leader == null) {
+      if (leader == null) {
         res.status(400).send({
           message: "Invalid leader email",
         });

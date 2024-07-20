@@ -13,10 +13,13 @@ import {
   AddProposal,
   Stats,
   AllProposals,
+  AllUsers,
   Profile,
   Admin,
   EditProposal,
+  EditUser,
   DeleteProposal,
+  DeleteUser,
 } from "../src/pages";
 
 import { action as registerAction } from "./pages/Register";
@@ -24,6 +27,10 @@ import { action as loginAction } from "./pages/Login";
 import { loader as dashboardLoader } from "./pages/DashboardLayout";
 import { action as addProposalAction } from "./pages/AddProposal";
 import { loader as allProposalsLoader } from "./pages/AllProposals";
+import { loader as allUsersLoader } from "./pages/AllUsers";
+import { action as editUserAction } from "./pages/EditUser";
+import { loader as editUserLoader } from "./pages/EditUser";
+import { action as deleteUserAction } from "./pages/DeleteUser";
 import { action as editProposalAction } from "./pages/EditProposal";
 import { loader as editProposalLoader } from "./pages/EditProposal";
 import { action as deleteProposalAction } from "./pages/DeleteProposal";
@@ -89,14 +96,31 @@ const router = createBrowserRouter([
           },
           {
             path: "admin",
-            element: <Admin />,
-            loader: adminLoader,
+            element: <AllUsers />,
+            loader: allUsersLoader(queryClient),
           },
           {
             path: "all-proposals",
             element: <AllProposals />,
             loader: allProposalsLoader(queryClient),
             errorElement: <ErrorElement />,
+          },
+          {
+            path: "all-users",
+            element: <AllUsers />,
+            loader: allUsersLoader(queryClient),
+            errorElement: <ErrorElement />,
+          },
+          {
+            path: "edit-user/:id",
+            element: <EditUser />,
+            action: editUserAction(queryClient),
+            loader: editUserLoader(queryClient),
+          },
+          {
+            path: "delete-user/:id",
+            element: <DeleteUser />,
+            action: deleteUserAction(queryClient),
           },
           {
             path: "edit-proposal/:id",

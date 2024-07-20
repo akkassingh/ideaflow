@@ -17,6 +17,9 @@ var ProposalSchema = new Schema(
     description: {
       type: String,
     },
+    website_url: {
+      type: String
+    },
     domains: {
       type: [
         {
@@ -59,10 +62,15 @@ var ProposalSchema = new Schema(
         },
         message: (props) => `All supervisors must be faculty`,
       },
-      required: true,
+      required: false,
     },
     // the user type of leader determines if project is Student project or Faculty project
     leader: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: false,
+    },
+    submittedBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
@@ -98,16 +106,16 @@ var ProposalSchema = new Schema(
         message: (props) =>
           `Duplicate entry for leader found in members list. Mention only once`,
       },
-      required: true,
+      required: false,
     },
     funding_type: {
       type: String,
       enum: ["internal", "external"],
-      required: true,
+      required: false,
     },
     funding_agency: {
       type: String,
-      required: true,
+      required: false,
     },
     approved_on: {
       type: Date,

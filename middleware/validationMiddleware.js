@@ -30,6 +30,8 @@ const withValidationErrors = (validateValues) => {
 
 export const validateProposal = withValidationErrors([
   body("title").notEmpty().withMessage("title is required"),
+  body("description").notEmpty().withMessage("description is required"),
+  body("leader").notEmpty().withMessage("leader is required"),
 ]);
 
 export const validateRegisterInput = withValidationErrors([
@@ -65,7 +67,8 @@ export const validateLoginInput = withValidationErrors([
 ]);
 
 export const validateUpdateUserInput = withValidationErrors([
-  body("name").notEmpty().withMessage("name is required"),
+  body("firstName").notEmpty().withMessage("firstName is required"),
+  body("lastName").notEmpty().withMessage("last name is required"),
   body("email")
     .notEmpty()
     .withMessage("email is required")
@@ -73,11 +76,10 @@ export const validateUpdateUserInput = withValidationErrors([
     .withMessage("invalid email format")
     .custom(async (email, { req }) => {
       const user = await User.findOne({ email });
-      if (user && user._id.toString() !== req.user.userId) {
-        throw new BadRequestError("email already exists");
+      if (user && user.email !== email) {
+        throw new BadRequestError("email cannot be modified");
       }
     }),
-  body("lastName").notEmpty().withMessage("last name is required"),
 ]);
 
 export const validateIdParam = withValidationErrors([
