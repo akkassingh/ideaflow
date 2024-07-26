@@ -1,22 +1,22 @@
-# Select a base image
-FROM  node:20-alpine3.17
+FROM node:latest
 
-# Create a directory  and go to directory 
+# Set the working directory
 WORKDIR /app
 
-# Copy the package.json file to my current directory for install necessary dependence  
-COPY package.json .
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-# Install the dependence
+# Install dependencies
 RUN npm install
 
-# Copy other file to my current directory
+# Copy the rest of the application
 COPY . .
 
+# Copy .env file
+COPY .env ./
 
-# Open the port for express server
-EXPOSE 5000
+# Expose the port
 EXPOSE 5101
 
-# Run express rum in foreground
+# Start the application
 CMD ["npm", "start"]
