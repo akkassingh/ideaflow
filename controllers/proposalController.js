@@ -24,7 +24,7 @@ const addProposal = async (req, res) => {
         req.body.members = members;
         req.body.leader = leader;
         req.body.submittedBy = req.user.userId;
-        let FRONTEND_APP_BASE_URL = process.env.FRONTEND_APP_BASE_URL
+        let APP_BASE_URL = process.env.APP_BASE_URL
         const proposal = new Proposal(req.body);
         proposal
           .save()
@@ -45,7 +45,7 @@ const addProposal = async (req, res) => {
               subject: `Proposal ${resource.title} Submitted`,
               text: `<h2>${resource.title} Submitted</h2>
                     <p>A New Propoal has been Submitted by ${resource.leader.firstName}</p>
-                    <a href="${FRONTEND_APP_BASE_URL}/dashboard/edit-proposal/${JSON.stringify(resource._id)}" clicktracking="off">${resource.title}-${process.env.APP_DISPLAY_NAME}</a>
+                    <a href="${APP_BASE_URL}/dashboard/edit-proposal/${JSON.stringify(resource._id)}" clicktracking="off">${resource.title}-${process.env.APP_DISPLAY_NAME}</a>
                     <p>Best regards,</p>
                     <p>From ${process.env.APP_DISPLAY_NAME}</p>`,
             });
