@@ -64,7 +64,7 @@ export const forgetPassword = async (req, res, next) => {
 
     await user.save();
 
-    const resetURL = `https://reset-password-flow.netlify.app/resetpassword/${resetToken}`;
+    const resetURL = `${process.env.APP_BASE_URL}/resetpassword/${resetToken}`;
 
     const message = `
     <h1>You have requested a password reset</h1>
