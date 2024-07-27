@@ -8,6 +8,8 @@ import {
   Landing,
   Register,
   Login,
+  ForgetPassword,
+  ResetPassword,
   DashboardLayout,
   Error,
   AddProposal,
@@ -24,6 +26,8 @@ import {
 
 import { action as registerAction } from "./pages/Register";
 import { action as loginAction } from "./pages/Login";
+import { action as ForgetPasswordAction } from "./pages/ForgetPassword.jsx";
+import { action as resetPasswordAction } from "./pages/ResetPassword";
 import { loader as dashboardLoader } from "./pages/DashboardLayout";
 import { action as addProposalAction } from "./pages/AddProposal";
 import { loader as allProposalsLoader } from "./pages/AllProposals";
@@ -34,7 +38,7 @@ import { action as deleteUserAction } from "./pages/DeleteUser";
 import { action as editProposalAction } from "./pages/EditProposal";
 import { loader as editProposalLoader } from "./pages/EditProposal";
 import { action as deleteProposalAction } from "./pages/DeleteProposal";
-import { loader as adminLoader } from "./pages/Admin";
+// import { loader as adminLoader } from "./pages/Admin";
 import { action as profileAction } from "./pages/Profile";
 import { loader as statsLoader } from "./pages/Stats";
 import ErrorElement from "./components/ErrorElement";
@@ -71,6 +75,16 @@ const router = createBrowserRouter([
         path: "login",
         element: <Login />,
         action: loginAction(queryClient),
+      },
+      {
+        path: "forgetpassword",
+        element: <ForgetPassword />,
+        action: ForgetPasswordAction(queryClient),
+      },
+      {
+        path: "resetpassword/:resetToken",
+        element: <ResetPassword />,
+        action: resetPasswordAction(queryClient),
       },
       {
         path: "DashBoard",

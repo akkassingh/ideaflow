@@ -109,7 +109,7 @@ export const resetPassword = async (req, res, next) => {
     });
 
     if (!user) {
-      next(new ErrorResponse("Invalid Reset Token", 400));
+      return res.status(StatusCodes.BAD_REQUEST).json({ msg: "Invalid Reset Token" });
     }
 
     const hashedPassword = await hashPassword(req.body.password);
