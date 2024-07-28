@@ -28,7 +28,7 @@ export const updateUser = async (req, res) => {
       .status(400)
       .json({ success: false, message: "User does not exist" });
   // if req.body.haveAdminAccess is different from user.haveAdminAccess, then we need to check if the req.user is an admin by role
-  if ( req.body.VerifiedForAdminAccess !== user.VerifiedForAdminAccess && req.user.role !== "admin" ) {
+  if ( req.body.VerifiedForAdminAccess && req.body.VerifiedForAdminAccess !== user.VerifiedForAdminAccess && req.user.role !== "admin" ) {
     return res
       .status(400)
       .json({

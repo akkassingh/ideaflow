@@ -28,14 +28,14 @@ export const action =
 
 export default function Profile() {
   const { user } = useOutletContext();
-  const { firstName, lastName, email, location, role } = user;
+  const { firstName, lastName, email } = user;
 
   return (
     <div>
       <Wrapper>
         <Form method="post" className="form" encType="multipart/form-data">
           {/* encType becuase we are not converting the formData into JSON, We are using it directly. */}
-          <h4 className="form-title">Profile</h4>
+          <h4 className="form-title">My Profile</h4>
           <div className="form-center">
             <div className="form-row">
               <label htmlFor="avatar" className="form-label">
@@ -51,7 +51,6 @@ export default function Profile() {
             <FormRow type="text" name="firstName" labelText="first name" defaultValue={firstName} />
             <FormRow type="text" name="lastName" labelText="last name" defaultValue={lastName} />
             <FormRow type="email" name="email" defaultValue={email} />
-            <FormRow type="text" name="role" defaultValue={role} />
             <SubmitBtn formBtn />
           </div>
         </Form>
