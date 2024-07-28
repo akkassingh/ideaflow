@@ -1,6 +1,8 @@
 import { StatusCodes } from "http-status-codes";
 import User from "../models/UserModel.js";
 import Proposal from "../models/ProposalModel.js";
+import cloudinary from "cloudinary";
+import { formatImage } from "../middleware/multerMiddleware.js";
 
 /*
 When user logs in, we are not storing user value in the front-end on the client when user logs in. It's stored in JWT in the cookie that is sent to browser. Therefore, we need a way to get the user's data
@@ -26,10 +28,7 @@ export const updateUser = async (req, res) => {
       .status(400)
       .json({ success: false, message: "User does not exist" });
   // if req.body.haveAdminAccess is different from user.haveAdminAccess, then we need to check if the req.user is an admin by role
-  if (
-    req.body.VerifiedForAdminAccess !== user.VerifiedForAdminAccess &&
-    req.user.role !== "admin"
-  ) {
+  if ( req.body.VerifiedForAdminAccess !== user.VerifiedForAdminAccess && req.user.role !== "admin" ) {
     return res
       .status(400)
       .json({
@@ -40,7 +39,19 @@ export const updateUser = async (req, res) => {
   // we don't want password inside this functionality--don't want to update it in this way
   const obj = { ...req.body };
   delete obj.password;
-  await User.findByIdAndUpdate(user.id, obj);
+  if (req.file) {
+    const file = formatImage(req.file);
+
+    const response = await cloudinary.v2.uploader.upload(file);
+
+    obj.avatar = response.secure_url;
+    obj.avatarPublicId = response.public_id;
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(user.id, obj);
+  if (req.file && updatedUser.avatarPublicId) {
+    await cloudinary.v2.uploader.destroy(updatedUser.avatarPublicId);
+  }
   res.status(StatusCodes.OK).json({ msg: "updated user" });
 };
 

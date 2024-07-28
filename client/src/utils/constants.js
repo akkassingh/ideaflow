@@ -31,6 +31,7 @@ export const JOB_STATUS = {
     COMPUTER_VISION: "computer_vision",
     NLP: "NLP",
     CYBERSECURITY: "cybersecurity",
+    OTHERS: "Others",
   };
   
   export const PROPOSAL_STATUS = {

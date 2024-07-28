@@ -17,7 +17,7 @@ var ProposalSchema = new Schema(
     description: {
       type: String,
     },
-    website_url: {
+    urls: {
       type: String
     },
     domains: {
@@ -110,7 +110,6 @@ var ProposalSchema = new Schema(
     },
     funding_type: {
       type: String,
-      enum: ["internal", "external"],
       required: false,
     },
     funding_agency: {

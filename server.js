@@ -6,6 +6,7 @@ const app = express();
 import morgan from "morgan";
 import connectDB from "./db/connect.js";
 import cookieParser from "cookie-parser";
+import cloudinary from "cloudinary";
 
 // routers
 import authRouter from "./routes/authRouter.js";
@@ -17,6 +18,13 @@ import filesRouter from "./routes/filesRouter.js"
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import path from "path";
+
+//cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
 
 // middleware
 import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";

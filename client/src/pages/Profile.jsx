@@ -9,9 +9,9 @@ import SubmitBtn from "../components/SubmitBtn";
 export const action =
   (queryClient) =>
   async ({ request }) => {
-    let formData = await request.formData();
-    formData = Object.fromEntries(formData);
-    if (formData && formData.avatar.size > 500000) {
+    const formData = await request.formData();
+    const file = formData.get("avatar");
+    if (file && file.size > 500000) {
       toast.error("Image size is too large");
       return null;
     }
@@ -19,7 +19,7 @@ export const action =
       await customFetch.patch("/users/update-user", formData);
       queryClient.invalidateQueries(["user"]);
       toast.success("Profile Updated Sucessfully!");
-      return redirect("/dashboard");
+      return redirect("/dashboard/profile");
     } catch (error) {
       toast.error(error?.response?.data?.msg);
       return null;
@@ -48,22 +48,10 @@ export default function Profile() {
                 name="avatar"
               />
             </div>
-            <FormRow
-              type="text"
-              name="firstName"
-              labelText="first name"
-              defaultValue={firstName}
-            />
-            <FormRow
-              type="text"
-              name="lastName"
-              labelText="last name"
-              defaultValue={lastName}
-            />
-            <FormRow type="text" name="location" defaultValue={location} />
+            <FormRow type="text" name="firstName" labelText="first name" defaultValue={firstName} />
+            <FormRow type="text" name="lastName" labelText="last name" defaultValue={lastName} />
             <FormRow type="email" name="email" defaultValue={email} />
             <FormRow type="text" name="role" defaultValue={role} />
-
             <SubmitBtn formBtn />
           </div>
         </Form>

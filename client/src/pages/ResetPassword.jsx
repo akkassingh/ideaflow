@@ -1,4 +1,4 @@
-import { Link, Form, redirect, useNavigate, useParams } from "react-router-dom";
+import { Link, Form, redirect, useNavigate } from "react-router-dom";
 import Wrapper from "../assets/wrappers/RegisterAndLoginPage";
 import { FormRow, Logo, SubmitBtn } from "../components";
 import customFetch from "../utils/customFetch";
@@ -21,7 +21,6 @@ export const action =
     }
   };
 export default function ForgetPassword() {
-  const navigate = useNavigate();
   return (
     <Wrapper>
       <Form method="post" className="form">

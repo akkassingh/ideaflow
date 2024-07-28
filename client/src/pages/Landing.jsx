@@ -14,16 +14,11 @@ export default function Landing() {
       <div className="container page">
         <div>
           <h1>
-          Proposal <span>Finder</span> App
+          Proposal <span>Submission</span> App
           </h1>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
+            A platform for students to submit their proposals for projects and
+            get them approved by supervisors.
           </p>
           <Link to="/register" className="btn register-link">
             Register

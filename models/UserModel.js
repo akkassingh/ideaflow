@@ -12,10 +12,8 @@ const UserSchema = new mongoose.Schema(
       enum: ["student", "faculty", "admin"],
       required: true,
     },
-    date: {
-      type: Date,
-      default: Date.now,
-    },
+    avatar: String,
+    avatarPublicId: String,
     resetPasswordToken: String,
     resetPasswordExpire: Date,
     VerifiedForAdminAccess: Boolean,
