@@ -67,13 +67,17 @@ export const PROPOSAL_SORT_BY = {
 };
 
 export const PROPOSAL_DOMAINS = {
-  FIN_TECH: "fintech",
-  MACHINE_LEARNING: "machine_learning",
-  WEB_DEVELOPMENT: "web_development",
+  FIN_TECH: "Fintech",
+  MACHINE_LEARNING: "Machine Learning",
+  WEB_DEVELOPMENT: "Web Development",
   IOT: "iot",
-  COMPUTER_VISION: "computer_vision",
+  COMPUTER_VISION: "Computer Vision",
   NLP: "NLP",
-  CYBERSECURITY: "cybersecurity",
+  CYBERSECURITY: "Cybersecurity",
+  BLOCKCHAIN: "Blockchain",
+  CLOUD_COMPUTING: "Cloud Computing",
+  DATA_SCIENCE: "Data Science",
+  OTHERS: "Others"
 };
 
 export const PROPOSAL_STATUS = {

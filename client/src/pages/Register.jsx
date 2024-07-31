@@ -27,7 +27,6 @@ export default function Register() {
         <h4>Register</h4>
         <FormRow type="text" name="firstName" labelText="first name" />
         <FormRow type="text" name="lastName" labelText="last name" />
-        <FormRow type="text" name="location" />
         <FormRow type="email" name="email" />
         <FormRow type="password" name="password" />
         <FromRowSelect

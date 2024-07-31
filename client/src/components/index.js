@@ -14,3 +14,4 @@ export { default as SubmitBtn } from "./SubmitBtn";
 export { default as ChartsConatiner } from "./ChartsContainer";
 export { default as StatsContainer } from "./StatsContainer";
 export { default as Loading } from "./Loading";
+export { default as Footer } from "./Footer";

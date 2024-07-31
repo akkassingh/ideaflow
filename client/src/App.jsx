@@ -22,6 +22,7 @@ import {
   EditUser,
   DeleteProposal,
   DeleteUser,
+  Support
 } from "../src/pages";
 
 import { action as registerAction } from "./pages/Register";
@@ -149,6 +150,10 @@ const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: "support",
+        element: <Support />,
+      }
     ],
   },
 ]);

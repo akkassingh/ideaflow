@@ -70,8 +70,8 @@ const AddProposal = () => {
           />
           <FormRow type="text" name="links" />
           <FormRow type="text" name="leader" defaultValue={user.email}/>
-          <FormRow type="text" name="supervisors" />
-          <FormRow type="text" name="members" />
+          <FormRowOptional type="text" name="supervisors" />
+          <FormRowOptional type="text" name="members" />
           <FormRowOptional type="text" name="funding_type" />
           <FormRowOptional type="text" name="funding_agency" />
         </div>

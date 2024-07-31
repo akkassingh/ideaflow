@@ -10,6 +10,7 @@ export { default as EditUser } from "./EditUser";
 export { default as Error } from "./Error";
 export { default as HomeLayout } from "./HomeLayout";
 export { default as Landing } from "./Landing";
+export { default as Support } from "./Support";
 export { default as Login } from "./Login";
 export { default as ForgetPassword } from "./ForgetPassword";
 export { default as ResetPassword } from "./ResetPassword";

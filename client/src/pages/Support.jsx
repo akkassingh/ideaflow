@@ -1,12 +1,10 @@
-import styled from "styled-components";
 import Wrapper from "../assets/wrappers/LandingPage";
 import innovify2 from "../assets/images/ino1.png";
 import "../index.css";
 import { Link } from "react-router-dom";
 import Logo from "../components/logo";
-import { Footer } from "../components";
 
-export default function Landing() {
+export default function Support() {
   return (
     <Wrapper>
       <nav>
@@ -15,11 +13,10 @@ export default function Landing() {
       <div className="container page">
         <div>
           <h1>
-          Proposal <span>Submission</span> App
+          Support <span>Page</span> Ideaflow
           </h1>
           <p>
-            A platform for students to submit their proposals for projects and
-            get them approved by supervisors.
+            FAQs.
           </p>
           <Link to="/register" className="btn register-link">
             Register
@@ -30,7 +27,6 @@ export default function Landing() {
         </div>
         <img src={innovify2} alt="hunt" className="img main-img" />
       </div>
-      <Footer />
     </Wrapper>
   );
 }
