@@ -8,9 +8,6 @@ day.extend(advancedFormat);
 
 export default function Proposal({
   _id,
-  position,
-  company,
-  ProposalLocation,
   ProposalType,
   createdAt,
   ProposalStatus,
@@ -22,26 +19,21 @@ export default function Proposal({
   members,
   status
 }) {
-  const date = day(createdAt).format("MMM Do,YYY");
+  const date = day(createdAt).format("MMM D, YYYY h:mm A");
 
   return (
     <Wrapper>
       <header>
         <div className="main-icon">{title.charAt(0)}</div>
         <div className="info">
-          <h5>{position}</h5>
-          <p>{company}</p>
+          <h5>{title}</h5>
         </div>
       </header>
       <div className="content">
         <div className="content-center">
-          <ProposalInfo text={title} />
-          <ProposalInfo text={domains} />
-          <ProposalInfo icon={<FaLocationArrow />} text={supervisors} />
           <ProposalInfo icon={<FaCalendarAlt />} text={date} />
-          <ProposalInfo icon={<FaBriefcase />} text={leader} />
-          <ProposalInfo icon={<FaBriefcase />} text={members} />
           <div className={`status ${status}`}>{status}</div>
+          <ProposalInfo text={description} />
         </div>
 
         <footer className="actions">
