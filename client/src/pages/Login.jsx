@@ -51,6 +51,12 @@ export default function Login() {
             Register
           </Link>
         </p>
+        <p>
+        Forgot password ?
+          <Link to="/forgetpassword" className="member-btn">
+          Reset Password
+          </Link>
+        </p>
       </Form>
     </Wrapper>
   );

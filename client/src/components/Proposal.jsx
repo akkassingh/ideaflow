@@ -40,7 +40,7 @@ export default function Proposal({
           <Link to={`../edit-proposal/${_id}`} className="btn edit-btn">
             Edit
           </Link>
-          <Form method="post" action={`../delete-propsal/${_id}`}>
+          <Form method="post" action={`../delete-proposal/${_id}`}>
             <button type="submit" className="btn delete-btn">
               Delete
             </button>
