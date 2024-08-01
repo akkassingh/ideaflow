@@ -8,7 +8,7 @@ export default function Footer() {
         <p>
             For more information, visit our 
             <Link to="/support" className="footer-link
-            " >Support</Link> page.
+            " > Support</Link> page.
         </p>
     </footer>
     </div>
