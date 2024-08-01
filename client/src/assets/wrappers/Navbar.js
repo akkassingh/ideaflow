@@ -17,7 +17,7 @@ const Wrapper = styled.nav`
     background: transparent;
     border-color: transparent;
     font-size: 1.75rem;
-    color: #eb5e28;
+    color: #bc3400;
     cursor: pointer;
     display: flex;
     align-items: center;

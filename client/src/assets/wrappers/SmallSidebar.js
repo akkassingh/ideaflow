@@ -39,7 +39,7 @@ const Wrapper = styled.aside`
     background: transparent;
     border-color: transparent;
     font-size: 2rem;
-    color: #a020f0;
+    color: #ff0000;
     cursor: pointer;
   }
   .nav-links {
@@ -56,7 +56,7 @@ const Wrapper = styled.aside`
     transition: var(--transition);
   }
   .nav-link:hover {
-    color: #eb5e28;
+    color: #bc3400;
   }
   .icon {
     font-size: 1.5rem;
@@ -65,7 +65,7 @@ const Wrapper = styled.aside`
     place-items: center;
   }
   .active {
-    color: #eb5e28;
+    color: #bc3400;
   }
 `;
 export default Wrapper;

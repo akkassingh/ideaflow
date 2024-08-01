@@ -52,7 +52,7 @@ const Wrapper = styled.aside`
       place-items: center;
     }
     .active {
-      color: #eb5e28;
+      color: #bc3400;
     }
     .pending {
       background: var(--background-color);

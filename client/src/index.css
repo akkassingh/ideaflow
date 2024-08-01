@@ -15,16 +15,16 @@ html {
 
 :root {
   /* colors */
-  --primary-50: #f9cebd;
-  --primary-100: #f7ad90;
-  --primary-200: #f7966f;
-  --primary-300: #f18154;
-  --primary-400: #f17240;
-  --primary-500: #eb5e28;
-  --primary-600: #bc481a;
-  --primary-700: #c5400b;
-  --primary-800: #812805;
-  --primary-900: #561a02;
+  --primary-50: #960000;
+  --primary-100: #ae0000;
+  --primary-200: #bd3028;
+  --primary-300: #c70000;
+  --primary-400: #e10000;
+  --primary-500: #ff0000;
+  --primary-600: #ff1a1a;
+  --primary-700: #ff3333;
+  --primary-800: #ff4d4d; ;
+  --primary-900: #ff6666;
 
   /* grey */
   --grey-50: #f8fafc;
@@ -319,16 +319,16 @@ button:disabled {
 }
 
 /* BUTTONS AND BADGES */
-.pending {
+.submitted {
   background: #fef3c7;
   color: #f59e0b;
 }
 
-.interview {
+.approved {
   background: #e0e8f9;
   color: #647acb;
 }
 .declined {
   background: #ffeeee;
-  color: #d66a6a;
+  color: #bd3028;
 }
