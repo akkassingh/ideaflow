@@ -18,7 +18,7 @@ export default function LogoutContainer() {
           <FaUserCircle />
         )}
 
-        {user.name}
+        {user.firstName}
         <FaCaretDown />
       </button>
       <div className={showLogout ? "show-dropdown dropdown" : "dropdown"}>
