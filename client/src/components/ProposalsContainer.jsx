@@ -1,4 +1,4 @@
-import Proposal from "./Proposal";
+import ProposalTile from "./ProposalTile";
 import Wrapper from "../assets/wrappers/ProposalsContainer";
 import { useAllProposalsContext } from "../pages/AllProposals";
 import PageBtnContainer from "./PageBtnContainer";
@@ -19,7 +19,7 @@ export default function ProposalsContainer() {
       </h5>
       <div className="proposals">
         {items.map((item) => {
-          return <Proposal key={item._id} {...item} />;
+          return <ProposalTile key={item._id} {...item} />;
         })}
       </div>
       {numOfPages > 1 && <PageBtnContainer />}

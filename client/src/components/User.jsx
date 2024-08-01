@@ -1,6 +1,6 @@
 import { FaCalendarDay, FaCriticalRole, FaUserEdit, FaRegTrashAlt } from "react-icons/fa";
 import { Link, Form } from "react-router-dom";
-import Wrapper from "../assets/wrappers/Proposal";
+import Wrapper from "../assets/wrappers/ProposalTile";
 import UserInfo from "./UserInfo";
 import day from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
