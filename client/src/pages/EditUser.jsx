@@ -1,6 +1,6 @@
 import { FormRow, FromRowSelect } from "../components";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData, useParams, useOutletContext } from "react-router-dom";
 import { ROLES } from "../utils/constants";
 import { Form, useNavigation, redirect } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -46,7 +46,15 @@ export const action =
   };
 export default function EditUser() {
   const id = useLoaderData();
-  const { data: user } = useQuery(singleUserQuery(id));
+  const { user } = useOutletContext();
+  const { data: userData } = useQuery(singleUserQuery(id));
+  const { VerifiedForAdminAccess, firstName, lastName, email, role } = userData;
+  let CanEditPrivilges = false;
+  if (user.role === ROLES.ADMIN && user.VerifiedForAdminAccess) {
+    CanEditPrivilges = true;
+  }
+  console.log("can access ", CanEditPrivilges);
+  console.log("userData is ", userData);
   return (
     <Wrapper>
       <Form method="post" className="form">
@@ -56,24 +64,24 @@ export default function EditUser() {
             type="text"
             name="firstName"
             labelText="first name"
-            defaultValue={user.firstName}
+            defaultValue={firstName}
           />
           <FormRow
             type="text"
             name="lastName"
             labelText="last name"
-            defaultValue={user.lastName}
+            defaultValue={lastName}
           />
-          <FormRow type="text" name="email" defaultValue={user.email} />
-          <FormRow type="text" name="role" defaultValue={user.role} />
-          {(user.role === "admin" && user.VerifiedForAdminAccess) ? (
+          <FormRow type="text" name="email" defaultValue={email} />
+          <FormRow type="text" name="role" defaultValue={role} />
+          {CanEditPrivilges && (
             <FromRowSelect
-              name="VerifiedForAdminAccess"
-              labelText="Privilged Access"
-              defaultValue={user.VerifiedForAdminAccess}
-              list={["true", "false"]}
-            />
-          ) : null}
+            name="VerifiedForAdminAccess"
+            labelText="Privilged Access"
+            defaultValue={VerifiedForAdminAccess}
+            list={["true", "false"]}
+          />
+          )}
           <SubmitBtn formBtn />
         </div>
       </Form>
