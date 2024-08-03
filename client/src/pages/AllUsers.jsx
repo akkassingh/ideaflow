@@ -25,7 +25,9 @@ export const loader =
     await queryClient.ensureQueryData(allUserQuery(params));
     return { searchValues: { ...params } };
   };
+
 const AllUsersContext = createContext();
+
 export default function AllUsers() {
   const { searchValues } = useLoaderData();
   const { data } = useQuery(allUserQuery(searchValues));

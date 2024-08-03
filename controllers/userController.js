@@ -100,7 +100,7 @@ export const getUserById = async (req, res) => {
     return res
       .status(400)
       .json({ success: false, message: "User does not exist" });
-  return res.status(200).json({ success: true, data: user });
+  return res.status(200).json(user);
 };
 
 export const getUserByEmail = async (req, res) => {
@@ -109,5 +109,5 @@ export const getUserByEmail = async (req, res) => {
     return res
       .status(400)
       .json({ success: false, message: "User does not exist" });
-  return res.status(200).json({ success: true, data: user });
+  return res.status(200).json(user);
 };

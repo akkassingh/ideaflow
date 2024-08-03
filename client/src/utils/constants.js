@@ -24,11 +24,11 @@ export const JOB_STATUS = {
   };
   
   export const PROPOSAL_DOMAINS = {
-    FIN_TECH: "fintech",
-    MACHINE_LEARNING: "machine_learning",
-    WEB_DEVELOPMENT: "web_development",
-    IOT: "iot",
-    COMPUTER_VISION: "computer_vision",
+    FIN_TECH: "Fintech",
+    MACHINE_LEARNING: "Machine Learning",
+    WEB_DEVELOPMENT: "Web Development",
+    IOT: "IOT",
+    COMPUTER_VISION: "Computer Vision",
     NLP: "NLP",
     CYBERSECURITY: "cybersecurity",
     OTHERS: "Others",

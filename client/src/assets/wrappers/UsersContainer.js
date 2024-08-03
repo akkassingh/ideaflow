@@ -9,7 +9,7 @@ const Wrapper = styled.section`
     font-weight: 700;
     margin-bottom: 1.5rem;
   }
-  .proposals {
+  .users {
     display: grid;
     grid-template-columns: 1fr;
     row-gap: 2rem;

@@ -1,4 +1,4 @@
-import { FormRow } from "../components";
+import { FormRow, FromRowSelect } from "../components";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
 import { redirect, useOutletContext } from "react-router-dom";
 import { Form } from "react-router-dom";
@@ -28,7 +28,7 @@ export const action =
 
 export default function Profile() {
   const { user } = useOutletContext();
-  const { firstName, lastName, email } = user;
+  const { firstName, lastName, email, role, VerifiedForAdminAccess } = user;
 
   return (
     <div>
@@ -51,6 +51,14 @@ export default function Profile() {
             <FormRow type="text" name="firstName" labelText="first name" defaultValue={firstName} />
             <FormRow type="text" name="lastName" labelText="last name" defaultValue={lastName} />
             <FormRow type="email" name="email" defaultValue={email} />
+            {(role === "admin" && VerifiedForAdminAccess) ? (
+            <FromRowSelect
+              name="VerifiedForAdminAccess"
+              labelText="Privilged Access"
+              defaultValue={VerifiedForAdminAccess}
+              list={["true", "false"]}
+            />
+          ) : null}
             <SubmitBtn formBtn />
           </div>
         </Form>
