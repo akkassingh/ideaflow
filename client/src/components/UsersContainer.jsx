@@ -1,7 +1,8 @@
-import User from "./User";
+import UserTile from "./UserTile";
 import Wrapper from "../assets/wrappers/UsersContainer";
 import { useAllUsersContext } from "../pages/AllUsers";
-import PageBtnContainer from "./PageBtnContainer";
+import UsersPageBtnContainer from "./UsersPageBtnContainer";
+
 export default function UsersContainer() {
   const { data } = useAllUsersContext();
   const { items, totalItems, numOfPages } = data;
@@ -17,12 +18,12 @@ export default function UsersContainer() {
       <h5>
         {totalItems} User{totalItems.length > 1 && "s"}
       </h5>
-      <div className="Users">
+      <div className="users">
         {items.map((item) => {
-          return <User key={item._id} {...item} />;
+          return <UserTile key={item._id} {...item} />;
         })}
       </div>
-      {numOfPages > 1 && <PageBtnContainer />}
+      {numOfPages > 1 && <UsersPageBtnContainer />}
     </Wrapper>
   );
 }

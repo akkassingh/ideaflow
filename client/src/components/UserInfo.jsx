@@ -1,9 +1,9 @@
-import Wrapper from "../assets/wrappers/ProposalInfo";
+import Wrapper from "../assets/wrappers/UserInfo";
 export default function UserInfo({ icon, text }) {
   return (
     <Wrapper>
-      <span className="proposal-icon">{icon}</span>
-      <span className="proposal-text">{text}</span>
+      <span className="user-icon">{icon}</span>
+      <span className="user-text">{text}</span>
     </Wrapper>
   );
 }
