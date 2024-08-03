@@ -29,7 +29,7 @@ export default function ProposalTile({
           <ProposalInfo icon={<FaCalendarAlt />} text={lastUpdated} />
           <div className={`status ${status}`}>{status}</div>
         </div>
-        {(user.role === "admin" && user.VerifiedForAdminAccess) || user._id === leader || user ? (
+        {(user.role === "admin" && user.VerifiedForAdminAccess) || user._id === leader ? (
           <footer className="actions">
             <Link to={`../edit-proposal/${_id}`} className="btn edit-btn">
               <FaScrewdriver />
