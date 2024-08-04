@@ -26,22 +26,6 @@ export const action =
         funding_agency: data.funding_agency,
       };
       console.log("Proposal is ", NewProposal);
-      // let sampleload = {
-      //   "title": "Refined Granite Towels",
-      //   "description": "modi",
-      //   "domains": [
-      //       "web_development"
-      //   ],
-      //   "supervisors": [
-      //       "mona@fanshawe.com"
-      //   ],
-      //   "leader": "akkassingh@gmail.com",
-      //   "members": [
-      //       "Damion.Kessler@hotmail.com"
-      //   ],
-      //   "funding_type": "internal",
-      //   "funding_agency": "SSN Trust"
-      // };
       try {
         await customFetch.post("/proposal", NewProposal);
         queryClient.invalidateQueries(["proposals"]);

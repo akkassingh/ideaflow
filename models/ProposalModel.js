@@ -17,7 +17,7 @@ var ProposalSchema = new Schema(
     description: {
       type: String,
     },
-    urls: {
+    weblink: {
       type: String
     },
     domains: {
