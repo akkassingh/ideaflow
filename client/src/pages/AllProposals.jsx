@@ -6,11 +6,13 @@ import { useContext, createContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 const allProposalQuery = (params) => {
-  const { search,sort, page } = params;
+  const { search,sort, page, proposalStatus, proposalDomain } = params;
   return {
     queryKey: [
       "proposal",
       search ?? "",
+      proposalStatus ?? "",
+      proposalDomain ?? "",
       sort ?? "newest",
       page ?? 1,
     ],

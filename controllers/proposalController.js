@@ -85,7 +85,7 @@ const getProposal = async(req, res) => {
 }
 
 const getAllProposals = async (req, res) => {
-  const { search, sort } = req.query;
+  const { search, sort, proposalStatus, proposalDomain } = req.query;
 
   const queryObject = {};
   
@@ -95,6 +95,12 @@ const getAllProposals = async (req, res) => {
         { title: { $regex: search, $options: "i" } },
         { description: { $regex: search, $options: "i" } },
       ];
+    }
+    if (proposalStatus && proposalStatus !== "all") {
+      queryObject.status = { $regex: proposalStatus, $options: "i" };
+    }
+    if (proposalDomain && proposalDomain !== "all") {
+      queryObject.domains = { $elemMatch: { $eq: proposalDomain } };
     }
 
   const sortOptions = {

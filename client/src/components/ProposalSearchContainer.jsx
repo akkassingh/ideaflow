@@ -6,7 +6,7 @@ import { useAllProposalsContext } from "../pages/AllProposals";
 
 export default function ProposalSearchContainer() {
   const { searchValues } = useAllProposalsContext();
-  const { search, proposalStatus, proposalType, sort } = searchValues;
+  const { search, proposalStatus, proposalDomain, sort } = searchValues;
   const submit = useSubmit();
   const debounce = (onChange) => {
     let timeout;
@@ -44,7 +44,7 @@ export default function ProposalSearchContainer() {
             labelText="proposal Domains"
             name="proposalDomain"
             list={["all", ...Object.values(PROPOSAL_DOMAINS)]}
-            defaultValue={proposalType}
+            defaultValue={proposalDomain}
             onChange={(e) => {
               submit(e.currentTarget.form);
             }}
