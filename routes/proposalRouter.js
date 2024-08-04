@@ -1,5 +1,6 @@
 import { Router } from "express";
 const router = Router();
+import upload from "../middleware/multerMiddleware.js";
 
 import {
   addProposal,
@@ -30,6 +31,6 @@ router
   .route("/:id")
   .get(authenticateUser, getProposal)
   .delete(checkForTestUser, validateIdParam, deleteProposal)
-  .put(validateIdParam, updatePropsal);
+  .put(validateIdParam, upload.single("attachement"), updatePropsal);
 
 export default router;

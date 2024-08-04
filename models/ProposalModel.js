@@ -116,34 +116,6 @@ var ProposalSchema = new Schema(
       type: String,
       required: false,
     },
-    approved_on: {
-      type: Date,
-      default: null,
-    },
-    rejected_on: {
-      type: Date,
-      default: null,
-      validate: {
-        validator: function (given_proj) {
-          var current_proposal = this;
-          return new Promise(function (resolve, reject) {
-            var result = true;
-            if (
-              current_proposal.rejected_on != null &&
-              current_proposal.approved_on != null
-            ) {
-              result = false;
-            }
-            // console.log(result)
-            return resolve(result);
-          });
-        },
-        message: (props) =>
-          `Either rejected or approved date should be mentioned but not both!`,
-      },
-      message: (props) =>
-        `Either rejected or approved date should be mentioned but not both!`,
-    },
     remarks: {
       type: String,
     },
@@ -156,7 +128,9 @@ var ProposalSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
-    }
+    },
+    attachement: String,
+    attachementPublicId: String,
   },
   { timestamps: true }
 );

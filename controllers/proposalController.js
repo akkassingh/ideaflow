@@ -4,6 +4,8 @@ import { StatusCodes } from "http-status-codes";
 import day from "dayjs";
 import sendEmail from "../utils/sendEmail.js";
 import { EMAIL_TEMPLATES } from "../utils/constants.js";
+import cloudinary from "cloudinary";
+import { formatImage } from "../middleware/multerMiddleware.js";
 
 const addProposal = async (req, res) => {
   function getUsersFromEmails(emailArr) {
@@ -71,14 +73,25 @@ const addProposal = async (req, res) => {
 };
 
 const updatePropsal = async (req, res) => {
+  const obj = { ...req.body };
+  if (req.file) {
+    const file = formatImage(req.file);
+
+    const response = await cloudinary.v2.uploader.upload(file);
+
+    obj.attachement = response.secure_url;
+    obj.attachementPublicId = response.public_id;
+  }
   const updatedItem = await Proposal.findByIdAndUpdate(
     req.params.id,
-    req.body,
+    obj,
     {
       new: true,
     }
   );
-
+  if (req.file && updatedItem.attachementPublicId) {
+    await cloudinary.v2.uploader.destroy(updatedItem.attachementPublicId);
+  }
   res.status(StatusCodes.OK).json({ item: updatedItem });
 };
 
