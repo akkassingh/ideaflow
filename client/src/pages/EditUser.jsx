@@ -73,7 +73,12 @@ export default function EditUser() {
             defaultValue={lastName}
           />
           <FormRow type="text" name="email" defaultValue={email} />
-          <FormRow type="text" name="role" defaultValue={role} />
+          <FromRowSelect
+            name="role"
+            labelText="role"
+            defaultValue={role}
+            list={Object.values(ROLES)}
+          />
           {CanEditPrivilges && (
             <FromRowSelect
             name="VerifiedForAdminAccess"

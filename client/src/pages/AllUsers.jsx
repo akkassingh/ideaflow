@@ -6,9 +6,9 @@ import { useContext, createContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 const allUserQuery = (params) => {
-  const { search, sort, page } = params;
+  const { search, sort, page, role, VerifiedForAdminAccess } = params;
   return {
-    queryKey: ["users", search ?? "", sort ?? "newest", page ?? 1],
+    queryKey: ["users", search ?? "", sort ?? "newest", page ?? 1, role ?? "", VerifiedForAdminAccess ?? ""],
     queryFn: async () => {
       const { data } = await customFetch.get("/users", { params });
       return data;
@@ -25,9 +25,7 @@ export const loader =
     await queryClient.ensureQueryData(allUserQuery(params));
     return { searchValues: { ...params } };
   };
-
 const AllUsersContext = createContext();
-
 export default function AllUsers() {
   const { searchValues } = useLoaderData();
   const { data } = useQuery(allUserQuery(searchValues));

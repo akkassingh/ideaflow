@@ -79,7 +79,12 @@ const Wrapper = styled.article`
     font-size: 0.85rem;
     display: flex;
     align-items: center;
+  }
+  .edit-btn {
     margin-right: 0.5rem;
+  },
+  .priviliged-access-true {  
+    color: #38a169;
   }
 `;
 

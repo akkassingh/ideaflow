@@ -11,7 +11,7 @@ export const register = async (req, res) => {
   // create hashed password and override user password
   const hashedPassword = await hashPassword(req.body.password);
   req.body.password = hashedPassword;
-  if(req.body.role === "faculty" || "admin"){
+  if (req.body.role === "faculty" || "admin") {
     req.body.VerifiedForAdminAccess = false;
   }
   const user = await User.create(req.body);
@@ -109,7 +109,9 @@ export const resetPassword = async (req, res, next) => {
     });
 
     if (!user) {
-      return res.status(StatusCodes.BAD_REQUEST).json({ msg: "Invalid Reset Token" });
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ msg: "Invalid Reset Token" });
     }
 
     const hashedPassword = await hashPassword(req.body.password);

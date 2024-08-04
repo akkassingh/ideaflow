@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { ProposalsContainer, SearchContainer } from "../components";
+import { ProposalsContainer, ProposalSearchContainer } from "../components";
 import customFetch from "../utils/customFetch";
 import { useLoaderData } from "react-router-dom";
 import { useContext, createContext } from "react";
@@ -37,7 +37,7 @@ export default function AllProposals() {
 
   return (
     <AllProposalsContext.Provider value={{ data, searchValues }}>
-      <SearchContainer />
+      <ProposalSearchContainer />
       <ProposalsContainer />
     </AllProposalsContext.Provider>
   );

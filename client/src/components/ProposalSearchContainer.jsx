@@ -1,10 +1,10 @@
 import { FormRow, FromRowSelect, SubmitBtn } from ".";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
 import { Form, useSubmit, Link } from "react-router-dom";
-import { PROPOSAL_DOMAINS, PROPOSAL_STATUS, PROPOSAL_SORT_BY } from ".././utils/constants";
+import { PROPOSAL_DOMAINS, PROPOSAL_STATUS, PROPOSAL_SORT_BY } from "../utils/constants";
 import { useAllProposalsContext } from "../pages/AllProposals";
 
-export default function SearchContainer() {
+export default function ProposalSearchContainer() {
   const { searchValues } = useAllProposalsContext();
   const { search, proposalStatus, proposalType, sort } = searchValues;
   const submit = useSubmit();

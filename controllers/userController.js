@@ -56,7 +56,7 @@ export const updateUser = async (req, res) => {
 };
 
 export const getAllUsers = async (req, res) => {
-  const { search, sort } = req.query;
+  const { search, sort, role, VerifiedForAdminAccess } = req.query;
 
   const queryObject = {};
 
@@ -66,6 +66,17 @@ export const getAllUsers = async (req, res) => {
       { firstName: { $regex: search, $options: "i" } },
       { lastName: { $regex: search, $options: "i" } },
       { email: { $regex: search, $options: "i" } },
+    ];
+  }
+
+  if (role && role !== "all") {
+    queryObject.$or = [
+      { role: { $regex: role, $options: "i" } },
+    ];
+  }
+  if (VerifiedForAdminAccess && VerifiedForAdminAccess !== "all") {
+    queryObject.$or = [
+      { VerifiedForAdminAccess: VerifiedForAdminAccess },
     ];
   }
 
