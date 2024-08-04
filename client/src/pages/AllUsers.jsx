@@ -8,7 +8,14 @@ import { useQuery } from "@tanstack/react-query";
 const allUserQuery = (params) => {
   const { search, sort, page, role, VerifiedForAdminAccess } = params;
   return {
-    queryKey: ["users", search ?? "", sort ?? "newest", page ?? 1, role ?? "", VerifiedForAdminAccess ?? ""],
+    queryKey: [
+      "users",
+      search ?? "",
+      sort ?? "newest",
+      page ?? 1,
+      role ?? "",
+      VerifiedForAdminAccess ?? "",
+    ],
     queryFn: async () => {
       const { data } = await customFetch.get("/users", { params });
       return data;

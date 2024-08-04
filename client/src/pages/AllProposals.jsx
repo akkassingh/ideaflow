@@ -6,7 +6,7 @@ import { useContext, createContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 const allProposalQuery = (params) => {
-  const { search,sort, page, proposalStatus, proposalDomain } = params;
+  const { search, sort, page, proposalStatus, proposalDomain } = params;
   return {
     queryKey: [
       "proposal",
@@ -25,13 +25,13 @@ const allProposalQuery = (params) => {
 
 export const loader =
   (queryClient) =>
-    async ({ request }) => {
-      const params = Object.fromEntries([
-        ...new URL(request.url).searchParams.entries(),
-      ]);
-      await queryClient.ensureQueryData(allProposalQuery(params));
-      return { searchValues: { ...params } };
-    };
+  async ({ request }) => {
+    const params = Object.fromEntries([
+      ...new URL(request.url).searchParams.entries(),
+    ]);
+    await queryClient.ensureQueryData(allProposalQuery(params));
+    return { searchValues: { ...params } };
+  };
 const AllProposalsContext = createContext();
 export default function AllProposals() {
   const { searchValues } = useLoaderData();

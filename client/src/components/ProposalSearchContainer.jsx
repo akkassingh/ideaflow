@@ -1,7 +1,11 @@
 import { FormRow, FromRowSelect, SubmitBtn } from ".";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
 import { Form, useSubmit, Link } from "react-router-dom";
-import { PROPOSAL_DOMAINS, PROPOSAL_STATUS, PROPOSAL_SORT_BY } from "../utils/constants";
+import {
+  PROPOSAL_DOMAINS,
+  PROPOSAL_STATUS,
+  PROPOSAL_SORT_BY,
+} from "../utils/constants";
 import { useAllProposalsContext } from "../pages/AllProposals";
 
 export default function ProposalSearchContainer() {
@@ -57,7 +61,10 @@ export default function ProposalSearchContainer() {
               submit(e.currentTarget.form);
             }}
           />
-          <Link to="/dashboard/all-proposals" className="btn form-btn delete-btn">
+          <Link
+            to="/dashboard/all-proposals"
+            className="btn form-btn delete-btn"
+          >
             Reset Search Values
           </Link>
         </div>
