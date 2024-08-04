@@ -328,7 +328,8 @@ button:disabled {
   background: #e0e8f9;
   color: #647acb;
 }
-.declined {
+.declined,
+.rejected {
   background: #ffeeee;
   color: #bd3028;
 }

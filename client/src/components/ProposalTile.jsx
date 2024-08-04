@@ -27,7 +27,7 @@ export default function ProposalTile({
       <div className="content">
         <div className="content-center">
           <ProposalInfo icon={<FaCalendarAlt />} text={lastUpdated} />
-          <div className={`status ${status}`}>{status}</div>
+          <div className={`status ${status.toLowerCase()}`}>{status}</div>
         </div>
         {(user.role === "admin" && user.VerifiedForAdminAccess) || user._id === leader ? (
           <footer className="actions">
