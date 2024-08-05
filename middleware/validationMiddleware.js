@@ -31,7 +31,6 @@ const withValidationErrors = (validateValues) => {
 export const validateProposal = withValidationErrors([
   body("title").notEmpty().withMessage("title is required"),
   body("description").notEmpty().withMessage("description is required"),
-  body("leader").notEmpty().withMessage("leader is required"),
 ]);
 
 export const validateRegisterInput = withValidationErrors([
