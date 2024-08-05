@@ -1,16 +1,18 @@
 import { toast } from "react-toastify";
-import { ProposalsContainer, SearchContainer } from "../components";
+import { ProposalsContainer, ProposalSearchContainer } from "../components";
 import customFetch from "../utils/customFetch";
 import { useLoaderData } from "react-router-dom";
 import { useContext, createContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 const allProposalQuery = (params) => {
-  const { search,sort, page } = params;
+  const { search, sort, page, proposalStatus, proposalDomain } = params;
   return {
     queryKey: [
       "proposal",
       search ?? "",
+      proposalStatus ?? "",
+      proposalDomain ?? "",
       sort ?? "newest",
       page ?? 1,
     ],
@@ -23,13 +25,13 @@ const allProposalQuery = (params) => {
 
 export const loader =
   (queryClient) =>
-    async ({ request }) => {
-      const params = Object.fromEntries([
-        ...new URL(request.url).searchParams.entries(),
-      ]);
-      await queryClient.ensureQueryData(allProposalQuery(params));
-      return { searchValues: { ...params } };
-    };
+  async ({ request }) => {
+    const params = Object.fromEntries([
+      ...new URL(request.url).searchParams.entries(),
+    ]);
+    await queryClient.ensureQueryData(allProposalQuery(params));
+    return { searchValues: { ...params } };
+  };
 const AllProposalsContext = createContext();
 export default function AllProposals() {
   const { searchValues } = useLoaderData();
@@ -37,7 +39,7 @@ export default function AllProposals() {
 
   return (
     <AllProposalsContext.Provider value={{ data, searchValues }}>
-      <SearchContainer />
+      <ProposalSearchContainer />
       <ProposalsContainer />
     </AllProposalsContext.Provider>
   );

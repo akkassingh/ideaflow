@@ -1,4 +1,4 @@
-import { FaCalendarAlt, FaEye, FaScrewdriver, FaTrash,FaUniversalAccess } from "react-icons/fa";
+import { FaCalendarAlt, FaEye, FaScrewdriver, FaTrash,FaUniversalAccess, FaMailBulk, FaCriticalRole, FaUser } from "react-icons/fa";
 import { Link, Form, useOutletContext } from "react-router-dom";
 import Wrapper from "../assets/wrappers/UserTile";
 import UserInfo from "./UserInfo";
@@ -9,6 +9,7 @@ day.extend(advancedFormat);
 export default function ProposalTile({
   _id,
   firstName,
+  lastName,
   email,
   role,
   VerifiedForAdminAccess,
@@ -32,11 +33,11 @@ export default function ProposalTile({
       </header>
       <div className="content">
         <div className="content-center">
-          <UserInfo icon={`First Name `} text={firstName} />
+          <UserInfo icon={<FaUser />} text={`${lastName}, ${firstName}`} /><br />
+          <UserInfo icon={<FaMailBulk />} text={email} /><br />
+          <UserInfo icon={<FaCriticalRole />} text={role} /><br />
           <UserInfo icon={<FaCalendarAlt />} text={lastUpdated} />
-          <UserInfo text={email} />
-          <UserInfo text={role} />
-          <UserInfo icon={<FaUniversalAccess /> } text={VerifiedForAdminAccess.toString()} />
+          <div className={`role priviliged-access-${VerifiedForAdminAccess}`}>{VerifiedForAdminAccess ? `Privilged Access`: ``}</div>
         </div>
           <footer className="actions">
             <Link to={`../edit-user/${_id}`} className="btn edit-btn">

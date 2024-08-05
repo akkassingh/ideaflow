@@ -15,7 +15,7 @@ const Wrapper = styled.section`
     row-gap: 2rem;
   }
   @media (min-width: 1120px) {
-    .proposals {
+    .users {
       grid-template-columns: 1fr 1fr;
       gap: 2rem;
     }

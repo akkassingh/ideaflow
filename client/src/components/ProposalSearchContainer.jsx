@@ -1,12 +1,16 @@
 import { FormRow, FromRowSelect, SubmitBtn } from ".";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
 import { Form, useSubmit, Link } from "react-router-dom";
-import { PROPOSAL_DOMAINS, PROPOSAL_STATUS, PROPOSAL_SORT_BY } from ".././utils/constants";
+import {
+  PROPOSAL_DOMAINS,
+  PROPOSAL_STATUS,
+  PROPOSAL_SORT_BY,
+} from "../utils/constants";
 import { useAllProposalsContext } from "../pages/AllProposals";
 
-export default function SearchContainer() {
+export default function ProposalSearchContainer() {
   const { searchValues } = useAllProposalsContext();
-  const { search, proposalStatus, proposalType, sort } = searchValues;
+  const { search, proposalStatus, proposalDomain, sort } = searchValues;
   const submit = useSubmit();
   const debounce = (onChange) => {
     let timeout;
@@ -44,7 +48,7 @@ export default function SearchContainer() {
             labelText="proposal Domains"
             name="proposalDomain"
             list={["all", ...Object.values(PROPOSAL_DOMAINS)]}
-            defaultValue={proposalType}
+            defaultValue={proposalDomain}
             onChange={(e) => {
               submit(e.currentTarget.form);
             }}
@@ -57,7 +61,10 @@ export default function SearchContainer() {
               submit(e.currentTarget.form);
             }}
           />
-          <Link to="/dashboard/all-proposals" className="btn form-btn delete-btn">
+          <Link
+            to="/dashboard/all-proposals"
+            className="btn form-btn delete-btn"
+          >
             Reset Search Values
           </Link>
         </div>

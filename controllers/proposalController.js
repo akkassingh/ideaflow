@@ -3,7 +3,9 @@ import User from "../models/UserModel.js";
 import { StatusCodes } from "http-status-codes";
 import day from "dayjs";
 import sendEmail from "../utils/sendEmail.js";
-import {EMAIL_TEMPLATES} from "../utils/constants.js";
+import { EMAIL_TEMPLATES } from "../utils/constants.js";
+import cloudinary from "cloudinary";
+import { formatImage } from "../middleware/multerMiddleware.js";
 
 const addProposal = async (req, res) => {
   function getUsersFromEmails(emailArr) {
@@ -24,7 +26,7 @@ const addProposal = async (req, res) => {
         req.body.members = members;
         req.body.leader = leader;
         req.body.submittedBy = req.user.userId;
-        let APP_BASE_URL = process.env.APP_BASE_URL
+        let APP_BASE_URL = process.env.APP_BASE_URL;
         const proposal = new Proposal(req.body);
         proposal
           .save()
@@ -44,8 +46,14 @@ const addProposal = async (req, res) => {
               // to: user.email,
               subject: `Proposal ${resource.title} Submitted`,
               text: `<h2>${resource.title} Submitted</h2>
-                    <p>A New Propoal has been Submitted by ${resource.leader.firstName}</p>
-                    <a href="${APP_BASE_URL}/dashboard/edit-proposal/${JSON.stringify(resource._id)}" clicktracking="off">${resource.title}-${process.env.APP_DISPLAY_NAME}</a>
+                    <p>A New Propoal has been Submitted by ${
+                      resource.leader.firstName
+                    }</p>
+                    <a href="${APP_BASE_URL}/dashboard/edit-proposal/${JSON.stringify(
+                resource._id
+              )}" clicktracking="off">${resource.title}-${
+                process.env.APP_DISPLAY_NAME
+              }</a>
                     <p>Best regards,</p>
                     <p>From ${process.env.APP_DISPLAY_NAME}</p>`,
             });
@@ -65,10 +73,25 @@ const addProposal = async (req, res) => {
 };
 
 const updatePropsal = async (req, res) => {
-  const updatedItem = await Proposal.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  });
+  const obj = { ...req.body };
+  if (req.file) {
+    const file = formatImage(req.file);
 
+    const response = await cloudinary.v2.uploader.upload(file);
+
+    obj.attachement = response.secure_url;
+    obj.attachementPublicId = response.public_id;
+  }
+  const updatedItem = await Proposal.findByIdAndUpdate(
+    req.params.id,
+    obj,
+    {
+      new: true,
+    }
+  );
+  if (req.file && updatedItem.attachementPublicId) {
+    await cloudinary.v2.uploader.destroy(updatedItem.attachementPublicId);
+  }
   res.status(StatusCodes.OK).json({ item: updatedItem });
 };
 
@@ -78,24 +101,30 @@ const deleteProposal = async (req, res) => {
   res.status(StatusCodes.OK).json({ item: removedItem });
 };
 
-const getProposal = async(req, res) => {
+const getProposal = async (req, res) => {
   const item = await Proposal.findById(req.params.id);
 
   res.status(StatusCodes.OK).json(item);
-}
+};
 
 const getAllProposals = async (req, res) => {
-  const { search, sort } = req.query;
+  const { search, sort, proposalStatus, proposalDomain } = req.query;
 
   const queryObject = {};
-  
-    //any char search for company and position
-    if (search) {
-      queryObject.$or = [
-        { title: { $regex: search, $options: "i" } },
-        { description: { $regex: search, $options: "i" } },
-      ];
-    }
+
+  //any char search for company and position
+  if (search) {
+    queryObject.$or = [
+      { title: { $regex: search, $options: "i" } },
+      { description: { $regex: search, $options: "i" } },
+    ];
+  }
+  if (proposalStatus && proposalStatus !== "all") {
+    queryObject.status = { $regex: proposalStatus, $options: "i" };
+  }
+  if (proposalDomain && proposalDomain !== "all") {
+    queryObject.domains = { $elemMatch: { $eq: proposalDomain } };
+  }
 
   const sortOptions = {
     newest: "-createdAt",
@@ -110,14 +139,16 @@ const getAllProposals = async (req, res) => {
   const skip = (page - 1) * limit;
 
   const items = await Proposal.find(queryObject)
-                              .sort(sortKey)
-                              .skip(skip)
-                              .limit(limit);
+    .sort(sortKey)
+    .skip(skip)
+    .limit(limit);
 
   const totalItems = await Proposal.countDocuments(queryObject);
   const numOfPages = Math.ceil(totalItems / limit);
 
-  res.status(StatusCodes.OK).json({ totalItems, numOfPages, currentPage: page, items });
+  res
+    .status(StatusCodes.OK)
+    .json({ totalItems, numOfPages, currentPage: page, items });
 };
 
 const getProposals = async (req, res) => {
@@ -144,16 +175,15 @@ const getProposals = async (req, res) => {
 };
 
 const showStats = async (req, res) => {
-  let stats = await Proposal.aggregate(
-    [
-      {
-        $group: {
-          _id: "$status",
-          count: { 
-            $sum: 1
-          }
-        }
+  let stats = await Proposal.aggregate([
+    {
+      $group: {
+        _id: "$status",
+        count: {
+          $sum: 1,
+        },
       },
+    },
   ]);
   stats = stats.reduce((acc, curr) => {
     const { _id: title, count } = curr;
@@ -195,5 +225,12 @@ const showStats = async (req, res) => {
   res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications });
 };
 
-
-export { addProposal, updatePropsal, deleteProposal, getProposal, getAllProposals, getProposals, showStats };
+export {
+  addProposal,
+  updatePropsal,
+  deleteProposal,
+  getProposal,
+  getAllProposals,
+  getProposals,
+  showStats,
+};

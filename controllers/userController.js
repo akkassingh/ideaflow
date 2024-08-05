@@ -28,13 +28,15 @@ export const updateUser = async (req, res) => {
       .status(400)
       .json({ success: false, message: "User does not exist" });
   // if req.body.haveAdminAccess is different from user.haveAdminAccess, then we need to check if the req.user is an admin by role
-  if ( req.body.VerifiedForAdminAccess && req.body.VerifiedForAdminAccess !== user.VerifiedForAdminAccess && req.user.role !== "admin" ) {
-    return res
-      .status(400)
-      .json({
-        success: false,
-        message: "You do not have permission to update this field",
-      });
+  if (
+    req.body.VerifiedForAdminAccess &&
+    req.body.VerifiedForAdminAccess !== user.VerifiedForAdminAccess &&
+    req.user.role !== "admin"
+  ) {
+    return res.status(400).json({
+      success: false,
+      message: "You do not have permission to update this field",
+    });
   }
   // we don't want password inside this functionality--don't want to update it in this way
   const obj = { ...req.body };
@@ -56,7 +58,7 @@ export const updateUser = async (req, res) => {
 };
 
 export const getAllUsers = async (req, res) => {
-  const { search, sort } = req.query;
+  const { search, sort, role, VerifiedForAdminAccess } = req.query;
 
   const queryObject = {};
 
@@ -67,6 +69,13 @@ export const getAllUsers = async (req, res) => {
       { lastName: { $regex: search, $options: "i" } },
       { email: { $regex: search, $options: "i" } },
     ];
+  }
+
+  if (role && role !== "all") {
+    queryObject.$or = [{ role: { $regex: role, $options: "i" } }];
+  }
+  if (VerifiedForAdminAccess && VerifiedForAdminAccess !== "all") {
+    queryObject.$or = [{ VerifiedForAdminAccess: VerifiedForAdminAccess }];
   }
 
   const sortOptions = {

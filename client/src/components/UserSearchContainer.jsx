@@ -6,7 +6,7 @@ import { useAllUsersContext } from "../pages/AllUsers";
 
 export default function UserSearchContainer() {
   const { searchValues } = useAllUsersContext();
-  const { search, role, sort } = searchValues;
+  const { search, role, sort, VerifiedForAdminAccess } = searchValues;
   const submit = useSubmit();
   const debounce = (onChange) => {
     let timeout;
@@ -34,8 +34,8 @@ export default function UserSearchContainer() {
           <FromRowSelect
             labelText="User Role"
             name="role"
-            list={[ ...Object.values(ROLES)]}
-            defaultValue={"all"}
+            list={["all", ...Object.values(ROLES)]}
+            defaultValue={role}
             onChange={(e) => {
               submit(e.currentTarget.form);
             }}
@@ -43,8 +43,8 @@ export default function UserSearchContainer() {
           <FromRowSelect
             labelText="Verified"
             name="VerifiedForAdminAccess"
-            list={["true","false"]}
-            defaultValue={"false"}
+            list={["all", "true", "false"]}
+            defaultValue={VerifiedForAdminAccess}
             onChange={(e) => {
               submit(e.currentTarget.form);
             }}

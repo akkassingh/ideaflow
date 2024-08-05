@@ -7,7 +7,7 @@ export { default as Navbar } from "./Navbar";
 export { default as BigSideBar } from "./BigSideBar";
 export { default as ProposalsContainer } from "./ProposalsContainer";
 export { default as UsersContainer } from "./UsersContainer";
-export { default as SearchContainer } from "./SearchContainer";
+export { default as ProposalSearchContainer } from "./ProposalSearchContainer";
 export { default as UserSearchContainer } from "./UserSearchContainer";
 export { default as StatItem } from "./StatItem";
 export { default as SubmitBtn } from "./SubmitBtn";
