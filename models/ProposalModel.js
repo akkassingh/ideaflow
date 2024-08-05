@@ -64,16 +64,16 @@ var ProposalSchema = new Schema(
       },
       required: false,
     },
+    submittedBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     // the user type of leader determines if project is Student project or Faculty project
     leader: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: false,
-    },
-    submittedBy: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
     },
     members: {
       type: [
@@ -129,8 +129,8 @@ var ProposalSchema = new Schema(
       ref: "User",
       required: true,
     },
-    attachement: String,
-    attachementPublicId: String,
+    attachment: String,
+    attachmentPublicId: String,
   },
   { timestamps: true }
 );

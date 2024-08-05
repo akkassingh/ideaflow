@@ -79,8 +79,8 @@ const updatePropsal = async (req, res) => {
 
     const response = await cloudinary.v2.uploader.upload(file);
 
-    obj.attachement = response.secure_url;
-    obj.attachementPublicId = response.public_id;
+    obj.attachment = response.secure_url;
+    obj.attachmentPublicId = response.public_id;
   }
   const updatedItem = await Proposal.findByIdAndUpdate(
     req.params.id,
@@ -89,8 +89,8 @@ const updatePropsal = async (req, res) => {
       new: true,
     }
   );
-  if (req.file && updatedItem.attachementPublicId) {
-    await cloudinary.v2.uploader.destroy(updatedItem.attachementPublicId);
+  if (req.file && updatedItem.attachmentPublicId) {
+    await cloudinary.v2.uploader.destroy(updatedItem.attachmentPublicId);
   }
   res.status(StatusCodes.OK).json({ item: updatedItem });
 };

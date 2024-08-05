@@ -31,6 +31,6 @@ router
   .route("/:id")
   .get(authenticateUser, getProposal)
   .delete(checkForTestUser, validateIdParam, deleteProposal)
-  .put(validateIdParam, upload.single("attachement"), updatePropsal);
+  .put(validateIdParam, upload.single("attachment"), updatePropsal);
 
 export default router;
