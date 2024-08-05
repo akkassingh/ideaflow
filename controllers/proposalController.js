@@ -8,64 +8,23 @@ import cloudinary from "cloudinary";
 import { formatImage } from "../middleware/multerMiddleware.js";
 
 const addProposal = async (req, res) => {
-  function getUsersFromEmails(emailArr) {
-    return User.onlyExisting().getByEmails(emailArr);
+  if (req.file) {
+    const file = formatImage(req.file);
+
+    const response = await cloudinary.v2.uploader.upload(file);
+
+    obj.avatar = response.secure_url;
+    obj.avatarPublicId = response.public_id;
   }
-  Promise.all([
-    getUsersFromEmails(req.body.supervisors),
-    getUsersFromEmails(req.body.members),
-    getUsersFromEmails([req.body.leader]),
-  ])
-    .then(([supervisors, members, [leader]]) => {
-      if (leader == null) {
-        res.status(400).send({
-          message: "Invalid leader email",
-        });
-      } else {
-        req.body.supervisors = supervisors;
-        req.body.members = members;
-        req.body.leader = leader;
-        req.body.submittedBy = req.user.userId;
-        let APP_BASE_URL = process.env.APP_BASE_URL;
-        const proposal = new Proposal(req.body);
-        proposal
-          .save()
-          .then((resource) => {
-            sendEmail({
-              to: "akkassingh@gmail.com",
-              // to: user.email,
-              subject: `Proposal ${resource.title} Submitted Successfuly`,
-              text: `<h2>Congratulations!</h2>
-                    <p>Your proposal has been Submitted successfully.</p>
-                    <p>The Current Status of your submission is <b>${resource.status}</b>. Next Steps, A Faculty Member will review your proposal and take the required action.</p>
-                    <p>Best regards,</p>
-                    <p>${process.env.APP_DISPLAY_NAME}</p>`,
-            });
-            sendEmail({
-              to: "akkassingh@gmail.com",
-              // to: user.email,
-              subject: `Proposal ${resource.title} Submitted`,
-              text: `<h2>${resource.title} Submitted</h2>
-                    <p>A New Propoal has been Submitted by ${
-                      resource.leader.firstName
-                    }</p>
-                    <a href="${APP_BASE_URL}/dashboard/edit-proposal/${JSON.stringify(
-                resource._id
-              )}" clicktracking="off">${resource.title}-${
-                process.env.APP_DISPLAY_NAME
-              }</a>
-                    <p>Best regards,</p>
-                    <p>From ${process.env.APP_DISPLAY_NAME}</p>`,
-            });
-            res.status(201).send({
-              id: resource._id,
-              message: "Proposal created",
-            });
-          })
-          .catch((error) => {
-            res.status(StatusCodes.BAD_REQUEST).json({ error });
-          });
-      }
+  const proposal = new Proposal(req.body);
+
+  proposal
+    .save()
+    .then((resource) => {
+      res.status(201).send({
+        id: resource._id,
+        message: "Proposal created",
+      });
     })
     .catch((error) => {
       res.status(StatusCodes.BAD_REQUEST).json({ error });
@@ -82,13 +41,9 @@ const updatePropsal = async (req, res) => {
     obj.attachment = response.secure_url;
     obj.attachmentPublicId = response.public_id;
   }
-  const updatedItem = await Proposal.findByIdAndUpdate(
-    req.params.id,
-    obj,
-    {
-      new: true,
-    }
-  );
+  const updatedItem = await Proposal.findByIdAndUpdate(req.params.id, obj, {
+    new: true,
+  });
   if (req.file && updatedItem.attachmentPublicId) {
     await cloudinary.v2.uploader.destroy(updatedItem.attachmentPublicId);
   }

@@ -12,22 +12,9 @@ export const action =
   (queryClient) =>
     async ({ request }) => {
       const formData = await request.formData();
-      const data = Object.fromEntries(formData);
-      console.log("formData is ", data);
-      let NewProposal = {
-        title: data.title,
-        description: data.description,
-        urls: data.links,
-        domains: [data.projectDomain],
-        supervisors: data.supervisors.split(","),
-        leader: data.leader,
-        members: data.members.split(","),
-        funding_type: data.funding_type,
-        funding_agency: data.funding_agency,
-      };
-      console.log("Proposal is ", NewProposal);
+      const data = Object.fromEntries(formData); 
       try {
-        await customFetch.post("/proposal", NewProposal);
+        await customFetch.post("/proposal", formData);
         queryClient.invalidateQueries(["proposals"]);
         toast.success("Proposal added successfully");
         return redirect("all-proposals");
@@ -41,10 +28,9 @@ const AddProposal = () => {
 
   return (
     <Wrapper>
-      <Form method="post" className="form">
+      <Form method="post" className="form" encType="multipart/form-data">
         <h4 className="form-title">add proposal</h4>
         <div className="form-center">
-        <FormRow type="text" name="Student Name" />
           <FormRow type="text" name="title" />
           <FormRow type="text" name="description" />
           <FromRowSelect
@@ -53,15 +39,10 @@ const AddProposal = () => {
             defaultValue={PROPOSAL_DOMAINS.COMPUTER_VISION}
             list={Object.values(PROPOSAL_DOMAINS)}
           />
-          <FormRow type="text" name="Email" />
-          <FormRow type="text" name="leader" defaultValue={user.email}/>
-          <FormRowOptional type="text" name="supervisors" />
-          <FormRowOptional type="text" name="members" />
+          <FormRowOptional type="url" name="weblink" />
           <FormRowOptional type="text" name="funding_type" />
           <FormRowOptional type="text" name="funding_agency" />
-          <FormRow type="text" name="Phone Number" />
-          <FormRow type="file" name="Files" />
-          <FormRow type="text" name="Comments" />
+          <FormRow type="file" name="attachments" />
         </div>
         <div>
         <SubmitBtn formBtn />
