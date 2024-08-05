@@ -44,6 +44,7 @@ const AddProposal = () => {
       <Form method="post" className="form">
         <h4 className="form-title">add proposal</h4>
         <div className="form-center">
+        <FormRow type="text" name="Student Name" />
           <FormRow type="text" name="title" />
           <FormRow type="text" name="description" />
           <FromRowSelect
@@ -52,12 +53,15 @@ const AddProposal = () => {
             defaultValue={PROPOSAL_DOMAINS.COMPUTER_VISION}
             list={Object.values(PROPOSAL_DOMAINS)}
           />
-          <FormRow type="text" name="links" />
+          <FormRow type="text" name="Email" />
           <FormRow type="text" name="leader" defaultValue={user.email}/>
           <FormRowOptional type="text" name="supervisors" />
           <FormRowOptional type="text" name="members" />
           <FormRowOptional type="text" name="funding_type" />
           <FormRowOptional type="text" name="funding_agency" />
+          <FormRow type="text" name="Phone Number" />
+          <FormRow type="file" name="Files" />
+          <FormRow type="text" name="Comments" />
         </div>
         <div>
         <SubmitBtn formBtn />
