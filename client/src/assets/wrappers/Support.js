@@ -1,50 +1,63 @@
 import styled from "styled-components";
 
-const Wrapper = styled.section`
-  nav {
-    width: var(--fluid-width);
-    max-width: var(--max-width);
-    margin: 0 auto;
-    height: var(--nav-height);
+const Wrapper2 = styled.section`
+  .app {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+.app-header {
+    background-color: #282c34;
+    padding: 20px;
+    color: white;
+}
+
+.faq {
+    margin: 20px auto;
+    max-width: 800px;
+    text-align: left;
+}
+
+.faq-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.faq-question {
+    cursor: pointer;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-  }
-  .page {
-    min-height: calc(100vh - var(--nav-height));
-    display: grid;
-    align-items: center;
-    margin-top: -3rem;
-  }
-  h1 {
-    font-weight: 700;
-    span {
-      color: #ff5000;
-    }
-    margin-bottom: 1.5rem;
-  }
-  p {
-    line-height: 2;
-    color: var(--text-secondary-color);
-    margin-bottom: 1.5rem;
-    max-width: 35em;
-  }
-  .register-link {
-    margin-right: 1rem;
-  }
-  .main-img {
-    display: none;
-  }
-  .btn {
-    padding: 0.75rem 1rem;
-  }
-  @media (min-width: 992px) {
-    .page {
-      grid-template-columns: 1fr 400px;
-      column-gap: 3rem;
-    }
-    .main-img {
-      display: block;
-    }
-  }
+    font-weight: bold;
+}
+
+.faq-answer {
+    padding-top: 10px;
+}
+
+.faq-toggle {
+    font-size: 1.2em;
+}
+
+.wrapper {
+    /* Your existing styles for the Wrapper component */
+}
+
+.container {
+    /* Your existing styles for the container */
+}
+
+.page {
+    /* Your existing styles for the page */
+}
+
+.img {
+    /* Your existing styles for images */
+}
+
+.main-img {
+    /* Your existing styles for main images */
+}
 `;
-export default Wrapper;
+export default Wrapper2;
