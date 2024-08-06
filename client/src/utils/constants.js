@@ -1,15 +1,4 @@
-export const JOB_STATUS = {
-    PENDING: "pending",
-    INTERVIEW: "interview",
-    DECLINED: "declined",
-  };
-  
-  export const JOB_TYPE = {
-    FULL_TIME: "full-time",
-    PART_TIME: "part-time",
-    INTERNSHIP: "internship",
-  };
-  
+
   export const ROLES = {
     STUDENT: "student",
     FACULTY: "faculty",
@@ -40,7 +29,7 @@ export const JOB_STATUS = {
     SELF_FUNDED: "Self Funded",
     SCHOLARSHIPS: "Scholarships",
     GRANTS: "Grants",
-    SELF: "Self",
+    OTHERS: "Others",
   };
     
   export const PROPOSAL_STATUS = {

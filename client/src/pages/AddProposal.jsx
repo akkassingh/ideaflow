@@ -43,7 +43,7 @@ const AddProposal = () => {
           <FromRowSelect
             labelText="Funding Type"
             name="funding_type"
-            defaultValue={FUNDING_TYPE.SELF}
+            defaultValue={FUNDING_TYPE.OTHERS}
             list={[ ...Object.values(FUNDING_TYPE)]}
           />
           <FormRowOptional type="text" name="funding_agency" />

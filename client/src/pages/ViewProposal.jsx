@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 import customFetch from "../utils/customFetch";
 import { useQuery } from "@tanstack/react-query";
 import ProposalInfo from "../components/ProposalInfo";
-import { singleUserQuery } from "./EditUser";
 import { FaCalendarAlt, FaScrewdriver } from "react-icons/fa";
 import day from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
@@ -41,6 +40,8 @@ export default function ViewProposal() {
   const id = useLoaderData();
   const { data: proposal } = useQuery(singleProposalQuery(id));
   const { user } = useOutletContext();
+  let {  _doc, authorProfile
+  } = proposal;
   let {
     title,
     updatedAt,
@@ -52,8 +53,8 @@ export default function ViewProposal() {
     funding_agency,
     funding_type,
     weblink,
-  } = proposal;
-  const authorProfile = useQuery(singleUserQuery(submittedBy));
+  } = _doc;
+
   const lastUpdated = day(updatedAt).format("MMM D, YYYY h:mm A");
 
   let CanEditPrivilges = false;
@@ -73,6 +74,15 @@ export default function ViewProposal() {
           <div className="proposal-row">
             <label className="proposal-label">status:</label>
             <span className="proposal-span">{status}</span>
+          </div>
+          <div className="proposal-row">
+            <label className="proposal-label">submittedBy:</label>
+            {/* {authorProfile.avatar ? (
+          <img src={authorProfile.avatar} alt="avatar" className="img" />
+        ) : (
+          <FaUserCircle />
+        )} */}
+            <span className="proposal-span">{authorProfile.firstName}, {authorProfile.lastName}</span>
           </div>
           <div className="proposal-row">
             <label className="proposal-label">domain:</label>
