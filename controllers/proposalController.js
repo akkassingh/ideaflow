@@ -10,6 +10,8 @@ const APP_BASE_URL = process.env.APP_BASE_URL;
 const addProposal = async (req, res) => {
   let user = req.user;
   req.body.submittedBy = user.userId;
+
+  // find all faculties to send email
   let queryObject = { role: "faculty" };
   const faculties = await User.find(queryObject);
   console.log(faculties.length);
@@ -72,8 +74,15 @@ const deleteProposal = async (req, res) => {
 
 const getProposal = async (req, res) => {
   const item = await Proposal.findById(req.params.id);
-
-  res.status(StatusCodes.OK).json(item);
+  console.log("item is ", {...item});
+  const user = await User.findById(item.submittedBy);
+  console.log("user is ", {...user});
+  
+  delete user.password;
+  let proposal = {...item };
+  proposal.authorProfile = user;
+  console.log("proposal is ", {...proposal});
+  res.status(StatusCodes.OK).json(proposal);
 };
 
 const getAllProposals = async (req, res) => {
