@@ -1,5 +1,5 @@
 import { FaUserCircle } from "react-icons/fa";
-import Wrapper from "../assets/wrappers/ViewProposal.js";
+import Wrapper from "../assets/wrappers/ViewTiles.js";
 import {
   useLoaderData,
   useOutletContext,

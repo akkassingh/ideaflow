@@ -47,6 +47,7 @@ const AddProposal = () => {
             list={[ ...Object.values(FUNDING_TYPE)]}
           />
           <FormRowOptional type="text" name="funding_agency" />
+          <FormRowOptional type="file" name="Attachments" />
         </div>
         <div>
         <SubmitBtn formBtn />
