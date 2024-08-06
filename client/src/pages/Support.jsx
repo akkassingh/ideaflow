@@ -40,7 +40,9 @@ const FAQ = () => {
     return (
       <Wrapper2>
         <div className="faq">
-            
+        <h3>
+          Frequently <span>Asked</span> Questions 
+          </h3> <br />
             {faqData.map((faq, index) => (
                 <FAQItem key={index} question={faq.question} answer={faq.answer} />
             ))}
@@ -57,13 +59,14 @@ export default function Support() {
       </nav>
       <div className="container page">
         <div> <br />
-          <h3>
+          {/* <h3>
           Frequently <span>Asked</span> Questions
-          </h3>
+          </h3> */}
           <FAQ />
-        </div>
-        <img src={innovify2} alt="hunt" className="img main-img" />
-      </div>
+        </div> 
+        <img src={innovify2} alt="hunt" className="img main-img" /> 
+        <br /><Link to="/" className="btn" > <center>Back</center> </Link>
+      </div> 
     </Wrapper>
   );
 }

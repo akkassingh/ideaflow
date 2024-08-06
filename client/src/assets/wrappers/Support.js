@@ -15,8 +15,11 @@ const Wrapper2 = styled.section`
 
 .faq {
     margin: 20px auto;
-    max-width: 800px;
+    max-width: 45%;
     text-align: left;
+    position: absolute;
+    top: 20%;
+    overflow: hidden; 
 }
 
 .faq-item {
