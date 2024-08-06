@@ -6,15 +6,20 @@ import day from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 day.extend(advancedFormat);
 
-export default function ProposalTile({
+export default function 
+ProposalTile({
   _id,
   title,
   updatedAt,
   status,
-  leader,
+  submittedBy,
 }) {
   const lastUpdated = day(updatedAt).format("MMM D, YYYY h:mm A");
   const { user } = useOutletContext();
+  let CanEditPrivilges = false;
+  if ((user.role === "admin" && user.VerifiedForAdminAccess) || user._id === submittedBy) {
+    CanEditPrivilges = true;
+  }
 
   return (
     <Wrapper>
@@ -29,7 +34,7 @@ export default function ProposalTile({
           <ProposalInfo icon={<FaCalendarAlt />} text={lastUpdated} />
           <div className={`status ${status.toLowerCase()}`}>{status}</div>
         </div>
-        {(user.role === "admin" && user.VerifiedForAdminAccess) || user._id === leader ? (
+        {CanEditPrivilges ? (
           <footer className="actions">
             <Link to={`../edit-proposal/${_id}`} className="btn edit-btn">
               <FaScrewdriver />

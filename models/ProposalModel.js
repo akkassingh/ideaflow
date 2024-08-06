@@ -20,6 +20,23 @@ var ProposalSchema = new Schema(
     weblink: {
       type: String
     },
+    domain: {
+      type: String,
+      enum: [
+        "Fintech",
+        "Machine Learning",
+        "Web Development",
+        "iot",
+        "Computer Vision",
+        "NLP",
+        "Cybersecurity",
+        "Blockchain",
+        "Cloud Computing",
+        "Data Science",
+        "Others",
+      ],
+      required: true,
+    },
     submittedBy: {
       type: Schema.Types.ObjectId,
       ref: "User",

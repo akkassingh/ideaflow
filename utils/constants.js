@@ -109,3 +109,6 @@ export const EMAIL_TEMPLATES = (BASE_URL, data) => (
     <p>From ${process.env.APP_DISPLAY_NAME}</p>`,
   }
 );
+
+export const APP_DISPLAY_NAME = process.env.APP_DISPLAY_NAME;
+export const APP_BASE_URL = process.env.APP_BASE_URL;

@@ -14,8 +14,8 @@ const Wrapper = styled.article`
     align-items: center;
   }
   .main-icon {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     display: grid;
     place-items: center;
     background: var(--primary-500);

@@ -14,32 +14,6 @@ const singleProposalQuery = (id) => {
     queryKey: ["proposal", id],
     queryFn: async () => {
       const { data } = await customFetch.get(`/proposal/${id}`);
-      if (data.leader) {
-        const response = await customFetch.get(`/users/${data.leader}`);
-        data.leaderProfile = response.data;
-      }
-      if (data.submittedBy) {
-        const response = await customFetch.get(`/users/${data.leader}`);
-        data.submittedByProfile = response.data;
-      }
-      if (data.members && data.members.length > 0) {
-        const membersProfiles = await Promise.all(
-          data.members.map(async (member) => {
-            const response = await customFetch.get(`/users/${member}`);
-            return response.data;
-          })
-        );
-        data.membersProfiles = membersProfiles;
-      }
-      if (data.supervisors && data.supervisors.length > 0) {
-        const supervisorsProfiles = await Promise.all(
-          data.supervisors.map(async (supervisor) => {
-            const response = await customFetch.get(`/users/${supervisor}`);
-            return response.data;
-          })
-        );
-        data.supervisorsProfiles = supervisorsProfiles;
-      }
       return data;
     },
   };
@@ -60,28 +34,8 @@ export const action =
   async ({ request, params }) => {
     const formData = await request.formData();
     console.log("formData is ", formData);
-    const file = formData.get("attachement");
-    if (file && file.size > 500000) {
-      toast.error("File size is too large");
-      return null;
-    }
-    const data = Object.fromEntries(formData);
-    console.log("data is ", data);
-    const updatedProposal = {
-      title: data.title,
-      description: data.description,
-      domains: data.domains ? data.domains.split(",") : [],
-      supervisors: data.supervisors ? data.supervisors.split(",") : [],
-      leader: data.leader,
-      submittedBy: data.submittedBy,
-      members: data.members ? data.members.split(",") : [],
-      funding_type: data.funding_type,
-      funding_agency: data.funding_agency,
-      status: data.status,
-    };
-
     try {
-      await customFetch.put(`/proposal/${params.id}`, updatedProposal);
+      await customFetch.put(`/proposal/${params.id}`, formData);
       queryClient.invalidateQueries(["proposal"]);
       toast.success("Proposal edited successfully");
       return redirect("/dashboard/all-proposals");
@@ -94,20 +48,10 @@ export default function EditProposal() {
   const id = useLoaderData();
   const { data: proposal } = useQuery(singleProposalQuery(id));
   const { user } = useOutletContext();
-
-  
-
-  const debounce = (onChange) => {
-    let timeout;
-    return (e) => {
-      const form = e.currentTarget.form;
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        onChange(form);
-      }, 2000);
-    };
-  };
-
+  let CanEditPrivilges = false;
+  if (user.VerifiedForAdminAccess) {
+    CanEditPrivilges = true;
+  }
   return (
     <Wrapper>
       <Form method="post" className="form">
@@ -119,57 +63,10 @@ export default function EditProposal() {
             name="description"
             defaultValue={proposal.description}
           />
-          <FormRow
-            type="search"
-            name="leader"
-            defaultValue={proposal.leaderProfile?.email || proposal.leaderProfile?.firstName}
-            onChange={debounce((form) => {
-              search(form);
-            })}
-          />
-          
-          {proposal.membersProfiles && proposal.membersProfiles.length > 0 ? (
-            proposal.membersProfiles.map((member) =>
-              member.avatar ? (
-                <img
-                  src={member.avatar}
-                  alt={member.firstName}
-                  className="img"
-                  key={member.id || member.firstName} // Use a unique identifier here
-                />
-              ) : (
-                <div className="main-icon">{member.firstName.charAt(0)}</div>
-              )
-            )
-          ) : (
-            <FormRow type="text" name="members" />
-          )}
-          {proposal.supervisorsProfiles &&
-          proposal.supervisorsProfiles.length > 0 ? (
-            <div style={{ margin: 10 }}>
-              <label className="form-label" htmlFor="supervisors">
-                Supervisors
-              </label>
-              {proposal.supervisorsProfiles.map((supervisor) =>
-                supervisor.avatar ? (
-                  <img
-                    src={supervisor.avatar}
-                    alt={supervisor.firstName}
-                    className="img"
-                    key={supervisor.id || supervisor.firstName} // Use a unique identifier here
-                  />
-                ) : (
-                  <div className="main-icon">{supervisor.firstName.charAt(0)}</div>
-                )
-              )}
-            </div>
-          ) : (
-            <FormRow type="text" name="supervisors" />
-          )}
           <FromRowSelect
-            name="domains"
-            labelText="Domains"
-            defaultValue={proposal.domains[0]}
+            name="domain"
+            labelText="domain"
+            defaultValue={proposal.domain}
             list={Object.values(PROPOSAL_DOMAINS)}
           />
           <FormRow
@@ -184,24 +81,13 @@ export default function EditProposal() {
             labelText="Funding Agency"
             defaultValue={proposal.funding_agency}
           />
-          <label htmlFor="attachement" className="form-label">
-            Select Attachement(Max 0.5MB)
-          </label>
-          <input
-            type="file"
-            id="attachement"
-            className="form-input"
-            name="attachement"
-          />
-          {(user.role === "admin" && user.VerifiedForAdminAccess) ? (
+          {CanEditPrivilges && (
             <FromRowSelect
-              name="status"
-              labelText="proposal status"
-              defaultValue={proposal.status}
-              list={Object.values(PROPOSAL_STATUS)}
-            />
-          ) : (
-            <></>
+            name="status"
+            labelText="proposal status"
+            defaultValue={proposal.status}
+            list={Object.values(PROPOSAL_STATUS)}
+          />
           )}
           <SubmitBtn formBtn />
         </div>

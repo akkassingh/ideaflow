@@ -33,7 +33,16 @@ export const JOB_STATUS = {
     CYBERSECURITY: "cybersecurity",
     OTHERS: "Others",
   };
-  
+
+  export const FUNDING_TYPE = {
+    PARTIALLY_FUNDED: "Partly Funded",
+    FULLY_FUNDED: "Fully Funded",
+    SELF_FUNDED: "Self Funded",
+    SCHOLARSHIPS: "Scholarships",
+    GRANTS: "Grants",
+    SELF: "Self",
+  };
+    
   export const PROPOSAL_STATUS = {
     SUBMITTED: "Submitted",
     APPROVED: "Approved",

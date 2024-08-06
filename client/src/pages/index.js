@@ -17,3 +17,4 @@ export { default as ResetPassword } from "./ResetPassword";
 export { default as Profile } from "./Profile";
 export { default as Register } from "./Register";
 export { default as Stats } from "./Stats";
+export { default as ViewProposal } from "./ViewProposal";

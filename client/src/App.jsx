@@ -22,7 +22,8 @@ import {
   EditUser,
   DeleteProposal,
   DeleteUser,
-  Support
+  Support,
+  ViewProposal
 } from "../src/pages";
 
 import { action as registerAction } from "./pages/Register";
@@ -32,6 +33,7 @@ import { action as resetPasswordAction } from "./pages/ResetPassword";
 import { loader as dashboardLoader } from "./pages/DashboardLayout";
 import { action as addProposalAction } from "./pages/AddProposal";
 import { loader as allProposalsLoader } from "./pages/AllProposals";
+import { loader as ViewProposalLoader } from "./pages/ViewProposal";
 import { loader as allUsersLoader } from "./pages/AllUsers";
 import { action as editUserAction } from "./pages/EditUser";
 import { loader as editUserLoader } from "./pages/EditUser";
@@ -136,6 +138,11 @@ const router = createBrowserRouter([
             path: "delete-user/:id",
             element: <DeleteUser />,
             action: deleteUserAction(queryClient),
+          },
+          {
+            path: "view-proposal/:id",
+            element: <ViewProposal />,
+            loader: ViewProposalLoader(queryClient),
           },
           {
             path: "edit-proposal/:id",

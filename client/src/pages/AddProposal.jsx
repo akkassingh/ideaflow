@@ -1,7 +1,7 @@
 import { FormRow, FromRowSelect, FormRowOptional } from "../components";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
 import { useOutletContext } from "react-router-dom";
-import { PROPOSAL_DOMAINS } from ".././utils/constants";
+import { PROPOSAL_DOMAINS, FUNDING_TYPE } from ".././utils/constants";
 import { Form, redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import customFetch from "../utils/customFetch";
@@ -12,14 +12,14 @@ export const action =
   (queryClient) =>
     async ({ request }) => {
       const formData = await request.formData();
-      const data = Object.fromEntries(formData); 
+      const data = Object.fromEntries(formData);
       try {
-        await customFetch.post("/proposal", formData);
+        await customFetch.post("/proposal", data);
         queryClient.invalidateQueries(["proposals"]);
         toast.success("Proposal added successfully");
         return redirect("all-proposals");
       } catch (error) {
-        toast.error(error?.response?.data?.msg);
+        toast.error(error?.response?.data?.error?.message);
         return error;
       }
     };
@@ -28,21 +28,25 @@ const AddProposal = () => {
 
   return (
     <Wrapper>
-      <Form method="post" className="form" encType="multipart/form-data">
+      <Form method="post" className="form">
         <h4 className="form-title">add proposal</h4>
         <div className="form-center">
           <FormRow type="text" name="title" />
           <FormRow type="text" name="description" />
+          <FormRowOptional type="url" name="weblink" />
           <FromRowSelect
             labelText="Domain"
-            name="projectDomain"
-            defaultValue={PROPOSAL_DOMAINS.COMPUTER_VISION}
+            name="domain"
+            defaultValue={PROPOSAL_DOMAINS.OTHERS}
             list={Object.values(PROPOSAL_DOMAINS)}
           />
-          <FormRowOptional type="url" name="weblink" />
-          <FormRowOptional type="text" name="funding_type" />
+          <FromRowSelect
+            labelText="Funding Type"
+            name="funding_type"
+            defaultValue={FUNDING_TYPE.SELF}
+            list={[ ...Object.values(FUNDING_TYPE)]}
+          />
           <FormRowOptional type="text" name="funding_agency" />
-          <FormRow type="file" name="attachments" />
         </div>
         <div>
         <SubmitBtn formBtn />

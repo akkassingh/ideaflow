@@ -8,7 +8,7 @@ import customFetch from "../utils/customFetch";
 import SubmitBtn from "../components/SubmitBtn";
 import { useQuery } from "@tanstack/react-query";
 
-const singleUserQuery = (id) => {
+export const singleUserQuery = (id) => {
   return {
     queryKey: ["users", id],
     queryFn: async () => {
@@ -17,6 +17,7 @@ const singleUserQuery = (id) => {
     },
   };
 };
+
 export const loader =
   (queryClient) =>
   async ({ params }) => {
