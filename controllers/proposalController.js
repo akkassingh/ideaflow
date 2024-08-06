@@ -3,6 +3,8 @@ import User from "../models/UserModel.js";
 import { StatusCodes } from "http-status-codes";
 import day from "dayjs";
 import sendEmail from "../utils/sendEmail.js";
+import cloudinary from "cloudinary";
+import { formatImage } from "../middleware/multerMiddleware.js";
 
 const APP_DISPLAY_NAME = process.env.APP_DISPLAY_NAME || "Ideaflow";
 const APP_BASE_URL = process.env.APP_BASE_URL;
@@ -15,6 +17,14 @@ const addProposal = async (req, res) => {
   let queryObject = { role: "faculty" };
   const faculties = await User.find(queryObject);
   const proposal = new Proposal(req.body);
+  if (req.file) {
+    const file = formatImage(req.file);
+
+    const response = await cloudinary.v2.uploader.upload(file);
+
+    proposal.attachment = response.secure_url;
+    proposal.attachmentPublicId = response.public_id;
+  }
   proposal
     .save()
     .then((resource) => {

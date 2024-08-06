@@ -23,7 +23,7 @@ router
   .route("/")
   .get(authenticateUser, getAllProposals)
   .get(getProposals)
-  .post(checkForTestUser, validateProposal, addProposal);
+  .post(checkForTestUser, upload.single("attachment"), validateProposal, addProposal);
 router
   .route("/stats")
   .get(authenticateUser, showStats)
@@ -31,6 +31,6 @@ router
   .route("/:id")
   .get(authenticateUser, getProposal)
   .delete(checkForTestUser, validateIdParam, deleteProposal)
-  .put(validateIdParam, upload.single("attachments"), updatePropsal);
+  .put(validateIdParam, upload.single("attachment"), updatePropsal);
 
 export default router;
