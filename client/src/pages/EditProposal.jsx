@@ -48,6 +48,19 @@ export default function EditProposal() {
   const id = useLoaderData();
   const { data: proposal } = useQuery(singleProposalQuery(id));
   const { user } = useOutletContext();
+  let {  _doc, authorProfile } = proposal;
+  let {
+    title,
+    updatedAt,
+    status,
+    submittedBy,
+    description,
+    domain,
+    createdAt,
+    funding_agency,
+    funding_type,
+    weblink,
+  } = _doc;
   let CanEditPrivilges = false;
   if (user.VerifiedForAdminAccess) {
     CanEditPrivilges = true;
@@ -57,35 +70,35 @@ export default function EditProposal() {
       <Form method="post" className="form">
         <h4 className="form-title">Edit Proposal</h4>
         <div className="form-center">
-          <FormRow type="text" name="title" defaultValue={proposal.title} />
+          <FormRow type="text" name="title" defaultValue={title} />
           <FormRow
             type="text"
             name="description"
-            defaultValue={proposal.description}
+            defaultValue={description}
           />
           <FromRowSelect
             name="domain"
             labelText="domain"
-            defaultValue={proposal.domain}
+            defaultValue={domain}
             list={Object.values(PROPOSAL_DOMAINS)}
           />
           <FormRow
             type="text"
             name="funding_type"
             labelText="Funding Type"
-            defaultValue={proposal.funding_type}
+            defaultValue={funding_type}
           />
           <FormRow
             type="text"
             name="funding_agency"
             labelText="Funding Agency"
-            defaultValue={proposal.funding_agency}
+            defaultValue={funding_agency}
           />
           {CanEditPrivilges && (
             <FromRowSelect
             name="status"
             labelText="proposal status"
-            defaultValue={proposal.status}
+            defaultValue={status}
             list={Object.values(PROPOSAL_STATUS)}
           />
           )}
