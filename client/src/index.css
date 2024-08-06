@@ -214,6 +214,14 @@ button:disabled {
   color: var(--white);
   background: var(--red-dark);
 }
+
+.support-page-link {
+  cursor: pointer;
+  color: var(--primary-500);
+  border: transparent;
+  transition: var(--transition);
+}
+
 /* alerts */
 .alert {
   padding: 0.375rem 0.75rem;
