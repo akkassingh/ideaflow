@@ -54,8 +54,6 @@ export default function EditUser() {
   if (user.role === ROLES.ADMIN && user.VerifiedForAdminAccess) {
     CanEditPrivilges = true;
   }
-  console.log("can access ", CanEditPrivilges);
-  console.log("userData is ", userData);
   return (
     <Wrapper>
       <Form method="post" className="form">

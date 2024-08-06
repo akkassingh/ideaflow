@@ -33,7 +33,6 @@ export const action =
   (queryClient) =>
   async ({ request, params }) => {
     const formData = await request.formData();
-    console.log("formData is ", formData);
     try {
       await customFetch.put(`/proposal/${params.id}`, formData);
       queryClient.invalidateQueries(["proposal"]);
