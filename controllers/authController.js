@@ -116,9 +116,9 @@ export const resetPassword = async (req, res, next) => {
 
     const hashedPassword = await hashPassword(req.body.password);
     req.body.password = hashedPassword;
+    user.password = req.body.password;
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
-
     await user.save();
 
     return res.status(201).json({
