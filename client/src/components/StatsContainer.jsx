@@ -1,4 +1,4 @@
-import { FaSuitcaseRolling, FaCalendarCheck, FaBug } from "react-icons/fa";
+import { FaSuitcaseRolling, FaCalendarCheck, FaBug, FaAddressCard, FaLine, FaLink } from "react-icons/fa";
 import Wrapper from "../assets/wrappers/StatsContainer";
 import StatItem from "./StatItem";
 
@@ -24,6 +24,13 @@ export default function StatsContainer({ defaultStats }) {
       icon: <FaCalendarCheck />,
       color: "#647acb",
       bcg: "#e0e8f9",
+    },
+    {
+      title: "Split Proposals",
+      count: defaultStats?.approved || 0,
+      icon: <FaLink />,
+      color: "#28b463",
+      bcg: "#d5f5e3",
     },
   ];
   return (
