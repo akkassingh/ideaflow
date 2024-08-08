@@ -30,7 +30,7 @@ const FAQ = () => {
         { question: 'How will I know what is the current status of my project?', answer: 'Once there is a change in the status, you will be notified by the application or approached by a Fanshawe Faculty on the phone number/email provided by you.' },
         { question: 'Can one user submit more than one proposal?', answer: 'Yes. A user can submit more than one proposal.' },
         { question: 'What happens after the proposal has been approved?', answer: 'Students at Fanshawe will then start working on the proposal and further information will be given to you regarding that.' },
-        { question: 'What if the project proposal I submit is too complex to finish in one term?', answer: 'You will have an option to split the project into more than 1 parts so that it can be completed in multiple terms.' },
+        // { question: 'What if the project proposal I submit is too complex to finish in one term?', answer: 'You will have an option to split the project into more than 1 parts so that it can be completed in multiple terms.' },
         { question: 'What if I want to make changes to the proposal I have already submitted?', answer: 'You can resubmit the proposal with changes.' },
         { question: 'How to reset my password, If I forgot my password?', answer: 'On the login screen you can find the forgot password option to reset your password. Once you go to that option and add your email you will get a reset password mail to your email to create a new password.' },
         { question: 'I am a faculty member, but I don’t see the admin page?', answer: 'This is because when you register you didn’t register as a faculty member or the admin didn’t approve your role privilege. (Contact the admin for further assistance)' },

@@ -25,13 +25,13 @@ export default function StatsContainer({ defaultStats }) {
       color: "#647acb",
       bcg: "#e0e8f9",
     },
-    {
-      title: "Split Proposals",
-      count: defaultStats?.approved || 0,
-      icon: <FaLink />,
-      color: "#28b463",
-      bcg: "#d5f5e3",
-    },
+    // {
+    //   title: "Split Proposals",
+    //   count: defaultStats?.approved || 0,
+    //   icon: <FaLink />,
+    //   color: "#28b463",
+    //   bcg: "#d5f5e3",
+    // },
   ];
   return (
     <Wrapper>
