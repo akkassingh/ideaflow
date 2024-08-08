@@ -1,6 +1,6 @@
 #### Complete App
 
-[Jobify](https://jobify.live/)
+[proposalify](http://ideaflow-capstone-e9c96738a4ef.herokuapp.com)
 
 #### Create React APP
 
@@ -32,7 +32,7 @@ npm run dev
 
 ```jsx
 const App = () => {
-  return <h1>Jobify App</h1>;
+  return <h1>Ideaflow</h1>;
 };
 export default App;
 ```
@@ -65,7 +65,7 @@ export default App;
 ```html
 <head>
   <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-  <title>Jobify</title>
+  <title>Ideaflow</title>
 </head>
 ```
 
@@ -130,12 +130,6 @@ export default App;
 - create src/pages directory
 - setup index.js and following pages :
 
-  AddJob.jsx
-  Admin.jsx
-  AllJobs.jsx
-  DashboardLayout.jsx
-  DeleteJob.jsx
-  EditJob.jsx
   Error.jsx
   HomeLayout.jsx
   Landing.jsx
@@ -145,10 +139,10 @@ export default App;
   Stats.jsx
 
 ```jsx
-const AddJob = () => {
-  return <h1>AddJob</h1>;
+const Addproposal = () => {
+  return <h1>Addproposal</h1>;
 };
-export default AddJob;
+export default Addproposal;
 ```
 
 #### Index
@@ -169,9 +163,6 @@ export { default as Register } from './Register';
 export { default as Login } from './Login';
 export { default as Error } from './Error';
 export { default as Stats } from './Stats';
-export { default as AllJobs } from './AllJobs';
-export { default as AddJob } from './AddJob';
-export { default as EditJob } from './EditJob';
 export { default as Profile } from './Profile';
 export { default as Admin } from './Admin';
 ```
@@ -447,13 +438,13 @@ const Landing = () => {
   return (
     <StyledWrapper>
       <nav>
-        <img src={logo} alt='jobify' className='logo' />
+        <img src={logo} alt='ideaflow' className='logo' />
       </nav>
       <div className='container page'>
         {/* info */}
         <div className='info'>
           <h1>
-            job <span>tracking</span> app
+            ideaflow <span>tracking</span> app
           </h1>
           <p>
             I'm baby wayfarers hoodie next level taiyaki brooklyn cliche blue
@@ -468,7 +459,7 @@ const Landing = () => {
             Login / Demo User
           </Link>
         </div>
-        <img src={main} alt='job hunt' className='img main-img' />
+        <img src={main} alt='ideaflow' className='img main-img' />
       </div>
     </StyledWrapper>
   );
@@ -548,7 +539,7 @@ import Wrapper from '../assets/wrappers/LandingPage';
 import logo from '../assets/images/logo.svg';
 
 const Logo = () => {
-  return <img src={logo} alt='jobify' className='logo' />;
+  return <img src={logo} alt='ideaflow' className='logo' />;
 };
 
 export default Logo;
@@ -837,24 +828,66 @@ App.jsx
  {
         path: 'dashboard',
         element: <DashboardLayout />,
-        children: [
+        children:         children: [
           {
             index: true,
-            element: <AddJob />,
+            element: <AddProposal />,
+            action: addProposalAction(queryClient),
           },
-          { path: 'stats', element: <Stats /> },
           {
-            path: 'all-jobs',
-            element: <AllJobs />,
+            path: "stats",
+            element: <Stats />,
+            loader: statsLoader(queryClient),
+            errorElement: <ErrorElement />,
           },
-
           {
-            path: 'profile',
+            path: "profile",
             element: <Profile />,
+            action: profileAction(queryClient),
           },
           {
-            path: 'admin',
-            element: <Admin />,
+            path: "admin",
+            element: <AllUsers />,
+            loader: allUsersLoader(queryClient),
+          },
+          {
+            path: "all-proposals",
+            element: <AllProposals />,
+            loader: allProposalsLoader(queryClient),
+            errorElement: <ErrorElement />,
+          },
+          {
+            path: "all-users",
+            element: <AllUsers />,
+            loader: allUsersLoader(queryClient),
+            errorElement: <ErrorElement />,
+          },
+          {
+            path: "edit-user/:id",
+            element: <EditUser />,
+            action: editUserAction(queryClient),
+            loader: editUserLoader(queryClient),
+          },
+          {
+            path: "delete-user/:id",
+            element: <DeleteUser />,
+            action: deleteUserAction(queryClient),
+          },
+          {
+            path: "view-proposal/:id",
+            element: <ViewProposal />,
+            loader: ViewProposalLoader(queryClient),
+          },
+          {
+            path: "edit-proposal/:id",
+            element: <EditProposal />,
+            action: editProposalAction(queryClient),
+            loader: editProposalLoader(queryClient),
+          },
+          {
+            path: "delete-proposal/:id",
+            element: <DeleteProposal />,
+            action: deleteProposalAction(queryClient),
           },
         ],
       },
@@ -1126,8 +1159,8 @@ import { ImProfile } from 'react-icons/im';
 import { MdAdminPanelSettings } from 'react-icons/md';
 
 const links = [
-  { text: 'add job', path: '.', icon: <FaWpforms /> },
-  { text: 'all jobs', path: 'all-jobs', icon: <MdQueryStats /> },
+  { text: 'add proposal', path: '.', icon: <FaWpforms /> },
+  { text: 'all proposals', path: 'all-proposals', icon: <MdQueryStats /> },
   { text: 'stats', path: 'stats', icon: <IoBarChartSharp /> },
   { text: 'profile', path: 'profile', icon: <ImProfile /> },
   { text: 'admin', path: 'admin', icon: <MdAdminPanelSettings /> },
@@ -1136,7 +1169,7 @@ const links = [
 export default links;
 ```
 
-- in a second, we will discuss why '.' in "add job"
+- in a second, we will discuss why '.' in "add proposal"
 
 #### SmallSidebar
 
@@ -1687,7 +1720,7 @@ rd /s /q .git
 - Windows commands were shared by students and I have not personally tested them.
 - git status should return :
   "fatal: Not a git repository (or any of the parent directories): .git"
-- create jobify directory
+- create proposal directory
 - copy/paste client
 - move README to root
 
@@ -1892,11 +1925,11 @@ package.json
 
 #### Basic CRUD
 
-- create jobs array where each item is an object with following properties
+- create proposals array where each item is an object with following properties
   id, company, position
 - create routes to handle - create, read, update and delete functionalities
 
-#### Get All Jobs
+#### Get All proposals
 
 [Nanoid](https://www.npmjs.com/package/nanoid)
 
@@ -1911,74 +1944,74 @@ server.js
 ```js
 import { nanoid } from 'nanoid';
 
-let jobs = [
+let proposals = [
   { id: nanoid(), company: 'apple', position: 'front-end' },
   { id: nanoid(), company: 'google', position: 'back-end' },
 ];
 
-app.get('/api/v1/jobs', (req, res) => {
-  res.status(200).json({ jobs });
+app.get('/api/v1/proposals', (req, res) => {
+  res.status(200).json({ proposals });
 });
 ```
 
 #### Create, FindOne, Modify and Delete
 
 ```js
-// CREATE JOB
+// CREATE proposal
 
-app.post('/api/v1/jobs', (req, res) => {
+app.post('/api/v1/proposal', (req, res) => {
   const { company, position } = req.body;
   if (!company || !position) {
     return res.status(400).json({ msg: 'please provide company and position' });
   }
   const id = nanoid(10);
   // console.log(id);
-  const job = { id, company, position };
-  jobs.push(job);
-  res.status(200).json({ job });
+  const proposal = { id, company, position };
+  proposal.push(proposal);
+  res.status(200).json({ proposal });
 });
 
-// GET SINGLE JOB
+// GET SINGLE proposal
 
-app.get('/api/v1/jobs/:id', (req, res) => {
+app.get('/api/v1/proposal/:id', (req, res) => {
   const { id } = req.params;
-  const job = jobs.find((job) => job.id === id);
-  if (!job) {
-    return res.status(404).json({ msg: `no job with id ${id}` });
+  const proposal = proposal.find((proposal) => proposal.id === id);
+  if (!proposal) {
+    return res.status(404).json({ msg: `no proposal with id ${id}` });
   }
-  res.status(200).json({ job });
+  res.status(200).json({ proposal });
 });
 
-// EDIT JOB
+// EDIT proposal
 
-app.patch('/api/v1/jobs/:id', (req, res) => {
+app.patch('/api/v1/proposal/:id', (req, res) => {
   const { company, position } = req.body;
   if (!company || !position) {
     return res.status(400).json({ msg: 'please provide company and position' });
   }
   const { id } = req.params;
-  const job = jobs.find((job) => job.id === id);
-  if (!job) {
-    return res.status(404).json({ msg: `no job with id ${id}` });
+  const proposal = proposals.find((proposal) => proposal.id === id);
+  if (!proposal) {
+    return res.status(404).json({ msg: `no proposal with id ${id}` });
   }
 
-  job.company = company;
-  job.position = position;
-  res.status(200).json({ msg: 'job modified', job });
+  proposal.company = company;
+  proposal.position = position;
+  res.status(200).json({ msg: 'proposal modified', proposal });
 });
 
-// DELETE JOB
+// DELETE proposal
 
-app.delete('/api/v1/jobs/:id', (req, res) => {
+app.delete('/api/v1/proposal/:id', (req, res) => {
   const { id } = req.params;
-  const job = jobs.find((job) => job.id === id);
-  if (!job) {
-    return res.status(404).json({ msg: `no job with id ${id}` });
+  const proposal = proposals.find((proposal) => proposal.id === id);
+  if (!proposal) {
+    return res.status(404).json({ msg: `no proposal with id ${id}` });
   }
-  const newJobs = jobs.filter((job) => job.id !== id);
-  jobs = newJobs;
+  const newproposals = proposals.filter((proposal) => proposal.id !== id);
+  proposals = newproposals;
 
-  res.status(200).json({ msg: 'job deleted' });
+  res.status(200).json({ msg: 'proposal deleted' });
 });
 ```
 
@@ -2007,24 +2040,24 @@ On the other hand, the "error" middleware in Express.js is used to handle any er
 
 In summary, the "not found" middleware is specifically designed to handle requests for non-existent routes, while the "error" middleware is a catch-all for handling unexpected errors that occur during request processing.
 
-- make a request to "/jobss"
+- make a request to "/proposalss"
 
 ```js
-// GET ALL JOBS
-app.get('/api/v1/jobs', (req, res) => {
-  // console.log(jobss);
-  res.status(200).json({ jobs });
+// GET ALL proposalS
+app.get('/api/v1/proposals', (req, res) => {
+  // console.log(proposalss);
+  res.status(200).json({ proposals });
 });
 
-// GET SINGLE JOB
-app.get('/api/v1/jobs/:id', (req, res) => {
+// GET SINGLE proposal
+app.get('/api/v1/proposals/:id', (req, res) => {
   const { id } = req.params;
-  const job = jobs.find((job) => job.id === id);
-  if (!job) {
-    throw new Error('no job with that id');
-    return res.status(404).json({ msg: `no job with id ${id}` });
+  const proposal = proposals.find((proposal) => proposal.id === id);
+  if (!proposal) {
+    throw new Error('no proposal with that id');
+    return res.status(404).json({ msg: `no proposal with id ${id}` });
   }
-  res.status(200).json({ job });
+  res.status(200).json({ proposal });
 });
 ```
 
@@ -2032,90 +2065,90 @@ app.get('/api/v1/jobs/:id', (req, res) => {
 
 setup controllers and router
 
-controllers/jobController.js
+controllers/proposalController.js
 
 ```js
 import { nanoid } from 'nanoid';
 
-let jobs = [
+let proposals = [
   { id: nanoid(), company: 'apple', position: 'front-end developer' },
   { id: nanoid(), company: 'google', position: 'back-end developer' },
 ];
 
-export const getAllJobs = async (req, res) => {
-  res.status(200).json({ jobs });
+export const getAllproposals = async (req, res) => {
+  res.status(200).json({ proposals });
 };
 
-export const createJob = async (req, res) => {
+export const createproposal = async (req, res) => {
   const { company, position } = req.body;
 
   if (!company || !position) {
     return res.status(400).json({ msg: 'please provide company and position' });
   }
   const id = nanoid(10);
-  const job = { id, company, position };
-  jobs.push(job);
-  res.status(200).json({ job });
+  const proposal = { id, company, position };
+  proposals.push(proposal);
+  res.status(200).json({ proposal });
 };
 
-export const getJob = async (req, res) => {
+export const getproposal = async (req, res) => {
   const { id } = req.params;
-  const job = jobs.find((job) => job.id === id);
-  if (!job) {
-    // throw new Error('no job with that id');
-    return res.status(404).json({ msg: `no job with id ${id}` });
+  const proposal = proposals.find((proposal) => proposal.id === id);
+  if (!proposal) {
+    // throw new Error('no proposal with that id');
+    return res.status(404).json({ msg: `no proposal with id ${id}` });
   }
-  res.status(200).json({ job });
+  res.status(200).json({ proposal });
 };
 
-export const updateJob = async (req, res) => {
+export const updateproposal = async (req, res) => {
   const { company, position } = req.body;
   if (!company || !position) {
     return res.status(400).json({ msg: 'please provide company and position' });
   }
   const { id } = req.params;
-  const job = jobs.find((job) => job.id === id);
-  if (!job) {
-    return res.status(404).json({ msg: `no job with id ${id}` });
+  const proposal = proposals.find((proposal) => proposal.id === id);
+  if (!proposal) {
+    return res.status(404).json({ msg: `no proposal with id ${id}` });
   }
 
-  job.company = company;
-  job.position = position;
-  res.status(200).json({ msg: 'job modified', job });
+  proposal.company = company;
+  proposal.position = position;
+  res.status(200).json({ msg: 'proposal modified', proposal });
 };
 
-export const deleteJob = async (req, res) => {
+export const deleteproposal = async (req, res) => {
   const { id } = req.params;
-  const job = jobs.find((job) => job.id === id);
-  if (!job) {
-    return res.status(404).json({ msg: `no job with id ${id}` });
+  const proposal = proposals.find((proposal) => proposal.id === id);
+  if (!proposal) {
+    return res.status(404).json({ msg: `no proposal with id ${id}` });
   }
-  const newJobs = jobs.filter((job) => job.id !== id);
-  jobs = newJobs;
+  const newproposals = proposals.filter((proposal) => proposal.id !== id);
+  proposals = newproposals;
 
-  res.status(200).json({ msg: 'job deleted' });
+  res.status(200).json({ msg: 'proposal deleted' });
 };
 ```
 
-routes/jobRouter.js
+routes/proposalRouter.js
 
 ```js
 import { Router } from 'express';
 const router = Router();
 
 import {
-  getAllJobs,
-  getJob,
-  createJob,
-  updateJob,
-  deleteJob,
-} from '../controllers/jobController.js';
+  getAllproposals,
+  getproposal,
+  createproposal,
+  updateproposal,
+  deleteproposal,
+} from '../controllers/proposalController.js';
 
-// router.get('/', getAllJobs);
-// router.post('/', createJob);
+// router.get('/', getAllproposals);
+// router.post('/', createproposal);
 
-router.route('/').get(getAllJobs).post(createJob);
-router.route('/:id').get(getJob).patch(updateJob).delete(deleteJob);
+router.route('/').get(getAllproposals).post(createproposal);
+router.route('/:id').get(getproposal).patch(updateproposal).delete(deleteproposal);
 
 export default router;
 ```
@@ -2123,8 +2156,8 @@ export default router;
 server.js
 
 ```js
-import jobRouter from './routers/jobRouter.js';
-app.use('/api/v1/jobs', jobRouter);
+import proposalRouter from './routers/proposalRouter.js';
+app.use('/api/v1/proposals', proposalRouter);
 ```
 
 #### MongoDB
@@ -2161,30 +2194,30 @@ try {
 }
 ```
 
-#### Job Model
+#### proposal Model
 
-models/JobModel.js
+models/proposalModel.js
 
 enum - data type represents a field with a predefined set of values
 
 ```js
 import mongoose from 'mongoose';
 
-const JobSchema = new mongoose.Schema(
+const proposalSchema = new mongoose.Schema(
   {
     company: String,
     position: String,
-    jobStatus: {
+    proposalStatus: {
       type: String,
       enum: ['interview', 'declined', 'pending'],
       default: 'pending',
     },
-    jobType: {
+    proposalType: {
       type: String,
       enum: ['full-time', 'part-time', 'internship'],
       default: 'full-time',
     },
-    jobLocation: {
+    proposalLocation: {
       type: String,
       default: 'my city',
     },
@@ -2192,33 +2225,33 @@ const JobSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model('Job', JobSchema);
+export default mongoose.model('proposal', proposalSchema);
 ```
 
-#### Create Job
+#### Create proposal
 
-jobController.js
+proposalController.js
 
 ```js
-import Job from '../models/JobModel.js';
+import proposal from '../models/proposalModel.js';
 
-export const createJob = async (req, res) => {
+export const createproposal = async (req, res) => {
   const { company, position } = req.body;
-  const job = await Job.create({ company, position });
-  res.status(201).json({ job });
+  const proposal = await proposal.create({ company, position });
+  res.status(201).json({ proposal });
 };
 ```
 
 #### Try / Catch
 
-jobController.js
+proposalController.js
 
 ```js
-export const createJob = async (req, res) => {
+export const createproposal = async (req, res) => {
   const { company, position } = req.body;
   try {
-    const job = await Job.create('something');
-    res.status(201).json({ job });
+    const proposal = await proposal.create('something');
+    res.status(201).json({ proposal });
   } catch (error) {
     res.status(500).json({ msg: 'server error' });
   }
@@ -2243,72 +2276,72 @@ npm i express-async-errors@3.1.1
 import 'express-async-errors';
 ```
 
-jobController.js
+proposalController.js
 
 ```js
-export const createJob = async (req, res) => {
+export const createproposal = async (req, res) => {
   const { company, position } = req.body;
 
-  const job = await Job.create({ company, position });
-  res.status(201).json({ job });
+  const proposal = await proposal.create({ company, position });
+  res.status(201).json({ proposal });
 };
 ```
 
-#### Get All Jobs
+#### Get All proposals
 
-jobController.js
+proposalController.js
 
 ```js
-export const getAllJobs = async (req, res) => {
-  const jobs = await Job.find({});
-  res.status(200).json({ jobs });
+export const getAllproposals = async (req, res) => {
+  const proposals = await proposal.find({});
+  res.status(200).json({ proposals });
 };
 ```
 
-#### Get Single Job
+#### Get Single proposal
 
 ```js
-export const getJob = async (req, res) => {
+export const getproposal = async (req, res) => {
   const { id } = req.params;
-  const job = await Job.findById(id);
-  if (!job) {
-    return res.status(404).json({ msg: `no job with id ${id}` });
+  const proposal = await proposal.findById(id);
+  if (!proposal) {
+    return res.status(404).json({ msg: `no proposal with id ${id}` });
   }
-  res.status(200).json({ job });
+  res.status(200).json({ proposal });
 };
 ```
 
-#### Delete Job
+#### Delete proposal
 
-jobController.js
+proposalController.js
 
 ```js
-export const deleteJob = async (req, res) => {
+export const deleteproposal = async (req, res) => {
   const { id } = req.params;
-  const removedJob = await Job.findByIdAndDelete(id);
+  const removedproposal = await proposal.findByIdAndDelete(id);
 
-  if (!removedJob) {
-    return res.status(404).json({ msg: `no job with id ${id}` });
+  if (!removedproposal) {
+    return res.status(404).json({ msg: `no proposal with id ${id}` });
   }
-  res.status(200).json({ job: removedJob });
+  res.status(200).json({ proposal: removedproposal });
 };
 ```
 
-#### Update Job
+#### Update proposal
 
 ```js
-export const updateJob = async (req, res) => {
+export const updateproposal = async (req, res) => {
   const { id } = req.params;
 
-  const updatedJob = await Job.findByIdAndUpdate(id, req.body, {
+  const updatedproposal = await proposal.findByIdAndUpdate(id, req.body, {
     new: true,
   });
 
-  if (!updatedJob) {
-    return res.status(404).json({ msg: `no job with id ${id}` });
+  if (!updatedproposal) {
+    return res.status(404).json({ msg: `no proposal with id ${id}` });
   }
 
-  res.status(200).json({ job: updatedJob });
+  res.status(200).json({ proposal: updatedproposal });
 };
 ```
 
@@ -2336,28 +2369,28 @@ npm i http-status-codes@2.2.0
 
 - refactor 200 response in all controllers
 
-jobController.js
+proposalController.js
 
 ```js
-res.status(StatusCodes.OK).json({ jobs });
+res.status(StatusCodes.OK).json({ proposals });
 ```
 
-createJob
+createproposal
 
 ```js
-res.status(StatusCodes.CREATED).json({ job });
+res.status(StatusCodes.CREATED).json({ proposal });
 ```
 
 #### Custom Error Class
 
-jobController
+proposalController
 
 ```js
-export const getJob = async (req, res) => {
+export const getproposal = async (req, res) => {
   ....
-  if (!job) {
-    throw new Error('no job with that id');
-    // return res.status(404).json({ msg: `no job with id ${id}` });
+  if (!proposal) {
+    throw new Error('no proposal with that id');
+    // return res.status(404).json({ msg: `no proposal with id ${id}` });
   }
   ...
 };
@@ -2395,12 +2428,12 @@ By creating a custom error class like NotFoundError, you can provide more specif
 
 #### Custom Error
 
-jobController.js
+proposalController.js
 
 ```js
 import { NotFoundError } from '../customErrors.js';
 
-if (!job) throw new NotFoundError(`no job with id : ${id}`);
+if (!proposal) throw new NotFoundError(`no proposal with id : ${id}`);
 ```
 
 middleware/errorHandlerMiddleware.js
@@ -2539,19 +2572,19 @@ export const validateTest = withValidationErrors([
 utils/constants.js
 
 ```js
-export const JOB_STATUS = {
+export const proposal_STATUS = {
   PENDING: 'pending',
   INTERVIEW: 'interview',
   DECLINED: 'declined',
 };
 
-export const JOB_TYPE = {
+export const proposal_TYPE = {
   FULL_TIME: 'full-time',
   PART_TIME: 'part-time',
   INTERNSHIP: 'internship',
 };
 
-export const JOB_SORT_BY = {
+export const proposal_SORT_BY = {
   NEWEST_FIRST: 'newest',
   OLDEST_FIRST: 'oldest',
   ASCENDING: 'a-z',
@@ -2559,26 +2592,26 @@ export const JOB_SORT_BY = {
 };
 ```
 
-models/JobModel.js
+models/proposalModel.js
 
 ```js
 import mongoose from 'mongoose';
-import { JOB_STATUS, JOB_TYPE } from '../utils/constants';
-const JobSchema = new mongoose.Schema(
+import { proposal_STATUS, proposal_TYPE } from '../utils/constants';
+const proposalSchema = new mongoose.Schema(
   {
     company: String,
     position: String,
-    jobStatus: {
+    proposalStatus: {
       type: String,
-      enum: Object.values(JOB_STATUS),
-      default: JOB_STATUS.PENDING,
+      enum: Object.values(proposal_STATUS),
+      default: proposal_STATUS.PENDING,
     },
-    jobType: {
+    proposalType: {
       type: String,
-      enum: Object.values(JOB_TYPE),
-      default: JOB_TYPE.FULL_TIME,
+      enum: Object.values(proposal_TYPE),
+      default: proposal_TYPE.FULL_TIME,
     },
-    jobLocation: {
+    proposalLocation: {
       type: String,
       default: 'my city',
     },
@@ -2587,44 +2620,44 @@ const JobSchema = new mongoose.Schema(
 );
 ```
 
-#### Validate Create Job
+#### Validate Create proposal
 
 validationMiddleware.js
 
 ```js
-import { JOB_STATUS, JOB_TYPE } from '../utils/constants.js';
+import { proposal_STATUS, proposal_TYPE } from '../utils/constants.js';
 
-export const validateJobInput = withValidationErrors([
+export const validateproposalInput = withValidationErrors([
   body('company').notEmpty().withMessage('company is required'),
   body('position').notEmpty().withMessage('position is required'),
-  body('jobLocation').notEmpty().withMessage('job location is required'),
-  body('jobStatus')
-    .isIn(Object.values(JOB_STATUS))
+  body('proposalLocation').notEmpty().withMessage('proposal location is required'),
+  body('proposalStatus')
+    .isIn(Object.values(proposal_STATUS))
     .withMessage('invalid status value'),
-  body('jobType').isIn(Object.values(JOB_TYPE)).withMessage('invalid job type'),
+  body('proposalType').isIn(Object.values(proposal_TYPE)).withMessage('invalid proposal type'),
 ]);
 ```
 
 ```js
-import { validateJobInput } from '../middleware/validationMiddleware.js';
+import { validateproposalInput } from '../middleware/validationMiddleware.js';
 
-router.route('/').get(getAllJobs).post(validateJobInput, createJob);
+router.route('/').get(getAllproposals).post(validateproposalInput, createproposal);
 router
   .route('/:id')
-  .get(getJob)
-  .patch(validateJobInput, updateJob)
-  .delete(deleteJob);
+  .get(getproposal)
+  .patch(validateproposalInput, updateproposal)
+  .delete(deleteproposal);
 ```
 
-- create job request
+- create proposal request
 
 ```json
 {
   "company": "coding addict",
   "position": "backend-end",
-  "jobStatus": "pending",
-  "jobType": "full-time",
-  "jobLocation": "florida"
+  "proposalStatus": "pending",
+  "proposalType": "full-time",
+  "proposalLocation": "florida"
 }
 ```
 
@@ -2649,8 +2682,8 @@ export const validateIdParam = withValidationErrors([
   param('id').custom(async (value) => {
     const isValidId = mongoose.Types.ObjectId.isValid(value);
     if (!isValidId) throw new BadRequestError('invalid MongoDB id');
-    const job = await Job.findById(value);
-    if (!job) throw new NotFoundError(`no job with id : ${value}`);
+    const proposal = await proposal.findById(value);
+    if (!proposal) throw new NotFoundError(`no proposal with id : ${value}`);
   }),
 ]);
 ```
@@ -2658,9 +2691,9 @@ export const validateIdParam = withValidationErrors([
 ```js
 import { body, param, validationResult } from 'express-validator';
 import { BadRequestError, NotFoundError } from '../errors/customErrors.js';
-import { JOB_STATUS, JOB_TYPE } from '../utils/constants.js';
+import { proposal_STATUS, proposal_TYPE } from '../utils/constants.js';
 import mongoose from 'mongoose';
-import Job from '../models/JobModel.js';
+import proposal from '../models/proposalModel.js';
 
 const withValidationErrors = (validateValues) => {
   return [
@@ -2669,7 +2702,7 @@ const withValidationErrors = (validateValues) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         const errorMessages = errors.array().map((error) => error.msg);
-        if (errorMessages[0].startsWith('no job')) {
+        if (errorMessages[0].startsWith('no proposal')) {
           throw new NotFoundError(errorMessages);
         }
         throw new BadRequestError(errorMessages);
@@ -2680,7 +2713,7 @@ const withValidationErrors = (validateValues) => {
 };
 ```
 
-- remove NotFoundError from getJob, updateJob, deleteJob controllers
+- remove NotFoundError from getproposal, updateproposal, deleteproposal controllers
 
 #### Clean DB
 
@@ -3083,24 +3116,24 @@ expires: new Date(Date.now() + oneDay): This option sets the expiration time for
 
 secure: process.env.NODE_ENV === 'production': This option determines whether the cookie should be marked as secure or not. If the NODE_ENV environment variable is set to "production", then the cookie is marked as secure, which means it can only be transmitted over HTTPS. This helps to prevent man-in-the-middle (MITM) attacks, which can intercept and modify cookies that are transmitted over unsecured connections.
 
-jobsController.js
+proposalsController.js
 
 ```js
-export const getAllJobs = async (req, res) => {
+export const getAllproposals = async (req, res) => {
   console.log(req);
-  const jobs = await Job.find({});
-  res.status(StatusCodes.OK).json({ jobs });
+  const proposals = await proposal.find({});
+  res.status(StatusCodes.OK).json({ proposals });
 };
 ```
 
 #### Clean DB
 
-#### Connect User and Job
+#### Connect User and proposal
 
 models/User.js
 
 ```js
-const JobSchema = new mongoose.Schema(
+const proposalSchema = new mongoose.Schema(
   {
     ....
     createdBy: {
@@ -3128,7 +3161,7 @@ server.js
 ```js
 import { authenticateUser } from './middleware/authMiddleware.js';
 
-app.use('/api/v1/jobs', authenticateUser, jobRouter);
+app.use('/api/v1/proposals', authenticateUser, proposalRouter);
 ```
 
 ##### Cookie Parser
@@ -3195,25 +3228,25 @@ export const authenticateUser = async (req, res, next) => {
 };
 ```
 
-jobController.js
+proposalController.js
 
 ```js
-export const getAllJobs = async (req, res) => {
+export const getAllproposals = async (req, res) => {
   console.log(req.user);
-  const jobs = await Job.find({ createdBy: req.user.userId });
-  res.status(StatusCodes.OK).json({ jobs });
+  const proposals = await proposal.find({ createdBy: req.user.userId });
+  res.status(StatusCodes.OK).json({ proposals });
 };
 ```
 
-#### Refactor Create Job
+#### Refactor Create proposal
 
-jobController.js
+proposalController.js
 
 ```js
-export const createJob = async (req, res) => {
+export const createproposal = async (req, res) => {
   req.body.createdBy = req.user.userId;
-  const job = await Job.create(req.body);
-  res.status(StatusCodes.CREATED).json({ job });
+  const proposal = await proposal.create(req.body);
+  res.status(StatusCodes.CREATED).json({ proposal });
 };
 ```
 
@@ -3252,10 +3285,10 @@ export const validateIdParam = withValidationErrors([
   param('id').custom(async (value, { req }) => {
     const isValidMongoId = mongoose.Types.ObjectId.isValid(value);
     if (!isValidMongoId) throw new BadRequestError('invalid MongoDB id');
-    const job = await Job.findById(value);
-    if (!job) throw new NotFoundError(`no job with id ${value}`);
+    const proposal = await proposal.findById(value);
+    if (!proposal) throw new NotFoundError(`no proposal with id ${value}`);
     const isAdmin = req.user.role === 'admin';
-    const isOwner = req.user.userId === job.createdBy.toString();
+    const isOwner = req.user.userId === proposal.createdBy.toString();
     if (!isAdmin && !isOwner)
       throw UnauthorizedError('not authorized to access this route');
   }),
@@ -3295,7 +3328,7 @@ controllers/userController.js
 ```js
 import { StatusCodes } from 'http-status-codes';
 import User from '../models/User.js';
-import Job from '../models/Job.js';
+import proposal from '../models/proposal.js';
 
 export const getCurrentUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: 'get current user' });
@@ -3409,8 +3442,8 @@ export const updateUser = async (req, res) => {
 ```js
 export const getApplicationStats = async (req, res) => {
   const users = await User.countDocuments();
-  const jobs = await Job.countDocuments();
-  res.status(StatusCodes.OK).json({ users, jobs });
+  const proposals = await proposal.countDocuments();
+  res.status(StatusCodes.OK).json({ users, proposals });
 };
 ```
 
@@ -3892,20 +3925,20 @@ const DashboardLayout = () => {
 };
 ```
 
-#### AddJob - Structure
+#### Addproposal - Structure
 
-pages/AddJob.jsx
+pages/Addproposal.jsx
 
 ```js
 import { FormRow } from '../components';
 import Wrapper from '../assets/wrappers/DashboardFormPage';
 import { useOutletContext } from 'react-router-dom';
-import { JOB_STATUS, JOB_TYPE } from '../../../utils/constants';
+import { proposal_STATUS, proposal_TYPE } from '../../../utils/constants';
 import { Form, useNavigation, redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import customFetch from '../utils/customFetch';
 
-const AddJob = () => {
+const Addproposal = () => {
   const { user } = useOutletContext();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
@@ -3913,14 +3946,14 @@ const AddJob = () => {
   return (
     <Wrapper>
       <Form method='post' className='form'>
-        <h4 className='form-title'>add job</h4>
+        <h4 className='form-title'>add proposal</h4>
         <div className='form-center'>
           <FormRow type='text' name='position' />
           <FormRow type='text' name='company' />
           <FormRow
             type='text'
-            labelText='job location'
-            name='jobLocation'
+            labelText='proposal location'
+            name='proposalLocation'
             defaultValue={user.location}
           />
 
@@ -3937,23 +3970,23 @@ const AddJob = () => {
   );
 };
 
-export default AddJob;
+export default Addproposal;
 ```
 
 #### Select Input
 
 ```js
 <div className='form-row'>
-  <label htmlFor='jobStatus' className='form-label'>
-    job status
+  <label htmlFor='proposalStatus' className='form-label'>
+    proposal status
   </label>
   <select
-    name='jobStatus'
-    id='jobStatus'
+    name='proposalStatus'
+    id='proposalStatus'
     className='form-select'
-    defaultValue={JOB_TYPE.FULL_TIME}
+    defaultValue={proposal_TYPE.FULL_TIME}
   >
-    {Object.values(JOB_TYPE).map((itemValue) => {
+    {Object.values(proposal_TYPE).map((itemValue) => {
       return (
         <option key={itemValue} value={itemValue}>
           {itemValue}
@@ -3995,26 +4028,26 @@ const FormRowSelect = ({ name, labelText, list, defaultValue = '' }) => {
 export default FormRowSelect;
 ```
 
-pages/AddJob.jsx
+pages/Addproposal.jsx
 
 ```js
 <FormRowSelect
-  labelText='job status'
-  name='jobStatus'
-  defaultValue={JOB_STATUS.PENDING}
-  list={Object.values(JOB_STATUS)}
+  labelText='proposal status'
+  name='proposalStatus'
+  defaultValue={proposal_STATUS.PENDING}
+  list={Object.values(proposal_STATUS)}
   />
 <FormRowSelect
-  name='jobType'
-  labelText='job type'
-  defaultValue={JOB_TYPE.FULL_TIME}
-  list={Object.values(JOB_TYPE)}
+  name='proposalType'
+  labelText='proposal type'
+  defaultValue={proposal_TYPE.FULL_TIME}
+  list={Object.values(proposal_TYPE)}
   />
 ```
 
-#### Create Job
+#### Create proposal
 
-AddJob.jsx
+Addproposal.jsx
 
 ```js
 export const action = async ({ request }) => {
@@ -4022,8 +4055,8 @@ export const action = async ({ request }) => {
   const data = Object.fromEntries(formData);
 
   try {
-    await customFetch.post('/jobs', data);
-    toast.success('Job added successfully');
+    await customFetch.post('/proposals', data);
+    toast.success('proposal added successfully');
     return null;
   } catch (error) {
     toast.error(error?.response?.data?.msg);
@@ -4042,7 +4075,7 @@ wrappers/BigSidebar.js
 }
 ```
 
-AddJob.jsx
+Addproposal.jsx
 
 ```js
 export const action = async ({ request }) => {
@@ -4050,9 +4083,9 @@ export const action = async ({ request }) => {
   const data = Object.fromEntries(formData);
 
   try {
-    await customFetch.post('/jobs', data);
-    toast.success('Job added successfully');
-    return redirect('all-jobs');
+    await customFetch.post('/proposals', data);
+    toast.success('proposal added successfully');
+    return redirect('all-proposals');
   } catch (error) {
     toast.error(error?.response?.data?.msg);
     return error;
@@ -4060,7 +4093,7 @@ export const action = async ({ request }) => {
 };
 ```
 
-#### Add Job - CSS(optional)
+#### Add proposal - CSS(optional)
 
 wrappers/DashboardFormPage.js
 
@@ -4116,21 +4149,21 @@ const Wrapper = styled.section`
 export default Wrapper;
 ```
 
-#### All Jobs - Structure
+#### All proposals - Structure
 
-- create JobsContainer and SearchContainer (export)
+- create proposalsContainer and SearchContainer (export)
 - handle loader in App.jsx
 
 ```js
 import { toast } from 'react-toastify';
-import { JobsContainer, SearchContainer } from '../components';
+import { proposalsContainer, SearchContainer } from '../components';
 import customFetch from '../utils/customFetch';
 import { useLoaderData } from 'react-router-dom';
 import { useContext, createContext } from 'react';
 
 export const loader = async ({ request }) => {
   try {
-    const { data } = await customFetch.get('/jobs');
+    const { data } = await customFetch.get('/proposals');
     return {
       data,
     };
@@ -4140,78 +4173,78 @@ export const loader = async ({ request }) => {
   }
 };
 
-const AllJobs = () => {
+const Allproposals = () => {
   const { data } = useLoaderData();
 
   return (
     <>
       <SearchContainer />
-      <JobsContainer />
+      <proposalsContainer />
     </>
   );
 };
-export default AllJobs;
+export default Allproposals;
 ```
 
-#### Setup All Jobs Context
+#### Setup All proposals Context
 
 ```js
-const AllJobsContext = createContext();
+const AllproposalsContext = createContext();
 
-const AllJobs = () => {
+const Allproposals = () => {
   const { data } = useLoaderData();
 
   return (
-    <AllJobsContext.Provider value={{ data }}>
+    <AllproposalsContext.Provider value={{ data }}>
       <SearchContainer />
-      <JobsContainer />
-    </AllJobsContext.Provider>
+      <proposalsContainer />
+    </AllproposalsContext.Provider>
   );
 };
 
-export const useAllJobsContext = () => useContext(AllJobsContext);
+export const useAllproposalsContext = () => useContext(AllproposalsContext);
 ```
 
-#### Render Jobs
+#### Render proposals
 
-- create Job.jsx
+- create proposal.jsx
 
-JobsContainer.jsx
+proposalsContainer.jsx
 
 ```js
-import Job from './Job';
-import Wrapper from '../assets/wrappers/JobsContainer';
+import proposal from './proposal';
+import Wrapper from '../assets/wrappers/proposalsContainer';
 
-import { useAllJobsContext } from '../pages/AllJobs';
+import { useAllproposalsContext } from '../pages/Allproposals';
 
-const JobsContainer = () => {
-  const { data } = useAllJobsContext();
-  const { jobs } = data;
-  if (jobs.length === 0) {
+const proposalsContainer = () => {
+  const { data } = useAllproposalsContext();
+  const { proposals } = data;
+  if (proposals.length === 0) {
     return (
       <Wrapper>
-        <h2>No jobs to display...</h2>
+        <h2>No proposals to display...</h2>
       </Wrapper>
     );
   }
 
   return (
     <Wrapper>
-      <div className='jobs'>
-        {jobs.map((job) => {
-          return <Job key={job._id} {...job} />;
+      <div className='proposals'>
+        {proposals.map((proposal) => {
+          return <proposal key={proposal._id} {...proposal} />;
         })}
       </div>
     </Wrapper>
   );
 };
 
-export default JobsContainer;
+export default proposalsContainer;
 ```
 
-#### JobsContainer - CSS (optional)
+#### proposalsContainer - CSS (optional)
 
-wrappers/JobsContainer.js
+wrappers/proposalsContainer.js
 
 ```js
 import styled from 'styled-components';
@@ -4225,13 +4258,13 @@ const Wrapper = styled.section`
     font-weight: 700;
     margin-bottom: 1.5rem;
   }
-  .jobs {
+  .proposals {
     display: grid;
     grid-template-columns: 1fr;
     row-gap: 2rem;
   }
   @media (min-width: 1120px) {
-    .jobs {
+    .proposals {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 2rem;
@@ -4249,28 +4282,28 @@ npm i dayjs@1.11.7
 
 [Dayjs Docs](https://day.js.org/docs/en/installation/installation)
 
-#### Job Component
+#### proposal Component
 
-- create JobInfo component
+- create proposalInfo component
 
 ```js
 import { FaLocationArrow, FaBriefcase, FaCalendarAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import Wrapper from '../assets/wrappers/Job';
-import JobInfo from './JobInfo';
+import Wrapper from '../assets/wrappers/proposal';
+import proposalInfo from './proposalInfo';
 import { Form } from 'react-router-dom';
 import day from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 day.extend(advancedFormat);
 
-const Job = ({
+const proposal = ({
   _id,
   position,
   company,
-  jobLocation,
-  jobType,
+  proposalLocation,
+  proposalType,
   createdAt,
-  jobStatus,
+  proposalStatus,
 }) => {
   const date = day(createdAt).format('MMM Do, YYYY');
 
@@ -4285,10 +4318,10 @@ const Job = ({
       </header>
       <div className='content'>
         <div className='content-center'>
-          <JobInfo icon={<FaLocationArrow />} text={jobLocation} />
-          <JobInfo icon={<FaCalendarAlt />} text={date} />
-          <JobInfo icon={<FaBriefcase />} text={jobType} />
-          <div className={`status ${jobStatus}`}>{jobStatus}</div>
+          <proposalInfo icon={<FaLocationArrow />} text={proposalLocation} />
+          <proposalInfo icon={<FaCalendarAlt />} text={date} />
+          <proposalInfo icon={<FaBriefcase />} text={proposalType} />
+          <div className={`status ${proposalStatus}`}>{proposalStatus}</div>
         </div>
 
         <footer className='actions'>
@@ -4304,29 +4337,29 @@ const Job = ({
   );
 };
 
-export default Job;
+export default proposal;
 ```
 
-#### JobInfo Component
+#### proposalInfo Component
 
 ```js
-import Wrapper from '../assets/wrappers/JobInfo';
+import Wrapper from '../assets/wrappers/proposalInfo';
 
-const JobInfo = ({ icon, text }) => {
+const proposalInfo = ({ icon, text }) => {
   return (
     <Wrapper>
-      <span className='job-icon'>{icon}</span>
-      <span className='job-text'>{text}</span>
+      <span className='proposal-icon'>{icon}</span>
+      <span className='proposal-text'>{text}</span>
     </Wrapper>
   );
 };
 
-export default JobInfo;
+export default proposalInfo;
 ```
 
-#### JobInfo - CSS (optional)
+#### proposalInfo - CSS (optional)
 
-wrappers/JobInfo.js
+wrappers/proposalInfo.js
 
 ```js
 import styled from 'styled-components';
@@ -4335,7 +4368,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
 
-  .job-icon {
+  .proposal-icon {
     font-size: 1rem;
     margin-right: 1rem;
     display: flex;
@@ -4344,7 +4377,7 @@ const Wrapper = styled.div`
       color: var(--text-secondary-color);
     }
   }
-  .job-text {
+  .proposal-text {
     text-transform: capitalize;
     letter-spacing: var(--letter-spacing);
   }
@@ -4352,7 +4385,7 @@ const Wrapper = styled.div`
 export default Wrapper;
 ```
 
-#### Job - CSS (optional)
+#### proposal - CSS (optional)
 
 ```js
 import styled from 'styled-components';
@@ -4441,23 +4474,23 @@ const Wrapper = styled.article`
 export default Wrapper;
 ```
 
-#### Edit Job - Setup
+#### Edit proposal - Setup
 
-Job.jsx
+proposal.jsx
 
 ```js
-<Link to={`../edit-job/${_id}`} className='btn edit-btn'>
+<Link to={`../edit-proposal/${_id}`} className='btn edit-btn'>
   Edit
 </Link>
 ```
 
-pages/EditJob.jsx
+pages/Editproposal.jsx
 
 ```js
 import { FormRow, FormRowSelect } from '../components';
 import Wrapper from '../assets/wrappers/DashboardFormPage';
 import { useLoaderData } from 'react-router-dom';
-import { JOB_STATUS, JOB_TYPE } from '../../../utils/constants';
+import { proposal_STATUS, proposal_TYPE } from '../../../utils/constants';
 import { Form, useNavigation, redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import customFetch from '../utils/customFetch';
@@ -4469,57 +4502,57 @@ export const action = async () => {
   return null;
 };
 
-const EditJob = () => {
-  return <h1>EditJob Page</h1>;
+const Editproposal = () => {
+  return <h1>Editproposal Page</h1>;
 };
-export default EditJob;
+export default Editproposal;
 ```
 
-- import EditJob page
+- import Editproposal page
   App.jsx
 
 ```js
-import { loader as editJobLoader } from './pages/EditJob';
-import { action as editJobAction } from './pages/EditJob';
+import { loader as editproposalLoader } from './pages/Editproposal';
+import { action as editproposalAction } from './pages/Editproposal';
 
 
 {
-  path: 'edit-job/:id',
-  element: <EditJob />,
-  loader: editJobLoader,
-  action: editJobAction,
+  path: 'edit-proposal/:id',
+  element: <Editproposal />,
+  loader: editproposalLoader,
+  action: editproposalAction,
 },
 ```
 
-pages/EditJob.jsx
+pages/Editproposal.jsx
 
 ```js
 export const loader = async ({ params }) => {
   try {
-    const { data } = await customFetch.get(`/jobs/${params.id}`);
+    const { data } = await customFetch.get(`/proposals/${params.id}`);
     return data;
   } catch (error) {
     toast.error(error.response.data.msg);
-    return redirect('/dashboard/all-jobs');
+    return redirect('/dashboard/all-proposals');
   }
 };
 export const action = async () => {
   return null;
 };
 
-const EditJob = () => {
+const Editproposal = () => {
   const params = useParams();
   console.log(params);
-  const { job } = useLoaderData();
+  const { proposal } = useLoaderData();
 
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
-  return <h1>EditJob Page</h1>;
+  return <h1>Editproposal Page</h1>;
 };
-export default EditJob;
+export default Editproposal;
 ```
 
-#### Edit Job - Complete
+#### Edit proposal - Complete
 
 ```js
 export const action = async ({ request, params }) => {
@@ -4527,17 +4560,17 @@ export const action = async ({ request, params }) => {
   const data = Object.fromEntries(formData);
 
   try {
-    await customFetch.patch(`/jobs/${params.id}`, data);
-    toast.success('Job edited successfully');
-    return redirect('/dashboard/all-jobs');
+    await customFetch.patch(`/proposals/${params.id}`, data);
+    toast.success('proposal edited successfully');
+    return redirect('/dashboard/all-proposals');
   } catch (error) {
     toast.error(error.response.data.msg);
     return error;
   }
 };
 
-const EditJob = () => {
-  const { job } = useLoaderData();
+const Editproposal = () => {
+  const { proposal } = useLoaderData();
 
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
@@ -4545,28 +4578,28 @@ const EditJob = () => {
   return (
     <Wrapper>
       <Form method='post' className='form'>
-        <h4 className='form-title'>edit job</h4>
+        <h4 className='form-title'>edit proposal</h4>
         <div className='form-center'>
-          <FormRow type='text' name='position' defaultValue={job.position} />
-          <FormRow type='text' name='company' defaultValue={job.company} />
+          <FormRow type='text' name='position' defaultValue={proposal.position} />
+          <FormRow type='text' name='company' defaultValue={proposal.company} />
           <FormRow
             type='text'
-            labelText='job location'
-            name='jobLocation'
-            defaultValue={job.jobLocation}
+            labelText='proposal location'
+            name='proposalLocation'
+            defaultValue={proposal.proposalLocation}
           />
 
           <FormRowSelect
-            name='jobStatus'
-            labelText='job status'
-            defaultValue={job.jobStatus}
-            list={Object.values(JOB_STATUS)}
+            name='proposalStatus'
+            labelText='proposal status'
+            defaultValue={proposal.proposalStatus}
+            list={Object.values(proposal_STATUS)}
           />
           <FormRowSelect
-            name='jobType'
-            labelText='job type'
-            defaultValue={job.jobType}
-            list={Object.values(JOB_TYPE)}
+            name='proposalType'
+            labelText='proposal type'
+            defaultValue={proposal.proposalType}
+            list={Object.values(proposal_TYPE)}
           />
           <button
             type='submit'
@@ -4581,22 +4614,22 @@ const EditJob = () => {
   );
 };
 
-export default EditJob;
+export default Editproposal;
 ```
 
-#### Delete Job
+#### Delete proposal
 
-Job.jsx
+proposal.jsx
 
 ```js
-<Form method='post' action={`../delete-job/${_id}`}>
+<Form method='post' action={`../delete-proposal/${_id}`}>
   <button type='submit' className='btn delete-btn'>
     Delete
   </button>
 </Form>
 ```
 
-pages/DeleteJob.jsx
+pages/Deleteproposal.jsx
 
 ```js
 import { redirect } from 'react-router-dom';
@@ -4605,21 +4638,21 @@ import { toast } from 'react-toastify';
 
 export async function action({ params }) {
   try {
-    await customFetch.delete(`/jobs/${params.id}`);
-    toast.success('Job deleted successfully');
+    await customFetch.delete(`/proposals/${params.id}`);
+    toast.success('proposal deleted successfully');
   } catch (error) {
     toast.error(error.response.data.msg);
   }
-  return redirect('/dashboard/all-jobs');
+  return redirect('/dashboard/all-proposals');
 }
 ```
 
 App.jsx
 
 ```js
-import { action as deleteJobAction } from './pages/DeleteJob';
+import { action as deleteproposalAction } from './pages/Deleteproposal';
 
- { path: 'delete-job/:id', action: deleteJobAction },
+ { path: 'delete-proposal/:id', action: deleteproposalAction },
 ```
 
 #### Admin Page
@@ -4644,7 +4677,7 @@ export const loader = async () => {
 };
 
 const Admin = () => {
-  const { users, jobs } = useLoaderData();
+  const { users, proposals } = useLoaderData();
 
   return (
     <Wrapper>
@@ -4711,7 +4744,7 @@ Admin.jsx
 import { StatItem } from '../components';
 
 const Admin = () => {
-  const { users, jobs } = useLoaderData();
+  const { users, proposals } = useLoaderData();
 
   return (
     <Wrapper>
@@ -4723,8 +4756,8 @@ const Admin = () => {
         icon={<FaSuitcaseRolling />}
       />
       <StatItem
-        title='total jobs'
-        count={jobs}
+        title='total proposals'
+        count={proposals}
         color='#647acb'
         bcg='#e0e8f9'
         icon={<FaCalendarCheck />}
@@ -4829,7 +4862,7 @@ app.use(express.static(path.resolve(__dirname, './public')));
 
 #### Profile Page - Initial Setup
 
-- remove jobs,users from DB
+- remove proposals,users from DB
 - add avatar property in the user model
 
 models/UserModel.js
@@ -5053,7 +5086,7 @@ export const updateUser = async (req, res) => {
 
 - create component SubmitBtn (export/import)
 - add all classes, including'.form-btn'
-- setup in Register,Login, AddJob, EditJob, Profile
+- setup in Register,Login, Addproposal, Editproposal, Profile
 - make sure to add formBtn prop
 
 ```js
@@ -5176,7 +5209,7 @@ export const checkForTestUser = (req, res, next) => {
 
 ```
 
-- add to updateUser, createJob, updateJob, deleteJob
+- add to updateUser, createproposal, updateproposal, deleteproposal
 
 #### Mock Data
 
@@ -5186,9 +5219,9 @@ export const checkForTestUser = (req, res, next) => {
 {
   "company": "Cogidoo",
   "position": "Help Desk Technician",
-  "jobLocation": "Vyksa",
-  "jobStatus": "pending",
-  "jobType": "part-time",
+  "proposalLocation": "Vyksa",
+  "proposalStatus": "pending",
+  "proposalType": "part-time",
   "createdAt": "2022-07-25T21:26:23Z"
 }
 ```
@@ -5206,21 +5239,21 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
 
-import Job from './models/JobModel.js';
+import proposal from './models/proposalModel.js';
 import User from './models/UserModel.js';
 try {
   await mongoose.connect(process.env.MONGO_URL);
   // const user = await User.findOne({ email: 'john@gmail.com' });
   const user = await User.findOne({ email: 'test@test.com' });
 
-  const jsonJobs = JSON.parse(
+  const jsonproposals = JSON.parse(
     await readFile(new URL('./utils/mockData.json', import.meta.url))
   );
-  const jobs = jsonJobs.map((job) => {
-    return { ...job, createdBy: user._id };
+  const proposals = jsonproposals.map((proposal) => {
+    return { ...proposal, createdBy: user._id };
   });
-  await Job.deleteMany({ createdBy: user._id });
-  await Job.create(jobs);
+  await proposal.deleteMany({ createdBy: user._id });
+  await proposal.create(proposals);
   console.log('Success!!!');
   process.exit(0);
 } catch (error) {
@@ -5235,7 +5268,7 @@ try {
 - setup route and thunder client
 - install/setup dayjs on the server
 
-jobController.js
+proposalController.js
 
 ```js
 import mongoose from 'mongoose';
@@ -5272,13 +5305,13 @@ export const showStats = async (req, res) => {
 
 The MongoDB aggregation pipeline is like a factory line for data. Data enters, it goes through different stages like cleaning, sorting, or grouping, and comes out at the end changed in some way. It's a way to process data inside MongoDB.
 
-jobController.js
+proposalController.js
 
 ```js
 export const showStats = async (req, res) => {
-  let stats = await Job.aggregate([
+  let stats = await proposal.aggregate([
     { $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } },
-    { $group: { _id: '$jobStatus', count: { $sum: 1 } } },
+    { $group: { _id: '$proposalStatus', count: { $sum: 1 } } },
   ]);
   stats = stats.reduce((acc, curr) => {
     const { _id: title, count } = curr;
@@ -5292,7 +5325,7 @@ export const showStats = async (req, res) => {
     declined: stats.declined || 0,
   };
 
-  let monthlyApplications = await Job.aggregate([
+  let monthlyApplications = await proposal.aggregate([
     { $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } },
     {
       $group: {
@@ -5325,20 +5358,20 @@ export const showStats = async (req, res) => {
 #### Commentary
 
 ```js
-let stats = await Job.aggregate([
+let stats = await proposal.aggregate([
   { $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } },
-  { $group: { _id: '$jobStatus', count: { $sum: 1 } } },
+  { $group: { _id: '$proposalStatus', count: { $sum: 1 } } },
 ]);
 ```
 
-let stats = await Job.aggregate([ ... ]); This line says we're going to perform an aggregation operation on the Job collection in MongoDB and save the result in a variable called stats. The await keyword is used to wait for the operation to finish before continuing, as the operation is asynchronous (i.e., it runs in the background).
+let stats = await proposal.aggregate([ ... ]); This line says we're going to perform an aggregation operation on the proposal collection in MongoDB and save the result in a variable called stats. The await keyword is used to wait for the operation to finish before continuing, as the operation is asynchronous (i.e., it runs in the background).
 
-{ $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } } This is the first stage of the pipeline. It filters the jobs so that only the ones created by the user specified by req.user.userId are passed to the next stage. The new mongoose.Types.ObjectId(req.user.userId) part converts req.user.userId into an ObjectId (which is the format MongoDB uses for ids).
+{ $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } } This is the first stage of the pipeline. It filters the proposals so that only the ones created by the user specified by req.user.userId are passed to the next stage. The new mongoose.Types.ObjectId(req.user.userId) part converts req.user.userId into an ObjectId (which is the format MongoDB uses for ids).
 
-{ $group: { _id: '$jobStatus', count: { $sum: 1 } } } This is the second stage of the pipeline. It groups the remaining jobs by their status (the jobStatus field). For each group, it calculates the count of jobs by adding 1 for each job ({ $sum: 1 }), and stores this in a field called count.
+{ $group: { _id: '$proposalStatus', count: { $sum: 1 } } } This is the second stage of the pipeline. It groups the remaining proposals by their status (the proposalStatus field). For each group, it calculates the count of proposals by adding 1 for each proposal ({ $sum: 1 }), and stores this in a field called count.
 
 ```js
-let monthlyApplications = await Job.aggregate([
+let monthlyApplications = await proposal.aggregate([
   { $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } },
   {
     $group: {
@@ -5351,17 +5384,17 @@ let monthlyApplications = await Job.aggregate([
 ]);
 ```
 
-let monthlyApplications = await Job.aggregate([ ... ]); This line indicates that an aggregation operation will be performed on the Job collection in MongoDB. The result will be stored in the variable monthlyApplications. The await keyword ensures that the code waits for this operation to complete before proceeding, as it is an asynchronous operation.
+let monthlyApplications = await proposal.aggregate([ ... ]); This line indicates that an aggregation operation will be performed on the proposal collection in MongoDB. The result will be stored in the variable monthlyApplications. The await keyword ensures that the code waits for this operation to complete before proceeding, as it is an asynchronous operation.
 
-{ $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } } This is the first stage of the pipeline. It filters the jobs to only those created by the user identified by req.user.userId.
+{ $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } } This is the first stage of the pipeline. It filters the proposals to only those created by the user identified by req.user.userId.
 
-{ $group: { _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } }, count: { $sum: 1 } } } This is the second stage of the pipeline. It groups the remaining jobs based on the year and month when they were created. For each group, it calculates the count of jobs by adding 1 for each job in the group.
+{ $group: { _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } }, count: { $sum: 1 } } } This is the second stage of the pipeline. It groups the remaining proposals based on the year and month when they were created. For each group, it calculates the count of proposals by adding 1 for each proposal in the group.
 
 { $sort: { '\_id.year': -1, '\_id.month': -1 } } This is the third stage of the pipeline. It sorts the groups by year and month in descending order. The -1 indicates descending order. So it starts with the most recent year and month.
 
-{ $limit: 6 } This is the fourth and last stage of the pipeline. It limits the output to the top 6 groups, after sorting. This is effectively getting the job count for the last 6 months.
+{ $limit: 6 } This is the fourth and last stage of the pipeline. It limits the output to the top 6 groups, after sorting. This is effectively getting the proposal count for the last 6 months.
 
-So, monthlyApplications will be an array with up to 6 elements, each representing the number of jobs created by the user in a specific month and year. The array will be sorted by year and month, starting with the most recent.
+So, monthlyApplications will be an array with up to 6 elements, each representing the number of proposals created by the user in a specific month and year. The array will be sorted by year and month, starting with the most recent.
 
 #### Stats - Front-End Setup
 
@@ -5377,7 +5410,7 @@ import customFetch from '../utils/customFetch';
 import { useLoaderData } from 'react-router-dom';
 export const loader = async () => {
   try {
-    const response = await customFetch.get('/jobs/stats');
+    const response = await customFetch.get('/proposals/stats');
     return response.data;
   } catch (error) {
     return error;
@@ -5421,7 +5454,7 @@ const StatsContainer = ({ defaultStats }) => {
       bcg: '#e0e8f9',
     },
     {
-      title: 'jobs declined',
+      title: 'proposals declined',
       count: defaultStats?.declined || 0,
       icon: <FaBug />,
       color: '#d66a6a',
@@ -5562,15 +5595,15 @@ const Wrapper = styled.section`
 export default Wrapper;
 ```
 
-#### Get All Jobs - Server
+#### Get All proposals - Server
 
-jobController.js
+proposalController.js
 
 Query parameters, also known as query strings or URL parameters, are used to pass information to a web server through the URL of a webpage. They are typically appended to the end of a URL after a question mark (?) and separated by ampersands (&). Query parameters consist of a key-value pair, where the key represents the parameter name and the value represents the corresponding data being passed. They are commonly used in web applications to provide additional context or parameters for server-side processing or to filter and sort data.
 
 ```js
-export const getAllJobs = async (req, res) => {
-  const { search, jobStatus, jobType, sort } = req.query;
+export const getAllproposals = async (req, res) => {
+  const { search, proposalStatus, proposalType, sort } = req.query;
 
   const queryObject = {
     createdBy: req.user.userId,
@@ -5582,11 +5615,11 @@ export const getAllJobs = async (req, res) => {
       { company: { $regex: search, $options: 'i' } },
     ];
   }
-  if (jobStatus && jobStatus !== 'all') {
-    queryObject.jobStatus = jobStatus;
+  if (proposalStatus && proposalStatus !== 'all') {
+    queryObject.proposalStatus = proposalStatus;
   }
-  if (jobType && jobType !== 'all') {
-    queryObject.jobType = jobType;
+  if (proposalType && proposalType !== 'all') {
+    queryObject.proposalType = proposalType;
   }
 
   const sortOptions = {
@@ -5603,30 +5636,30 @@ export const getAllJobs = async (req, res) => {
   const limit = Number(req.query.limit) || 10;
   const skip = (page - 1) * limit;
 
-  const jobs = await Job.find(queryObject)
+  const proposals = await proposal.find(queryObject)
     .sort(sortKey)
     .skip(skip)
     .limit(limit);
 
-  const totalJobs = await Job.countDocuments(queryObject);
-  const numOfPages = Math.ceil(totalJobs / limit);
+  const totalproposals = await proposal.countDocuments(queryObject);
+  const numOfPages = Math.ceil(totalproposals / limit);
 
   res
     .status(StatusCodes.OK)
-    .json({ totalJobs, numOfPages, currentPage: page, jobs });
+    .json({ totalproposals, numOfPages, currentPage: page, proposals });
 };
 ```
 
 #### Search Container
 
-- setup log in AllJobs loader
+- setup log in Allproposals loader
 
 ```js
 import { FormRow, FormRowSelect, SubmitBtn } from '.';
 import Wrapper from '../assets/wrappers/DashboardFormPage';
 import { Form, useSubmit, Link } from 'react-router-dom';
-import { JOB_TYPE, JOB_STATUS, JOB_SORT_BY } from '../../../utils/constants';
-import { useAllJobsContext } from '../pages/AllJobs';
+import { proposal_TYPE, proposal_STATUS, proposal_SORT_BY } from '../../../utils/constants';
+import { useAllproposalsContext } from '../pages/Allproposals';
 
 const SearchContainer = () => {
   return (
@@ -5638,24 +5671,24 @@ const SearchContainer = () => {
 
           <FormRow type='search' name='search' defaultValue='a' />
           <FormRowSelect
-            labelText='job status'
-            name='jobStatus'
-            list={['all', ...Object.values(JOB_STATUS)]}
+            labelText='proposal status'
+            name='proposalStatus'
+            list={['all', ...Object.values(proposal_STATUS)]}
             defaultValue='all'
           />
           <FormRowSelect
-            labelText='job type'
-            name='jobType'
-            list={['all', ...Object.values(JOB_TYPE)]}
+            labelText='proposal type'
+            name='proposalType'
+            list={['all', ...Object.values(proposal_TYPE)]}
             defaultValue='all'
           />
           <FormRowSelect
             name='sort'
             defaultValue='newest'
-            list={[...Object.values(JOB_SORT_BY)]}
+            list={[...Object.values(proposal_SORT_BY)]}
           />
 
-          <Link to='/dashboard/all-jobs' className='btn form-btn delete-btn'>
+          <Link to='/dashboard/all-proposals' className='btn form-btn delete-btn'>
             Reset Search Values
           </Link>
           {/* TEMP!!!! */}
@@ -5669,24 +5702,24 @@ const SearchContainer = () => {
 export default SearchContainer;
 ```
 
-#### All Jobs Loader
+#### All proposals Loader
 
-AllJobs.jsx
+Allproposals.jsx
 
 ```js
 import { toast } from 'react-toastify';
-import { JobsContainer, SearchContainer } from '../components';
+import { proposalsContainer, SearchContainer } from '../components';
 import customFetch from '../utils/customFetch';
 import { useLoaderData } from 'react-router-dom';
 import { useContext, createContext } from 'react';
-const AllJobsContext = createContext();
+const AllproposalsContext = createContext();
 export const loader = async ({ request }) => {
   try {
     const params = Object.fromEntries([
       ...new URL(request.url).searchParams.entries(),
     ]);
 
-    const { data } = await customFetch.get('/jobs', {
+    const { data } = await customFetch.get('/proposals', {
       params,
     });
 
@@ -5700,19 +5733,19 @@ export const loader = async ({ request }) => {
   }
 };
 
-const AllJobs = () => {
+const Allproposals = () => {
   const { data, searchValues } = useLoaderData();
 
   return (
-    <AllJobsContext.Provider value={{ data, searchValues }}>
+    <AllproposalsContext.Provider value={{ data, searchValues }}>
       <SearchContainer />
-      <JobsContainer />
-    </AllJobsContext.Provider>
+      <proposalsContainer />
+    </AllproposalsContext.Provider>
   );
 };
-export default AllJobs;
+export default Allproposals;
 
-export const useAllJobsContext = () => useContext(AllJobsContext);
+export const useAllproposalsContext = () => useContext(AllproposalsContext);
 ```
 
 ```js
@@ -5745,11 +5778,11 @@ SearchContainer.js
 import { FormRow, FormRowSelect } from '.';
 import Wrapper from '../assets/wrappers/DashboardFormPage';
 import { Form, useSubmit, Link } from 'react-router-dom';
-import { JOB_TYPE, JOB_STATUS, JOB_SORT_BY } from '../../../utils/constants';
-import { useAllJobsContext } from '../pages/AllJobs';
+import { proposal_TYPE, proposal_STATUS, proposal_SORT_BY } from '../../../utils/constants';
+import { useAllproposalsContext } from '../pages/Allproposals';
 const SearchContainer = () => {
-  const { searchValues } = useAllJobsContext();
-  const { search, jobStatus, jobType, sort } = searchValues;
+  const { searchValues } = useAllproposalsContext();
+  const { search, proposalStatus, proposalType, sort } = searchValues;
 
   const submit = useSubmit();
 
@@ -5769,19 +5802,19 @@ const SearchContainer = () => {
             }}
           />
           <FormRowSelect
-            labelText='job status'
-            name='jobStatus'
-            list={['all', ...Object.values(JOB_STATUS)]}
-            defaultValue={jobStatus}
+            labelText='proposal status'
+            name='proposalStatus'
+            list={['all', ...Object.values(proposal_STATUS)]}
+            defaultValue={proposalStatus}
             onChange={(e) => {
               submit(e.currentTarget.form);
             }}
           />
           <FormRowSelect
-            labelText='job type'
-            name='jobType'
-            defaultValue={jobType}
-            list={['all', ...Object.values(JOB_TYPE)]}
+            labelText='proposal type'
+            name='proposalType'
+            defaultValue={proposalType}
+            list={['all', ...Object.values(proposal_TYPE)]}
             onChange={(e) => {
               submit(e.currentTarget.form);
             }}
@@ -5789,12 +5822,12 @@ const SearchContainer = () => {
           <FormRowSelect
             name='sort'
             defaultValue={sort}
-            list={[...Object.values(JOB_SORT_BY)]}
+            list={[...Object.values(proposal_SORT_BY)]}
             onChange={(e) => {
               submit(e.currentTarget.form);
             }}
           />
-          <Link to='/dashboard/all-jobs' className='btn form-btn delete-btn'>
+          <Link to='/dashboard/all-proposals' className='btn form-btn delete-btn'>
             Reset Search Values
           </Link>
         </div>
@@ -5837,21 +5870,21 @@ const debounce = (onChange) => {
 
 - create PageBtnContainer
 
-JobsContainer.jsx
+proposalsContainer.jsx
 
 ```js
-import Job from './Job';
-import Wrapper from '../assets/wrappers/JobsContainer';
+import proposal from './proposal';
+import Wrapper from '../assets/wrappers/proposalsContainer';
 import PageBtnContainer from './PageBtnContainer';
-import { useAllJobsContext } from '../pages/AllJobs';
+import { useAllproposalsContext } from '../pages/Allproposals';
 
-const JobsContainer = () => {
-  const { data } = useAllJobsContext();
-  const { jobs, totalJobs, numOfPages } = data;
-  if (jobs.length === 0) {
+const proposalsContainer = () => {
+  const { data } = useAllproposalsContext();
+  const { proposals, totalproposals, numOfPages } = data;
+  if (proposals.length === 0) {
     return (
       <Wrapper>
-        <h2>No jobs to display...</h2>
+        <h2>No proposals to display...</h2>
       </Wrapper>
     );
   }
@@ -5859,11 +5892,11 @@ const JobsContainer = () => {
   return (
     <Wrapper>
       <h5>
-        {totalJobs} job{jobs.length > 1 && 's'} found
+        {totalproposals} proposal{proposals.length > 1 && 's'} found
       </h5>
-      <div className='jobs'>
-        {jobs.map((job) => {
-          return <Job key={job._id} {...job} />;
+      <div className='proposals'>
+        {proposals.map((proposal) => {
+          return <proposal key={proposal._id} {...proposal} />;
         })}
       </div>
       {numOfPages > 1 && <PageBtnContainer />}
@@ -5871,7 +5904,7 @@ const JobsContainer = () => {
   );
 };
 
-export default JobsContainer;
+export default proposalsContainer;
 ```
 
 #### Basic PageBtnContainer
@@ -5880,12 +5913,12 @@ export default JobsContainer;
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from 'react-icons/hi';
 import Wrapper from '../assets/wrappers/PageBtnContainer';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
-import { useAllJobsContext } from '../pages/AllJobs';
+import { useAllproposalsContext } from '../pages/Allproposals';
 
 const PageBtnContainer = () => {
   const {
     data: { numOfPages, currentPage },
-  } = useAllJobsContext();
+  } = useAllproposalsContext();
   const { search, pathname } = useLocation();
   const navigate = useNavigate();
   const pages = Array.from({ length: numOfPages }, (_, index) => index + 1);
@@ -5944,12 +5977,12 @@ export default PageBtnContainer;
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from 'react-icons/hi';
 import Wrapper from '../assets/wrappers/PageBtnContainer';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
-import { useAllJobsContext } from '../pages/AllJobs';
+import { useAllproposalsContext } from '../pages/Allproposals';
 
 const PageBtnContainer = () => {
   const {
     data: { numOfPages, currentPage },
-  } = useAllJobsContext();
+  } = useAllproposalsContext();
   const { search, pathname } = useLocation();
   const navigate = useNavigate();
 
@@ -6334,7 +6367,7 @@ Stats.jsx
 
 ```js
 export const loader = async () => {
-  const response = await customFetch.get('/jobs/stats');
+  const response = await customFetch.get('/proposals/stats');
   return response.data;
 };
 ```
@@ -6378,7 +6411,7 @@ export const loader = async () => {
 const Stats = () => {
   const response = useQuery({
     queryKey: ['stats'],
-    queryFn: () => customFetch.get('/jobs/stats'),
+    queryFn: () => customFetch.get('/proposals/stats'),
   });
   console.log(response);
   if (response.isLoading) {
@@ -6400,17 +6433,17 @@ export default Stats;
 ```js
 const data = useQuery({
   queryKey: ['stats'],
-  queryFn: () => customFetch.get('/jobs/stats'),
+  queryFn: () => customFetch.get('/proposals/stats'),
 });
 ```
 
 const data = useQuery({ ... });: This line declares a constant variable named data and assigns it the result of the useQuery hook. The useQuery hook is provided by React Query and is used to perform data fetching.
 
-queryKey: ['stats'],: The queryKey property is an array that serves as a unique identifier for the query. In this case, the query key is set to ['stats'], indicating that this query is fetching statistics related to jobs.
+queryKey: ['stats'],: The queryKey property is an array that serves as a unique identifier for the query. In this case, the query key is set to ['stats'], indicating that this query is fetching statistics related to proposals.
 
-queryFn: () => customFetch.get('/jobs/stats'),: The queryFn property specifies the function that will be executed when the query is triggered. In this case, it uses an arrow function that calls customFetch.get('/jobs/stats'). The customFetch object is likely a custom wrapper around the fetch function or an external HTTP client library, used to make the actual API request to retrieve job statistics.In React Query, the queryFn property expects a function that returns a promise. The promise should resolve with the data you want to fetch and store in the query cache.
+queryFn: () => customFetch.get('/proposals/stats'),: The queryFn property specifies the function that will be executed when the query is triggered. In this case, it uses an arrow function that calls customFetch.get('/proposals/stats'). The customFetch object is likely a custom wrapper around the fetch function or an external HTTP client library, used to make the actual API request to retrieve proposal statistics.In React Query, the queryFn property expects a function that returns a promise. The promise should resolve with the data you want to fetch and store in the query cache.
 
-customFetch.get('/jobs/stats'): This line is making an HTTP GET request to the /jobs/stats endpoint, which is the API route that provides the job statistics data.
+customFetch.get('/proposals/stats'): This line is making an HTTP GET request to the /proposals/stats endpoint, which is the API route that provides the proposal statistics data.
 
 #### Get Stats with React Query
 
@@ -6418,7 +6451,7 @@ customFetch.get('/jobs/stats'): This line is making an HTTP GET request to the /
 const statsQuery = {
   queryKey: ['stats'],
   queryFn: async () => {
-    const response = await customFetch.get('/jobs/stats');
+    const response = await customFetch.get('/proposals/stats');
     return response.data;
   },
 };
@@ -6470,7 +6503,7 @@ import { useQuery } from '@tanstack/react-query';
 const statsQuery = {
   queryKey: ['stats'],
   queryFn: async () => {
-    const response = await customFetch.get('/jobs/statss');
+    const response = await customFetch.get('/proposals/statss');
     return response.data;
   },
 };
@@ -6579,32 +6612,32 @@ export const action =
   };
 ```
 
-#### All Jobs Query
+#### All proposals Query
 
-AllJobs.jsx
+Allproposals.jsx
 
 ```js
 import { toast } from 'react-toastify';
-import { JobsContainer, SearchContainer } from '../components';
+import { proposalsContainer, SearchContainer } from '../components';
 import customFetch from '../utils/customFetch';
 import { useLoaderData } from 'react-router-dom';
 import { useContext, createContext } from 'react';
 import { useQuery } from '@tanstack/react-query';
-const AllJobsContext = createContext();
+const AllproposalsContext = createContext();
 
-const allJobsQuery = (params) => {
-  const { search, jobStatus, jobType, sort, page } = params;
+const allproposalsQuery = (params) => {
+  const { search, proposalStatus, proposalType, sort, page } = params;
   return {
     queryKey: [
-      'jobs',
+      'proposals',
       search ?? '',
-      jobStatus ?? 'all',
-      jobType ?? 'all',
+      proposalStatus ?? 'all',
+      proposalType ?? 'all',
       sort ?? 'newest',
       page ?? 1,
     ],
     queryFn: async () => {
-      const { data } = await customFetch.get('/jobs', {
+      const { data } = await customFetch.get('/proposals', {
         params,
       });
       return data;
@@ -6619,28 +6652,28 @@ export const loader =
       ...new URL(request.url).searchParams.entries(),
     ]);
 
-    await queryClient.ensureQueryData(allJobsQuery(params));
+    await queryClient.ensureQueryData(allproposalsQuery(params));
     return { searchValues: { ...params } };
   };
 
-const AllJobs = () => {
+const Allproposals = () => {
   const { searchValues } = useLoaderData();
-  const { data } = useQuery(allJobsQuery(searchValues));
+  const { data } = useQuery(allproposalsQuery(searchValues));
   return (
-    <AllJobsContext.Provider value={{ data, searchValues }}>
+    <AllproposalsContext.Provider value={{ data, searchValues }}>
       <SearchContainer />
-      <JobsContainer />
-    </AllJobsContext.Provider>
+      <proposalsContainer />
+    </AllproposalsContext.Provider>
   );
 };
-export default AllJobs;
+export default Allproposals;
 
-export const useAllJobsContext = () => useContext(AllJobsContext);
+export const useAllproposalsContext = () => useContext(AllproposalsContext);
 ```
 
-#### Invalidate Jobs
+#### Invalidate proposals
 
-AddJob.jsx
+Addproposal.jsx
 
 ```js
 export const action =
@@ -6649,10 +6682,10 @@ export const action =
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
     try {
-      await customFetch.post('/jobs', data);
-      queryClient.invalidateQueries(['jobs']);
-      toast.success('Job added successfully ');
-      return redirect('all-jobs');
+      await customFetch.post('/proposals', data);
+      queryClient.invalidateQueries(['proposals']);
+      toast.success('proposal added successfully ');
+      return redirect('all-proposals');
     } catch (error) {
       toast.error(error?.response?.data?.msg);
       return error;
@@ -6660,7 +6693,7 @@ export const action =
   };
 ```
 
-EditJob.jsx
+Editproposal.jsx
 
 ```js
 export const action =
@@ -6669,10 +6702,10 @@ export const action =
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
     try {
-      await customFetch.patch(`/jobs/${params.id}`, data);
-      queryClient.invalidateQueries(['jobs']);
-      toast.success('Job edited successfully');
-      return redirect('/dashboard/all-jobs');
+      await customFetch.patch(`/proposals/${params.id}`, data);
+      queryClient.invalidateQueries(['proposals']);
+      toast.success('proposal edited successfully');
+      return redirect('/dashboard/all-proposals');
     } catch (error) {
       toast.error(error?.response?.data?.msg);
       return error;
@@ -6680,40 +6713,40 @@ export const action =
   };
 ```
 
-DeleteJob.jsx
+Deleteproposal.jsx
 
 ```js
 export const action =
   (queryClient) =>
   async ({ params }) => {
     try {
-      await customFetch.delete(`/jobs/${params.id}`);
-      queryClient.invalidateQueries(['jobs']);
-      toast.success('Job deleted successfully');
+      await customFetch.delete(`/proposals/${params.id}`);
+      queryClient.invalidateQueries(['proposals']);
+      toast.success('proposal deleted successfully');
     } catch (error) {
       toast.error(error?.response?.data?.msg);
     }
-    return redirect('/dashboard/all-jobs');
+    return redirect('/dashboard/all-proposals');
   };
 ```
 
-#### Edit Job Loader
+#### Edit proposal Loader
 
 ```js
 import { FormRow, FormRowSelect, SubmitBtn } from '../components';
 import Wrapper from '../assets/wrappers/DashboardFormPage';
 import { useLoaderData, useParams } from 'react-router-dom';
-import { JOB_STATUS, JOB_TYPE } from '../../../utils/constants';
+import { proposal_STATUS, proposal_TYPE } from '../../../utils/constants';
 import { Form, redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import customFetch from '../utils/customFetch';
 import { useQuery } from '@tanstack/react-query';
 
-const singleJobQuery = (id) => {
+const singleproposalQuery = (id) => {
   return {
-    queryKey: ['job', id],
+    queryKey: ['proposal', id],
     queryFn: async () => {
-      const { data } = await customFetch.get(`/jobs/${id}`);
+      const { data } = await customFetch.get(`/proposals/${id}`);
       return data;
     },
   };
@@ -6723,11 +6756,11 @@ export const loader =
   (queryClient) =>
   async ({ params }) => {
     try {
-      await queryClient.ensureQueryData(singleJobQuery(params.id));
+      await queryClient.ensureQueryData(singleproposalQuery(params.id));
       return params.id;
     } catch (error) {
       toast.error(error?.response?.data?.msg);
-      return redirect('/dashboard/all-jobs');
+      return redirect('/dashboard/all-proposals');
     }
   };
 
@@ -6737,48 +6770,48 @@ export const action =
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
     try {
-      await customFetch.patch(`/jobs/${params.id}`, data);
-      queryClient.invalidateQueries(['jobs']);
+      await customFetch.patch(`/proposals/${params.id}`, data);
+      queryClient.invalidateQueries(['proposals']);
 
-      toast.success('Job edited successfully');
-      return redirect('/dashboard/all-jobs');
+      toast.success('proposal edited successfully');
+      return redirect('/dashboard/all-proposals');
     } catch (error) {
       toast.error(error?.response?.data?.msg);
       return error;
     }
   };
 
-const EditJob = () => {
+const Editproposal = () => {
   const id = useLoaderData();
 
   const {
-    data: { job },
-  } = useQuery(singleJobQuery(id));
+    data: { proposal },
+  } = useQuery(singleproposalQuery(id));
 
   return (
     <Wrapper>
       <Form method='post' className='form'>
-        <h4 className='form-title'>edit job</h4>
+        <h4 className='form-title'>edit proposal</h4>
         <div className='form-center'>
-          <FormRow type='text' name='position' defaultValue={job.position} />
-          <FormRow type='text' name='company' defaultValue={job.company} />
+          <FormRow type='text' name='position' defaultValue={proposal.position} />
+          <FormRow type='text' name='company' defaultValue={proposal.company} />
           <FormRow
             type='text'
-            name='jobLocation'
-            labelText='job location'
-            defaultValue={job.jobLocation}
+            name='proposalLocation'
+            labelText='proposal location'
+            defaultValue={proposal.proposalLocation}
           />
           <FormRowSelect
-            name='jobStatus'
-            labelText='job status'
-            defaultValue={job.jobStatus}
-            list={Object.values(JOB_STATUS)}
+            name='proposalStatus'
+            labelText='proposal status'
+            defaultValue={proposal.proposalStatus}
+            list={Object.values(proposal_STATUS)}
           />
           <FormRowSelect
-            name='jobType'
-            labelText='job type'
-            defaultValue={job.jobType}
-            list={Object.values(JOB_TYPE)}
+            name='proposalType'
+            labelText='proposal type'
+            defaultValue={proposal.proposalType}
+            list={Object.values(proposal_TYPE)}
           />
           <SubmitBtn formBtn />
         </div>
@@ -6786,7 +6819,7 @@ const EditJob = () => {
     </Wrapper>
   );
 };
-export default EditJob;
+export default Editproposal;
 ```
 
 #### Axios Interceptors
