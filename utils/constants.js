@@ -81,9 +81,9 @@ export const PROPOSAL_DOMAINS = {
 };
 
 export const PROPOSAL_STATUS = {
-  SUBMITTED: "Submitted",
-  APPROVED: "Approved",
-  "REJECTED": "Rejected"
+  SUBMITTED: "submitted",
+  APPROVED: "approved",
+  "REJECTED": "rejected"
 };
 
 export const EMAIL_TEMPLATES = (BASE_URL, data) => (

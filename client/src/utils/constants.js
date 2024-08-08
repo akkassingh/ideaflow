@@ -33,9 +33,9 @@
   };
     
   export const PROPOSAL_STATUS = {
-    SUBMITTED: "Submitted",
-    APPROVED: "Approved",
-    REJECTED: "Rejected"
+    SUBMITTED: "submitted",
+    APPROVED: "approved",
+    REJECTED: "rejected"
   };
 
   export const USER_SORT_BY = {
