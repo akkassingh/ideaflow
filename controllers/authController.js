@@ -115,7 +115,7 @@ export const resetPassword = async (req, res, next) => {
     }
 
     const hashedPassword = await hashPassword(req.body.password);
-    req.body.password = hashedPassword;
+    user.password = hashedPassword;
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
 
