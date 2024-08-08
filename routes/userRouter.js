@@ -9,6 +9,7 @@ import upload from "../middleware/multerMiddleware.js";
 router.get("/current-user", getCurrentUser);
 
 // only 'admin' role has authority to use this path
+// students can now also access this path
 router.get(
   "/admin/app-stats",[
     // authorizePermissions("admin"),
