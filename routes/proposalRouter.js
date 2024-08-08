@@ -23,7 +23,8 @@ router
   .route("/")
   .get(authenticateUser, getAllProposals)
   .get(getProposals)
-  .post(checkForTestUser, upload.single("attachment"), validateProposal, addProposal);
+  .post(upload.single("attachment"), validateProposal, addProposal);
+
 router
   .route("/stats")
   .get(authenticateUser, showStats)

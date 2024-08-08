@@ -12,9 +12,14 @@ export const action =
   (queryClient) =>
     async ({ request }) => {
       const formData = await request.formData();
-      const data = Object.fromEntries(formData);
+      const file = formData.get("attachment");
+      if(file && file.size > 500000) {
+        file.size > 500000;
+        toast.error("Image size is too large");
+        return null;
+      }
       try {
-        await customFetch.post("/proposal", data);
+        await customFetch.post("/proposal", formData);
         queryClient.invalidateQueries(["proposals"]);
         toast.success("Proposal added successfully");
         return redirect("all-proposals");
@@ -28,7 +33,7 @@ const AddProposal = () => {
 
   return (
     <Wrapper>
-      <Form method="post" className="form">
+      <Form method="post" className="form" encType="multipart/form-data">
         <h4 className="form-title">add proposal</h4>
         <div className="form-center">
           <FormRow type="text" name="title" />
@@ -46,8 +51,8 @@ const AddProposal = () => {
             defaultValue={FUNDING_TYPE.OTHERS}
             list={[ ...Object.values(FUNDING_TYPE)]}
           />
-          <FormRowOptional type="text" name="funding_agency" />
-          <FormRowOptional type="file" name="Attachments" />
+          <FormRowOptional type="text" name="funding_agency" labelText="Funding Agency"/>
+          <FormRowOptional type="file" name="attachment" />
         </div>
         <div>
         <SubmitBtn formBtn />
