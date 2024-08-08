@@ -1,4 +1,4 @@
-import { FaCalendarAlt, FaEye, FaScrewdriver, FaTrash } from "react-icons/fa";
+import { FaCalendarAlt, FaEye, FaScrewdriver, FaTrash, FaGlobe } from "react-icons/fa";
 import { Link, Form, useOutletContext } from "react-router-dom";
 import Wrapper from "../assets/wrappers/ProposalTile";
 import ProposalInfo from "./ProposalInfo";
@@ -12,7 +12,9 @@ ProposalTile({
   title,
   updatedAt,
   status,
+  domain,
   submittedBy,
+  description
 }) {
   const lastUpdated = day(updatedAt).format("MMM D, YYYY h:mm A");
   const { user } = useOutletContext();
@@ -32,6 +34,8 @@ ProposalTile({
       <div className="content">
         <div className="content-center">
           <ProposalInfo icon={<FaCalendarAlt />} text={lastUpdated} />
+          <ProposalInfo icon={<FaGlobe />} text={domain} />
+          <ProposalInfo text={`${description.substring(0, 50)} ...`} />
           <div className={`status ${status.toLowerCase()}`}>{status}</div>
         </div>
         {CanEditPrivilges ? (
@@ -44,6 +48,7 @@ ProposalTile({
                 <FaTrash />
               </button>
             </Form>
+            <Link to={`../view-proposal/${_id}`} className="btn view-btn"><FaEye /></Link>
           </footer>
         ) : (
           <footer className="actions">
