@@ -30,8 +30,7 @@ const addProposal = async (req, res) => {
     .then((resource) => {
       // sending confirmation email to user
       sendEmail({
-        to: "akkassingh@gmail.com",
-        // to: user.email,
+        to: process.env.NODE_ENV !== "production" ? process.env.EMAIL_TO : user.email,
         subject: `Proposal ${resource.title} Submitted`,
         text: `<h2>Congratulations!</h2>
                     <p>Your proposal has been Submitted successfully.</p>
@@ -42,8 +41,7 @@ const addProposal = async (req, res) => {
       if (faculties.length > 0) {
         faculties.forEach((faculty) => {
           sendEmail({
-            to: "akkassingh@gmail.com",
-            // to: faculty.email,
+            to: process.env.NODE_ENV !== "production" ? process.env.EMAIL_TO : user.email,
             subject: `New Proposal ${resource.title} Submitted`,
             text: `<h2>New Proposal Submitted</h2>
                     <p>Dear ${faculty.firstName}, .</p>
