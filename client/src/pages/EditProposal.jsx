@@ -1,7 +1,7 @@
 import { FormRow, FromRowSelect } from "../components";
 import { FaUserCircle } from "react-icons/fa";
 import Wrapper from "../assets/wrappers/EditProposal.js";
-import { useLoaderData, useOutletContext, useSubmit } from "react-router-dom";
+import { useLoaderData, useOutletContext } from "react-router-dom";
 import { PROPOSAL_STATUS, PROPOSAL_DOMAINS } from ".././utils/constants";
 import { Form, redirect } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -33,6 +33,12 @@ export const action =
   (queryClient) =>
   async ({ request, params }) => {
     const formData = await request.formData();
+    const file = formData.get("attachment");
+    if(file && file.size > 500000) {
+      file.size > 500000;
+      toast.error("Image size is too large");
+      return null;
+    }
     try {
       await customFetch.put(`/proposal/${params.id}`, formData);
       queryClient.invalidateQueries(["proposal"]);
@@ -50,20 +56,19 @@ export default function EditProposal() {
   let {  _doc, authorProfile } = proposal;
   let {
     title,
-    updatedAt,
     status,
-    submittedBy,
     description,
     domain,
-    createdAt,
     funding_agency,
     funding_type,
     weblink,
+    attachment,
   } = _doc;
   let CanEditPrivilges = false;
   if (user.VerifiedForAdminAccess) {
     CanEditPrivilges = true;
   }
+  const fileName = attachment.substring(attachment.lastIndexOf('/') + 1);
   return (
     <Wrapper>
       <Form method="post" className="form">
@@ -75,6 +80,13 @@ export default function EditProposal() {
             name="description"
             defaultValue={description}
           />
+          <FormRow
+            type="text"
+            name="weblink"
+            defaultValue={weblink}
+          />
+          {/* <FormRow type="file" name="attachment" labelText={attachment} /> */}
+          <FormRow type="file" name="attachment" labelText="attachment"/>
           <FromRowSelect
             name="domain"
             labelText="domain"
