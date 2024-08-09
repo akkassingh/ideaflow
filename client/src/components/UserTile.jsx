@@ -48,9 +48,6 @@ export default function ProposalTile({
                 <FaTrash />
               </button>
             </Form>
-            <Link to={`../view-user/${_id}`} className="btn view-btn">
-              <FaEye />
-            </Link>
           </footer>
       </div>
     </Wrapper>
