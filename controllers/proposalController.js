@@ -30,7 +30,10 @@ const addProposal = async (req, res) => {
     .then((resource) => {
       // sending confirmation email to user
       sendEmail({
-        to: process.env.NODE_ENV !== "production" ? process.env.EMAIL_TO : user.email,
+        to:
+          process.env.NODE_ENV !== "production"
+            ? process.env.EMAIL_TO
+            : user.email,
         subject: `Proposal ${resource.title} Submitted`,
         text: `<h2>Congratulations!</h2>
                     <p>Your proposal has been Submitted successfully.</p>
@@ -41,11 +44,14 @@ const addProposal = async (req, res) => {
       if (faculties.length > 0) {
         faculties.forEach((faculty) => {
           sendEmail({
-            to: process.env.NODE_ENV !== "production" ? process.env.EMAIL_TO : user.email,
+            to:
+              process.env.NODE_ENV !== "production"
+                ? process.env.EMAIL_TO
+                : user.email,
             subject: `New Proposal ${resource.title} Submitted`,
             text: `<h2>New Proposal Submitted</h2>
                     <p>Dear ${faculty.firstName}, .</p>
-                    <p>A New Propoal has been Submitted by ${user.firstName}</p>
+                    <p>A New Propoal has been Submitted.</p>
                     <a href="${APP_BASE_URL}/dashboard/edit-proposal/${JSON.stringify(
               resource._id
             )}" clicktracking="off">${resource.title}-${APP_DISPLAY_NAME}</a>
@@ -81,9 +87,9 @@ const deleteProposal = async (req, res) => {
 const getProposal = async (req, res) => {
   const item = await Proposal.findById(req.params.id);
   const user = await User.findById(item.submittedBy);
-  
+
   delete user.password;
-  let proposal = {...item };
+  let proposal = { ...item };
   proposal.authorProfile = user;
   res.status(StatusCodes.OK).json(proposal);
 };

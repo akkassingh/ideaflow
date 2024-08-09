@@ -9,7 +9,7 @@ import {
   deleteProposal,
   getProposals,
   getProposal,
-  showStats
+  showStats,
 } from "../controllers/proposalController.js";
 
 import {
@@ -17,7 +17,11 @@ import {
   validateProposal,
 } from "../middleware/validationMiddleware.js";
 
-import { checkForTestUser, authorizePermissions, authenticateUser } from "../middleware/authMiddleware.js";
+import {
+  checkForTestUser,
+  authorizePermissions,
+  authenticateUser,
+} from "../middleware/authMiddleware.js";
 
 router
   .route("/")
@@ -25,9 +29,7 @@ router
   .get(getProposals)
   .post(upload.single("attachment"), validateProposal, addProposal);
 
-router
-  .route("/stats")
-  .get(authenticateUser, showStats)
+router.route("/stats").get(authenticateUser, showStats);
 router
   .route("/:id")
   .get(authenticateUser, getProposal)
