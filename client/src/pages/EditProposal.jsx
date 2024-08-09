@@ -68,7 +68,7 @@ export default function EditProposal() {
   if (user.VerifiedForAdminAccess) {
     CanEditPrivilges = true;
   }
-  const fileName = attachment.substring(attachment.lastIndexOf('/') + 1);
+  const fileName = attachment?attachment.substring(attachment.lastIndexOf('/') + 1): "submit attachment";
   return (
     <Wrapper>
       <Form method="post" className="form">
@@ -86,7 +86,7 @@ export default function EditProposal() {
             defaultValue={weblink}
           />
           {/* <FormRow type="file" name="attachment" labelText={attachment} /> */}
-          <FormRow type="file" name="attachment" labelText="attachment"/>
+          <FormRow type="file" name="attachment" labelText={fileName}/>
           <FromRowSelect
             name="domain"
             labelText="domain"

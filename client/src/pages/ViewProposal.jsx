@@ -64,7 +64,7 @@ export default function ViewProposal() {
     CanEditPrivilges = true;
   }
 
-  const fileName = attachment.substring(attachment.lastIndexOf('/') + 1);
+  const fileName = attachment?attachment.substring(attachment.lastIndexOf('/') + 1): "submit attachment";
 
   return (
     <Wrapper>
