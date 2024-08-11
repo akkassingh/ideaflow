@@ -10,72 +10,99 @@ const APP_DISPLAY_NAME = process.env.APP_DISPLAY_NAME || "Ideaflow";
 const APP_BASE_URL = process.env.APP_BASE_URL;
 
 const addProposal = async (req, res) => {
-  let user = req.user;
-  req.body.submittedBy = user.userId;
-
-  // find all faculties to send email
-  let queryObject = { role: "faculty" };
-  const faculties = await User.find(queryObject);
-  const proposal = new Proposal(req.body);
-  if (req.file) {
-    const file = formatImage(req.file);
-
-    const response = await cloudinary.v2.uploader.upload(file);
-
-    proposal.attachment = response.secure_url;
-    proposal.attachmentPublicId = response.public_id;
-  }
-  proposal
-    .save()
-    .then((resource) => {
-      // sending confirmation email to user
-      sendEmail({
-        to:
-          process.env.NODE_ENV !== "production"
-            ? process.env.EMAIL_TO
-            : user.email,
-        subject: `Proposal ${resource.title} Submitted`,
-        text: `<h2>Congratulations!</h2>
-                    <p>Your proposal has been Submitted successfully.</p>
-                    <p>The Current Status of your submission is <b>${resource.status}</b>. Next Steps, A Faculty Member will review your proposal and take the required action.</p>
-                    <p>Best regards,</p>
-                    <p>${APP_DISPLAY_NAME}</p>`,
-      });
-      if (faculties.length > 0) {
-        faculties.forEach((faculty) => {
-          sendEmail({
-            to:
-              process.env.NODE_ENV !== "production"
-                ? process.env.EMAIL_TO
-                : user.email,
-            subject: `New Proposal ${resource.title} Submitted`,
-            text: `<h2>New Proposal Submitted</h2>
-                    <p>Dear ${faculty.firstName}, .</p>
-                    <p>A New Propoal has been Submitted.</p>
-                    <a href="${APP_BASE_URL}/dashboard/edit-proposal/${JSON.stringify(
-              resource._id
-            )}" clicktracking="off">${resource.title}-${APP_DISPLAY_NAME}</a>
-                    <p>Best regards,</p>
-                    <p>From ${APP_DISPLAY_NAME}</p>`,
-          });
+  try {
+    let user = req.user;
+    req.body.submittedBy = user.userId;
+  
+    const submittedBy = await User.findById(user.userId);
+    console.log(submittedBy);
+    // find all faculties to send email
+    let queryObject = { role: "faculty" };
+    const faculties = await User.find(queryObject);
+    const proposal = new Proposal(req.body);
+    if (req.file) {
+      const file = formatImage(req.file);
+  
+      const response = await cloudinary.v2.uploader.upload(file);
+  
+      proposal.attachment = response.secure_url;
+      proposal.attachmentPublicId = response.public_id;
+    }
+    proposal
+      .save()
+      .then((resource) => {
+        // sending confirmation email to user
+        sendEmail({
+          to:
+            process.env.NODE_ENV !== "production"
+              ? process.env.EMAIL_TO
+              : user.email,
+          subject: `Proposal ${resource.title} Submitted`,
+          text: `<h2>Congratulations!</h2>
+                      <p>Your proposal has been Submitted successfully.</p>
+                      <p>The Current Status of your submission is <b>${resource.status}</b>. Next Steps, A Faculty Member will review your proposal and take the required action.</p>
+                      <p>Best regards,</p>
+                      <p>${APP_DISPLAY_NAME}</p>`,
         });
-      }
-      res.status(201).send({
-        id: resource._id,
-        message: "Proposal created",
+        if (faculties.length > 0) {
+          faculties.forEach((faculty) => {
+            sendEmail({
+              to:
+                process.env.NODE_ENV !== "production"
+                  ? process.env.EMAIL_TO
+                  : user.email,
+              subject: `New Proposal ${resource.title} Submitted`,
+              text: `<h2>New Proposal Submitted</h2>
+                      <p>Dear ${faculty.firstName},</p>
+                      <p>A New Propoal has been Submitted by ${submittedBy.lastName}, ${submittedBy.firstName}.</p>
+                      <a href="${APP_BASE_URL}/dashboard/edit-proposal/${JSON.stringify(
+                resource._id
+              )}" clicktracking="off">${resource.title}-${APP_DISPLAY_NAME}</a>
+                      <p>Best regards,</p>
+                      <p>From ${APP_DISPLAY_NAME}</p>`,
+            });
+          });
+        }
+        res.status(201).send({
+          id: resource._id,
+          message: "Proposal created",
+        });
+      })
+      .catch((error) => {
+        res.status(StatusCodes.BAD_REQUEST).json({ error });
       });
-    })
-    .catch((error) => {
-      res.status(StatusCodes.BAD_REQUEST).json({ error });
-    });
+  }
+  catch (error) {
+    res.status(StatusCodes.BAD_REQUEST).json({ error });
+  }
 };
 
 const updatePropsal = async (req, res) => {
-  const obj = { ...req.body };
-  const updatedItem = await Proposal.findByIdAndUpdate(req.params.id, obj, {
-    new: true,
-  });
-  res.status(StatusCodes.OK).json({ item: updatedItem });
+  try {
+    const obj = { ...req.body };
+    const updatedItem = await Proposal.findByIdAndUpdate(req.params.id, obj, {
+      new: true,
+    });
+    if(updatedItem.status === "approved" || updatedItem.status === "rejected") {
+      const submittedBy = await User.findById(updatedItem.submittedBy);
+      sendEmail({
+        to:
+              process.env.NODE_ENV !== "production"
+                ? process.env.EMAIL_TO
+                : submittedBy.email,
+        subject: `Status on your Propposal ${updatedItem.title} has changed`,
+        text: `
+                      <p>The Status of your your proposal ${updatedItem.title} has Changed.</p>
+                      <p>The Current Status of your submission is <b>${updatedItem.status}</b>.</p>
+                      <p>Best regards,</p>
+                      <p>${APP_DISPLAY_NAME}</p>`,
+      });
+    }
+    res.status(StatusCodes.OK).json({ item: updatedItem });
+  }
+  catch (error) {
+    res.status(StatusCodes.BAD_REQUEST).json({ error });
+  }
 };
 
 const deleteProposal = async (req, res) => {

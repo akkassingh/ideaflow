@@ -19,7 +19,7 @@
     IOT: "IOT",
     COMPUTER_VISION: "Computer Vision",
     NLP: "NLP",
-    CYBERSECURITY: "cybersecurity",
+    CYBERSECURITY: "Cybersecurity",
     OTHERS: "Others",
   };
 
