@@ -137,7 +137,7 @@ const getAllProposals = async (req, res) => {
     queryObject.status = { $regex: proposalStatus, $options: "i" };
   }
   if (proposalDomain && proposalDomain !== "all") {
-    queryObject.domain = { $elemMatch: { $eq: proposalDomain } };
+    queryObject.domain = { $regex: proposalDomain, $options: "i" };
   }
 
   const sortOptions = {
