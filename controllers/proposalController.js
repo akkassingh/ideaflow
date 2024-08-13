@@ -15,7 +15,6 @@ const addProposal = async (req, res) => {
     req.body.submittedBy = user.userId;
   
     const submittedBy = await User.findById(user.userId);
-    console.log(submittedBy);
     // find all faculties to send email
     let queryObject = { role: "faculty" };
     const faculties = await User.find(queryObject);
@@ -23,8 +22,11 @@ const addProposal = async (req, res) => {
     if (req.file) {
       const file = formatImage(req.file);
   
-      const response = await cloudinary.v2.uploader.upload(file);
-  
+      const response = await cloudinary.v2.uploader.upload(file, {
+        name:file.originalname,
+        folder: "ideaflow",
+        resource_type: "auto",
+      });
       proposal.attachment = response.secure_url;
       proposal.attachmentPublicId = response.public_id;
     }
