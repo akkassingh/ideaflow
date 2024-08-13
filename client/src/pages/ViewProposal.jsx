@@ -80,14 +80,18 @@ export default function ViewProposal() {
             <span className="proposal-span">{status}</span>
           </div>
           <div className="proposal-row">
-            <label className="proposal-label">submittedBy:</label>
-            {authorProfile.avatar ? (
-          <img src={authorProfile.avatar} alt="avatar" className="img" />
-        ) : (
-          <FaUserCircle />
-        )}
-            <span className="proposal-span">{authorProfile.firstName}, {authorProfile.lastName}</span>
-            <span className="proposal-span">{authorProfile.email}</span>
+            <label className="proposal-label">Submitted By:</label>
+            <span className="proposal-span">
+              <div className="details">
+                <span>{authorProfile.firstName} {authorProfile.lastName}</span>
+                <span>{authorProfile.email}</span>
+              </div>
+              {authorProfile.avatar ? (
+                <img src={authorProfile.avatar} alt="avatar" className="img" />
+              ) : (
+                <FaUserCircle className="img" />
+              )}
+            </span>
           </div>
           <div className="proposal-row">
             <label className="proposal-label">domain:</label>

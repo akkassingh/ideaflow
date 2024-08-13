@@ -1,62 +1,85 @@
 import styled from "styled-components";
 
 const Wrapper = styled.section`
-/* Wrapper for the proposal details */
-.proposal-details {
-  background-color: #fff; /* White background */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  padding: 20px; /* Padding inside the box */
-  max-width: 800px; /* Maximum width of the box */
-  margin: 20px auto; /* Center the box and add some margin */
-  font-family: 'Arial', sans-serif; /* Font family for text */
-}
+  border-radius: var(--border-radius);
+  width: 100%;
+  background: var(--background-secondary-color);
+  padding: 3rem 2rem 4rem;
 
-/* Title of the proposal */
-.proposal-title {
-  font-size: 24px; /* Large font size */
-  font-weight: bold; /* Bold font weight */
-  color: #333; /* Dark grey color */
-  margin-bottom: 20px; /* Space below the title */
-}
+  .proposal-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-align: center;
+  }
 
-/* Centering content in the proposal */
-.proposal-center {
-  display: flex; /* Flexbox for layout */
-  flex-direction: column; /* Column layout */
-}
+  .proposal-center {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
 
-/* Individual row in the proposal details */
-.proposal-row {
-  display: flex; /* Flexbox for row layout */
-  justify-content: space-between; /* Space between label and content */
-  margin-bottom: 15px; /* Space below each row */
-}
+  .proposal-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 0;
+  }
 
-/* Label for proposal details */
-.proposal-label {
-  font-weight: bold; /* Bold font weight */
-  color: #555; /* Medium grey color */
-  width: 150px; /* Fixed width for labels */
-}
+  .proposal-label {
+    font-weight: 600;
+    flex-basis: 30%;
+  }
 
-/* Content span for proposal details */
-.proposal-span {
-  flex: 1; /* Take remaining space */
-  color: #777; /* Lighter grey color */
-  padding-left: 10px; /* Space between label and content */
-  word-wrap: break-word; /* Break long words */
-}
+  .proposal-span {
+    flex-basis: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Ensures content is distributed between left and right */
+  }
 
-/* Styling for link buttons (if any are added later) */
-.footer-link {
-  color: #007bff; /* Bootstrap blue color */
-  text-decoration: none; /* Remove underline */
-}
+  .details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Aligns name and email to the left */
+  }
 
-.footer-link:hover {
-  text-decoration: underline; /* Underline on hover */
-}
+  .img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: 10px;
+    display: inline-block;
+  }
 
+  .proposal-span a {
+    text-decoration: none;
+  }
+
+  .proposal-span a:hover {
+    text-decoration: underline;
+  }
+
+  h2.proposal-title {
+    text-align: center;
+    font-size: 2em;
+  }
+
+  .proposal-row .proposal-span a {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .proposal-row .proposal-span a:hover {
+    text-decoration: underline;
+  }
+
+  .proposal-row .proposal-span a svg {
+    margin-left: 5px;
+  }
 `;
+
 export default Wrapper;
