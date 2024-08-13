@@ -35,10 +35,7 @@ const addProposal = async (req, res) => {
       .then((resource) => {
         // sending confirmation email to user
         sendEmail({
-          to:
-            process.env.NODE_ENV !== "production"
-              ? process.env.EMAIL_TO
-              : user.email,
+          to: user.email,
           subject: `Proposal ${resource.title} Submitted`,
           text: `<h2>Congratulations!</h2>
                       <p>Your proposal has been Submitted successfully.</p>
@@ -49,10 +46,7 @@ const addProposal = async (req, res) => {
         if (faculties.length > 0) {
           faculties.forEach((faculty) => {
             sendEmail({
-              to:
-                process.env.NODE_ENV !== "production"
-                  ? process.env.EMAIL_TO
-                  : user.email,
+              to: user.email,
               subject: `New Proposal ${resource.title} Submitted`,
               text: `<h2>New Proposal Submitted</h2>
                       <p>Dear ${faculty.firstName},</p>
@@ -88,10 +82,7 @@ const updatePropsal = async (req, res) => {
     if(updatedItem.status === "approved" || updatedItem.status === "rejected") {
       const submittedBy = await User.findById(updatedItem.submittedBy);
       sendEmail({
-        to:
-              process.env.NODE_ENV !== "production"
-                ? process.env.EMAIL_TO
-                : submittedBy.email,
+        to: submittedBy.email,
         subject: `Status on your Propposal ${updatedItem.title} has changed`,
         text: `
                       <p>The Status of your your proposal ${updatedItem.title} has Changed.</p>
