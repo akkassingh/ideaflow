@@ -15,7 +15,7 @@ export const action =
       const file = formData.get("attachment");
       if(file && file.size > 5000000) {
         file.size > 5000000;
-        toast.error("Image size is too large");
+        toast.error("File size is too large");
         return null;
       }
       try {
