@@ -116,7 +116,7 @@ export default function ViewProposal() {
           <div className="proposal-row">
             <label className="proposal-label">attachment:</label>
             <NavLink to={attachment}>
-              {fileName} <FaRegFile />
+              attachment <FaRegFile />
             </NavLink>
             </div>
         </div>
