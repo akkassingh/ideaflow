@@ -48,6 +48,9 @@ ProposalTile({
                 <FaTrash />
               </button>
             </Form>
+            <Link to={`../view-proposal/${_id}`} className="btn view-btn">
+              <FaEye />
+            </Link>
           </footer>
         ) : (
           <footer className="actions">
