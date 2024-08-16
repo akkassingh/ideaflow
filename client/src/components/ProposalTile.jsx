@@ -38,7 +38,7 @@ ProposalTile({
           <ProposalInfo text={`${description.substring(0, 50)} ...`} />
           <div className={`status ${status.toLowerCase()}`}>{status}</div>
         </div>
-        
+        {CanEditPrivilges ? (
           <footer className="actions">
             <Link to={`../edit-proposal/${_id}`} className="btn edit-btn">
               <FaScrewdriver />
@@ -48,12 +48,14 @@ ProposalTile({
                 <FaTrash />
               </button>
             </Form>
+          </footer>
+        ) : (
+          <footer className="actions">
             <Link to={`../view-proposal/${_id}`} className="btn view-btn">
               <FaEye />
             </Link>
           </footer>
-    
-        
+        )}        
       </div>
     </Wrapper>
   );
