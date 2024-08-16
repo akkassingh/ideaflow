@@ -72,6 +72,7 @@ const Wrapper = styled.article`
     font-size: 0.85rem;
     display: flex;
     align-items: center;
+    margin-right: 0.5rem;
   }
   .edit-btn {
     margin-right: 0.5rem;
